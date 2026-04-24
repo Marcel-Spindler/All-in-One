@@ -23,6 +23,8 @@ desktop.ini
 
 !.vscode/
 !.vscode/settings.json
+PDL fast/.vscode/
+incident-tool anhand BoxIDs/.vscode/
 
 # Secrets / local config
 **/.env
