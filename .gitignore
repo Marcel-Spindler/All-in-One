@@ -1,0 +1,53 @@
+# Python
+**/.venv/
+**/venv/
+**/env/
+**/__pycache__/
+**/.pytest_cache/
+**/.mypy_cache/
+**/.ruff_cache/
+**/.tox/
+**/.nox/
+*.py[cod]
+
+# Node
+**/node_modules/
+**/dist/
+**/build/
+**/coverage/
+
+# Editor / OS
+**/.vscode/
+**/.idea/
+desktop.ini
+
+# Secrets / local config
+**/.env
+**/.env.*
+!**/.env.example
+!**/.env.template
+!**/.env.google.template
+*.pem
+*.key
+*.pfx
+*.p12
+
+# Logs / local runtime
+*.log
+*.tmp
+*.bak
+
+# Generated or machine-specific data
+incident-tool anhand BoxIDs/data/
+incident-tool anhand BoxIDs/Exports/
+incident-tool anhand BoxIDs/Imports/
+PDL fast/Export Factor/
+PDL fast/Export HelloFresh/
+PDL fast/Generated HelloFresh/
+PDL fast/Import Factor/
+PDL fast/Import HelloFresh/
+Unified-Platform-Blueprint/results/
+Waagen Performance/exports/
+
+# Separate nested repository
+PS Copilot/

@@ -1,0 +1,418 @@
+market,country,city,user_id,start_date,day_of_week,box_id,assembly_line,checks_error_category,checks_error_quantity,stations,checks_confirmed_skus_count,checks_error_sku,checks_error_sku_mealkit_number,checks_error_sku_name,total_number_of_boxs
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35976153A,A01,missing,2,9,4,CON-00-150749-2,null,FA-NO Vestfrikansk-inspireret peanut-kyllingecurry (FE1451),120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35977029A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35977029A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35978202A,A01,wrong_item,1,null,4,CON-00-147817-2,null,FA-NO Squash- og peberfrugtsratatouille (FE0090),120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35978266A,A01,missing,1,13,3,CON-00-147860-2,null,FA-NO Squash-spaghetti bolognese (FE0849),120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35978329A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35978329A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35978338A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35978338A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968028A,A05,missing,1,4,9,CON-00-147864-2,null,FA-NO Svinemørbrad i spicy ancho chili sauce (FE1072),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968500A,A05,extra,2,9,11,CON-00-147848-2,null,FA-NO Svinemørbrad i rød peberfrugtsauce (FE0430),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968523A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968523A,A05,null,null,null,2,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968529A,A05,missing,2,null,0,IcePack1,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969313A,A05,missing,1,6,6,CON-00-147824-2,null,FA-NO Svinemørbrad i cremet hvidløg-sennepssauce (FE0169),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969808A,A05,missing,1,6,4,CON-00-147824-2,null,FA-NO Svinemørbrad i cremet hvidløg-sennepssauce (FE0169),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969875A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969875A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969875A,A05,missing,1,6,3,CON-00-147871-2,null,FA-NO Laks i dild- og sennepssauce (FE4009),120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037452A,A04,wrong_item,1,null,0,Factor Box Small,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TZ36037517A,A03,missing,1,1,11,Factor Box Large,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037738A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037738A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037874A,A04,wrong_item,2,null,0,Factor Liner Small 1,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038492A,A04,missing,2,null,0,IcePack3,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038560A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038560A,A04,null,null,null,1,null,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038913A,A04,wrong_item,1,null,2,Factor Box Small,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36039925A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36039925A,A04,wrong_item,1,null,6,Factor Box Small,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35973440A,A01,missing,1,13,6,CON-00-147860-2,null,FA-NO Squash-spaghetti bolognese (FE0849),120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35977504A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35977504A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35977504A,A01,wrong_item,1,null,7,CON-00-147860-2,null,FA-NO Squash-spaghetti bolognese (FE0849),120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35977639A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35977639A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35978167A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35978167A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TV35967982A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TV35967982A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TV35968102A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TV35968102A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968486A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968486A,A05,null,null,null,6,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969349A,A05,extra,1,11,4,CON-00-147827-2,null,FA-NO Kylling à la Florentine (FE0224),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969670A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969670A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969911A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969911A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037445A,A04,missing,1,16,8,CON-00-136657-3,null,FA-DE Zucchini-Spaghetti Bolognese (FE0849),120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037452A,A04,wrong_item,2,null,0,Factor Liner Small 2,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038856A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038856A,A04,null,null,null,1,null,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36039395A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36040655A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36040655A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35975952A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35975952A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35977868A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35977868A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35977868A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35977868A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35978329A,A01,extra,1,11,4,CON-00-147814-2,null,FA-NO Laks og ostegratineret blomkålsris (FE0036),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969313A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969313A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969321A,A05,extra,1,13,7,CON-00-149481-2,null,FA-NO Kylling med cremefraiche og purløg (FE0322),120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037675A,A04,missing,2,8,6,CON-00-138996-2,null,FA-DE Cheddar Pulled Beef (FE4063),120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36037704A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038474A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038474A,A04,extra,2,13,0,IcePack2,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038560A,A04,extra,1,11,5,CON-00-151114-2,null,FA-DE Pulled-Beef-Bowl mit Cheddar und Paprika (FE1348),120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36038773A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36038773A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36038773A,A04,missing,1,13,0,IcePack2,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038897A,A04,wrong_item,1,null,8,Factor Box Large,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039126A,A04,extra,1,null,0,IcePack3,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TZ36039220A,A03,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TZ36039220A,A03,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36039395A,A04,missing,2,null,0,IcePack3,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039575A,A04,wrong_item,1,null,0,Factor Box Large,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039611A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039611A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039936A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35976067A,A01,missing,1,15,4,CON-00-147840-2,null,FA-NO Grillet kyllingefilet og kartoffel-porremos (FE0426),120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35976133A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35976133A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35976153A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35976153A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TK35976434A,A01,wrong_item,1,null,3,CON-00-150749-2,null,FA-NO Vestfrikansk-inspireret peanut-kyllingecurry (FE1451),120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35976571A,A01,extra,1,9,3,CON-00-150749-2,null,FA-NO Vestfrikansk-inspireret peanut-kyllingecurry (FE1451),120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35977639A,A01,wrong_item,1,null,0,Factor Box Large,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35977879A,A01,wrong_item,1,null,4,CON-00-149480-2,null,FA-DE Hähnchen mit Sauerrahm und Schnittlauch (FE0322),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968500A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968500A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969082A,A05,extra,1,6,7,CON-00-154553-2,null,FA-NO Kylling i chermoula-sauce med linser  (FE1698),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969349A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969349A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969446A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969446A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969756A,A05,extra,1,6,7,CON-00-147824-2,null,FA-NO Svinemørbrad i cremet hvidløg-sennepssauce (FE0169),120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037655A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037655A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36037704A,A04,missing,1,1,6,Factor Box Small,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038913A,A04,missing,2,null,0,IcePack3,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TZ36039220A,A03,missing,3,12,0,CON-00-136637-3,null,FA-DE Schweinefilet in cremiger Knoblauch-Senf-Sauce (FE0169),120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039311A,A04,wrong_item,2,null,0,N/A,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039575A,A04,wrong_item,2,null,0,N/A,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36039925A,A04,missing,1,1,6,Factor Box Large,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36039925A,A04,missing,2,null,0,IcePack3,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36040601A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35976444A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35976444A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35977758A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35977758A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35977879A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35977879A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35978121A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35978121A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35978167A,A01,missing,1,9,1,CON-00-147896-2,null,FA-NO Kyllingebryst i cremet basilikumsauce (FE4040),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968026A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968026A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969670A,A05,extra,1,11,9,CON-00-147814-2,null,FA-NO Laks og ostegratineret blomkålsris (FE0036),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969756A,A05,wrong_item,1,null,7,CON-00-147871-2,null,FA-NO Laks i dild- og sennepssauce (FE4009),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969812A,A05,missing,1,4,5,CON-00-147864-2,null,FA-NO Svinemørbrad i spicy ancho chili sauce (FE1072),120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037146A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037146A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037353A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037353A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037452A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037452A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037874A,A04,missing,2,null,0,IcePack3,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36038419A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36038419A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038712A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038712A,A04,null,null,null,1,null,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038712A,A04,null,null,null,9,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36040003A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36040003A,A04,null,null,null,4,null,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36040118A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36040118A,A04,missing,2,null,0,IcePack3,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TK35975974A,A01,missing,1,null,7,CON-00-147840-2,null,FA-NO Grillet kyllingefilet og kartoffel-porremos (FE0426),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TK35976903A,A01,extra,2,11,6,CON-00-147814-2,null,FA-NO Laks og ostegratineret blomkålsris (FE0036),120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35977266A,A01,extra,1,15,7,CON-00-155918-2,null,FA-NO Chicken Biryani (FE1403),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TK35977415A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TK35977415A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35978266A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35978266A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968028A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968028A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968028A,A05,missing,1,11,9,CON-00-147827-2,null,FA-NO Kylling à la Florentine (FE0224),120
+DACH,DE,Verden,0148,2026-03-06,Friday,TV35968102A,A01,missing,1,4,6,CON-00-151115-2,null,FA-NO Pulled beef bowl med cheddar og peberfrugt (FE1348),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968486A,A05,missing,2,null,0,IcePack1,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968523A,A05,missing,2,null,0,IcePack1,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968760A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968760A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968825A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968825A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968941A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968941A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969446A,A05,wrong_item,1,null,6,CON-00-147864-2,null,FA-NO Svinemørbrad i spicy ancho chili sauce (FE1072),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969695A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969695A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969695A,A05,wrong_item,1,null,7,CON-00-150749-2,null,FA-NO Vestfrikansk-inspireret peanut-kyllingecurry (FE1451),120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36037704A,A04,extra,2,null,0,IcePack3,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038492A,A04,missing,1,1,8,Factor Box Large,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038495A,A04,missing,1,13,0,IcePack2,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038893A,A04,missing,1,1,14,Factor Box Large,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36038910A,A04,missing,1,11,5,CON-00-151114-2,null,FA-DE Pulled-Beef-Bowl mit Cheddar und Paprika (FE1348),120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038912A,A04,extra,2,null,0,IcePack3,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36039406A,A04,extra,1,11,5,CON-00-151114-2,null,FA-DE Pulled-Beef-Bowl mit Cheddar und Paprika (FE1348),120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36040003A,A04,missing,2,null,0,IcePack3,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36040080A,A04,missing,1,1,5,Factor Box Small,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36040118A,A04,wrong_item,1,null,8,Factor Box Small,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TK35975974A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TK35975974A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35976571A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35976571A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TK35976825A,A01,extra,1,13,7,CON-00-149481-2,null,FA-NO Kylling med cremefraiche og purløg (FE0322),120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35977831A,A01,missing,2,15,4,CON-00-147840-2,null,FA-NO Grillet kyllingefilet og kartoffel-porremos (FE0426),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968760A,A05,wrong_item,1,null,5,CON-00-154553-2,null,FA-NO Kylling i chermoula-sauce med linser  (FE1698),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969321A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969321A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969808A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969808A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969911A,A05,missing,1,9,7,CON-00-147896-2,null,FA-NO Kyllingebryst i cremet basilikumsauce (FE4040),120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037606A,A04,extra,1,null,0,IcePack3,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037655A,A04,missing,1,null,0,IcePack3,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037874A,A04,missing,1,1,0,Factor Box Large,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36038523A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36038523A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36038523A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038747A,A04,extra,2,null,0,IcePack3,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038897A,A04,extra,2,13,0,IcePack2,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038912A,A04,missing,1,1,5,Factor Box Small,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038913A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039311A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039311A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039311A,A04,null,null,null,7,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039311A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039311A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039311A,A04,wrong_item,2,null,0,Factor Liner Small 1,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36039406A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36039406A,A04,null,null,null,1,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TZ36039602A,A03,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TZ36039602A,A03,null,null,null,1,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039936A,A04,missing,2,null,0,IcePack3,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36040080A,A04,extra,2,null,0,IcePack3,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36040282A,A04,missing,2,11,2,CON-00-151114-2,null,FA-DE Pulled-Beef-Bowl mit Cheddar und Paprika (FE1348),120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35973440A,A01,missing,1,13,6,CON-00-149481-2,null,FA-NO Kylling med cremefraiche og purløg (FE0322),120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35973650A,A01,missing,1,9,2,CON-00-147848-2,null,FA-NO Svinemørbrad i rød peberfrugtsauce (FE0430),120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35975952A,A01,missing,1,4,2,CON-00-151115-2,null,FA-NO Pulled beef bowl med cheddar og peberfrugt (FE1348),120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35977029A,A01,missing,1,4,7,CON-00-151115-2,null,FA-NO Pulled beef bowl med cheddar og peberfrugt (FE1348),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TK35977415A,A01,missing,2,11,4,CON-00-147814-2,null,FA-NO Laks og ostegratineret blomkålsris (FE0036),120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35978202A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35978202A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35967809A,A05,missing,1,9,7,CON-00-150749-2,null,FA-NO Vestfrikansk-inspireret peanut-kyllingecurry (FE1451),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35967880A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35967880A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35967880A,A05,null,null,null,8,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35967956A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35967956A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968028A,A05,missing,1,4,9,CON-00-151115-2,null,FA-NO Pulled beef bowl med cheddar og peberfrugt (FE1348),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969808A,A05,missing,1,6,4,CON-00-147871-2,null,FA-NO Laks i dild- og sennepssauce (FE4009),120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037353A,A04,missing,1,null,0,IcePack3,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TZ36037848A,A03,missing,1,12,7,CON-00-136649-3,null,FA-DE Gegrilltes Hähnchenfilet mit Kartoffel-Lauch-Püree (FE0426),120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037874A,A04,wrong_item,1,null,0,Factor Box Small,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038277A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038277A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038893A,A04,missing,2,null,0,IcePack3,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038897A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TZ36039220A,A03,missing,3,13,0,CON-00-137745-2,null,FA-DE Lachs in Senf-Dill-Sauce (FE4009),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TZ36039220A,A03,missing,3,8,0,CON-00-150748-2,null,FA-DE Westafrikanisches Hähnchen-Erdnuss-Curry (FE1451),120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039691A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039691A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039705A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039705A,A04,null,null,null,2,null,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36040080A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36040282A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36040282A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36040524A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36040524A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35967809A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35967809A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35967850A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35967850A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969082A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969082A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969756A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969756A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969812A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969812A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969965A,A05,wrong_item,1,null,3,CON-00-147871-2,null,FA-NO Laks i dild- og sennepssauce (FE4009),120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037675A,A04,missing,1,8,6,CON-00-150748-2,null,FA-DE Westafrikanisches Hähnchen-Erdnuss-Curry (FE1451),120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037738A,A04,extra,2,13,0,IcePack2,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36038419A,A04,extra,1,15,3,CON-00-136714-3,null,FA-DE Hähnchenbrust in cremiger Basilikumsauce (FE4040),120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038474A,A04,missing,1,1,8,Factor Box Medium,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038912A,A04,wrong_item,1,null,5,Factor Box Large,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TZ36039220A,A03,missing,3,11,0,CON-00-151114-2,null,FA-DE Pulled-Beef-Bowl mit Cheddar und Paprika (FE1348),120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039847A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039847A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039847A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039936A,A04,wrong_item,1,8,5,CON-00-149480-2,null,FA-DE Hähnchen mit Sauerrahm und Schnittlauch (FE0322),120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36040118A,A04,missing,1,1,8,Factor Box Large,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36040329A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36040329A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36040329A,A04,null,null,null,5,null,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36040601A,A04,missing,1,1,8,Factor Box Large,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36040601A,A04,missing,2,null,0,IcePack3,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35973440A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35973440A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35976109A,A01,extra,1,11,3,CON-00-147814-2,null,FA-NO Laks og ostegratineret blomkålsris (FE0036),120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35977831A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35977831A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35977868A,A01,wrong_item,1,null,4,CON-00-136634-3,null,FA-DE Zucchini-Paprika-Ratatouille (FE0090),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TK35978005A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TK35978005A,A01,null,null,null,2,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35978226A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35978226A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968453A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968453A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968529A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968529A,A05,null,null,null,5,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037146A,A04,missing,2,11,8,CON-00-151114-2,null,FA-DE Pulled-Beef-Bowl mit Cheddar und Paprika (FE1348),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TZ36037517A,A03,wrong_item,1,null,11,Factor Box Small,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TZ36037517A,A03,missing,2,null,0,IcePack3,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037675A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037675A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36037704A,A04,wrong_item,1,null,6,Factor Box Large,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037874A,A04,wrong_item,2,null,0,N/A,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36038149A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36038149A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038277A,A04,missing,1,15,5,CON-00-136620-3,null,FA-DE Hähnchen à la Florentine (FE0224),120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038492A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038897A,A04,missing,1,1,8,Factor Box Medium,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038912A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039311A,A04,wrong_item,1,null,0,Factor Box Small,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36039395A,A04,missing,1,1,5,Factor Box Large,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TZ36039602A,A03,missing,1,8,10,CON-00-138996-2,null,FA-DE Cheddar Pulled Beef (FE4063),120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039611A,A04,missing,1,8,4,CON-00-150748-2,null,FA-DE Westafrikanisches Hähnchen-Erdnuss-Curry (FE1451),120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039691A,A04,missing,1,null,0,IcePack3,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039750A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039750A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039750A,A04,null,null,null,6,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039936A,A04,missing,1,1,5,Factor Box Large,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36040019A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36040019A,A04,null,null,null,1,null,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36040019A,A04,null,null,null,6,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36040524A,A04,missing,1,16,2,CON-00-136617-3,null,FA-DE Lachs auf Blumenkohlreis in Käsecreme (FE0036),120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36040743A,A04,extra,1,8,7,CON-00-149480-2,null,FA-DE Hähnchen mit Sauerrahm und Schnittlauch (FE0322),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TK35976825A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TK35976825A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35977758A,A01,extra,1,9,1,CON-00-147817-2,null,FA-NO Squash- og peberfrugtsratatouille (FE0090),120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35977868A,A01,missing,1,13,3,CON-00-149481-2,null,FA-NO Kylling med cremefraiche og purløg (FE0322),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TK35978005A,A01,missing,1,null,0,IcePack1,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35978226A,A01,missing,1,9,6,CON-00-147848-2,null,FA-NO Svinemørbrad i rød peberfrugtsauce (FE0430),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35967970A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35967970A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35967970A,A05,missing,1,4,6,CON-00-147864-2,null,FA-NO Svinemørbrad i spicy ancho chili sauce (FE1072),120
+DACH,DE,Verden,0148,2026-03-06,Friday,TV35967982A,A01,missing,1,4,3,CON-00-151115-2,null,FA-NO Pulled beef bowl med cheddar og peberfrugt (FE1348),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968026A,A05,wrong_item,1,null,8,CON-00-147824-2,null,FA-NO Svinemørbrad i cremet hvidløg-sennepssauce (FE0169),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968026A,A05,wrong_item,1,null,8,CON-00-147871-2,null,FA-NO Laks i dild- og sennepssauce (FE4009),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968453A,A05,missing,1,11,0,CON-00-147906-2,null,FA-NO Pulled beef med cheddar (FE4063),120
+DACH,DE,Verden,0148,2026-03-06,Friday,TV35969097A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TV35969097A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969965A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969965A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35970020A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35970020A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35970020A,A05,null,null,null,6,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037445A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037445A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TZ36037517A,A03,wrong_item,2,null,11,N/A,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037606A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037606A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TZ36037848A,A03,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TZ36037848A,A03,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36038149A,A04,missing,1,null,0,IcePack3,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038495A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038495A,A04,null,null,null,6,null,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038747A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038747A,A04,wrong_item,1,null,5,Factor Box Large,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038893A,A04,wrong_item,1,null,14,Factor Box Small,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039575A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039575A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039575A,A04,wrong_item,2,null,0,Factor Liner Large 2,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36040655A,A04,missing,1,11,6,CON-00-154546-2,null,FA-DE Chermoula-Hähnchen mit Linsen (FE1698),120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35973650A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35973650A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35976067A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35976067A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35976109A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35976109A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35976133A,A01,extra,2,9,11,CON-00-150749-2,null,FA-NO Vestfrikansk-inspireret peanut-kyllingecurry (FE1451),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TK35976434A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TK35976434A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35976542A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35976542A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35976542A,A01,missing,1,11,3,CON-00-147827-2,null,FA-NO Kylling à la Florentine (FE0224),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TK35976903A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TK35976903A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TK35976903A,A01,wrong_item,2,11,6,CON-00-147906-2,null,FA-NO Pulled beef med cheddar (FE4063),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TK35977383A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TK35977383A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TK35977383A,A01,null,null,null,8,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TK35977415A,A01,missing,2,11,4,CON-00-147906-2,null,FA-NO Pulled beef med cheddar (FE4063),120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35978121A,A01,extra,2,9,3,CON-00-150749-2,null,FA-NO Vestfrikansk-inspireret peanut-kyllingecurry (FE1451),120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35978202A,A01,extra,1,13,4,CON-00-147860-2,null,FA-NO Squash-spaghetti bolognese (FE0849),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968028A,A05,missing,1,11,9,CON-00-147814-2,null,FA-NO Laks og ostegratineret blomkålsris (FE0036),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968825A,A05,missing,1,11,4,CON-00-147906-2,null,FA-NO Pulled beef med cheddar (FE4063),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968941A,A05,wrong_item,1,null,7,CON-00-147814-2,null,FA-NO Laks og ostegratineret blomkålsris (FE0036),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969875A,A05,missing,1,6,3,CON-00-147824-2,null,FA-NO Svinemørbrad i cremet hvidløg-sennepssauce (FE0169),120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037445A,A04,missing,2,11,8,CON-00-155917-2,null,FA-DE Hähnchen Biryani (FE1403),120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037452A,A04,missing,1,1,0,Factor Box Medium,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TZ36037517A,A03,wrong_item,2,null,11,Factor Liner Small 1,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037874A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037874A,A04,null,null,null,8,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037874A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36037874A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36038439A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36038439A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36038439A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038474A,A04,wrong_item,1,null,8,Factor Box Large,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038492A,A04,wrong_item,1,null,8,Factor Box Small,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038747A,A04,missing,1,1,5,Factor Box Small,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36038910A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36038910A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039126A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039126A,A04,null,null,null,5,null,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039311A,A04,missing,1,1,0,Factor Box Medium,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36039395A,A04,wrong_item,1,null,5,Factor Box Small,null,null,120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039705A,A04,extra,1,null,0,IcePack3,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36040080A,A04,wrong_item,1,null,5,Factor Box Large,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36040601A,A04,wrong_item,1,null,8,Factor Box Small,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35976444A,A01,missing,1,11,5,CON-00-147827-2,null,FA-NO Kylling à la Florentine (FE0224),120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35977266A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35977266A,A01,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35977639A,A01,missing,1,1,0,M,null,null,120
+DACH,DE,Verden,0148,2026-03-06,Friday,TK35978338A,A01,extra,1,13,3,CON-00-147860-2,null,FA-NO Squash-spaghetti bolognese (FE0849),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35967850A,A05,extra,1,15,5,CON-00-147840-2,null,FA-NO Grillet kyllingefilet og kartoffel-porremos (FE0426),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35967956A,A05,extra,1,11,9,CON-00-147814-2,null,FA-NO Laks og ostegratineret blomkålsris (FE0036),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968479A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968479A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35968479A,A05,extra,1,13,5,CON-00-149481-2,null,FA-NO Kylling med cremefraiche og purløg (FE0322),120
+DACH,DE,Verden,0148,2026-03-06,Friday,TV35969097A,A01,wrong_item,1,null,4,CON-00-151115-2,null,FA-NO Pulled beef bowl med cheddar og peberfrugt (FE1348),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969333A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969333A,A05,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969333A,A05,wrong_item,1,null,6,CON-00-147824-2,null,FA-NO Svinemørbrad i cremet hvidløg-sennepssauce (FE0169),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969446A,A05,wrong_item,1,null,6,CON-00-151115-2,null,FA-NO Pulled beef bowl med cheddar og peberfrugt (FE1348),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TV35969812A,A05,missing,1,4,5,CON-00-151115-2,null,FA-NO Pulled beef bowl med cheddar og peberfrugt (FE1348),120
+DACH,DE,Verden,0571,2026-03-06,Friday,TZ36037517A,A03,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038856A,A04,missing,1,16,5,CON-00-136617-3,null,FA-DE Lachs auf Blumenkohlreis in Käsecreme (FE0036),120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038893A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36038913A,A04,missing,1,1,2,Factor Box Large,null,null,120
+DACH,DE,Verden,0571,2026-03-06,Friday,TZ36039220A,A03,missing,4,12,0,CON-00-136649-3,null,FA-DE Gegrilltes Hähnchenfilet mit Kartoffel-Lauch-Püree (FE0426),120
+DACH,DE,Verden,0192,2026-03-06,Friday,TZ36039575A,A04,missing,1,1,0,Factor Box Medium,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36040743A,A04,null,null,null,0,null,null,null,120
+DACH,DE,Verden,0195,2026-03-08,Sunday,TZ36040743A,A04,null,null,null,1,null,null,null,120

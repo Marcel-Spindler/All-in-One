@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "pdl_run.schema.json",
+  "title": "PDL Run",
+  "type": "object",
+  "required": [
+    "runId",
+    "tool",
+    "status",
+    "startedAt",
+    "inputFiles",
+    "outputFiles",
+    "metrics"
+  ],
+  "properties": {
+    "runId": { "type": "string", "minLength": 8 },
+    "tool": { "const": "pdl-fast" },
+    "status": { "enum": ["started", "success", "warning", "failed"] },
+    "startedAt": { "type": "string", "format": "date-time" },
+    "finishedAt": { "type": "string", "format": "date-time" },
+    "inputFiles": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "outputFiles": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "metrics": {
+      "type": "object",
+      "properties": {
+        "company": { "enum": ["Factor", "HelloFresh"] },
+        "week": { "type": "string" },
+        "boxCount": { "type": "integer", "minimum": 0 },
+        "trackingRows": { "type": "integer", "minimum": 0 },
+        "resetRows": { "type": "integer", "minimum": 0 },
+        "warningCount": { "type": "integer", "minimum": 0 },
+        "errorCount": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": true
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "errors": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,32 @@
+{
+  "paths": {
+    "workspaceRoot": "C:/All in One",
+    "resultsRoot": "C:/All in One/Unified-Platform-Blueprint/results"
+  },
+  "services": {
+    "hub": {
+      "name": "PS Copilot Hub",
+      "healthUrl": "http://127.0.0.1:3020/api/v1/health",
+      "openUrl": "http://127.0.0.1:3020"
+    },
+    "incident": {
+      "name": "Incident Tool",
+      "healthUrl": "http://127.0.0.1:8501/",
+      "openUrl": "http://127.0.0.1:8501/"
+    },
+    "pdl": {
+      "name": "PDL Fast",
+      "healthUrl": "http://127.0.0.1:8502/",
+      "openUrl": "http://127.0.0.1:8502/"
+    },
+    "waagen": {
+      "name": "Waagen Performance",
+      "healthUrl": "http://127.0.0.1:8505/",
+      "openUrl": "http://127.0.0.1:8505/"
+    }
+  },
+  "launcher": {
+    "autoOpenResults": false,
+    "autoOpenDashboard": true
+  }
+}

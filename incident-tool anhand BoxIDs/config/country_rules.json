@@ -1,0 +1,27 @@
+{
+  "countries": [
+    {
+      "country": "Deutschland",
+      "code": "DE",
+      "prefixes": ["TZ"],
+      "recipe_ranges": [[200, 299], [300, 399]]
+    },
+    {
+      "country": "Daenemark",
+      "code": "DK",
+      "prefixes": ["TK"],
+      "recipe_ranges": [[600, 699], [700, 799]]
+    },
+    {
+      "country": "Schweden",
+      "code": "SE",
+      "prefixes": ["TV"],
+      "recipe_ranges": [[600, 699], [700, 799]]
+    }
+  ],
+  "aliases": {
+    "AUTO": [],
+    "ALL": ["*"],
+    "NORDICS": ["TK", "TV"]
+  }
+}

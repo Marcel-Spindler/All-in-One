@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "qc_run.schema.json",
+  "title": "QC Run",
+  "type": "object",
+  "required": [
+    "runId",
+    "tool",
+    "status",
+    "startedAt",
+    "inputFiles",
+    "outputFiles",
+    "metrics"
+  ],
+  "properties": {
+    "runId": { "type": "string", "minLength": 8 },
+    "tool": { "const": "waagen-performance" },
+    "status": { "enum": ["started", "success", "warning", "failed"] },
+    "startedAt": { "type": "string", "format": "date-time" },
+    "finishedAt": { "type": "string", "format": "date-time" },
+    "inputFiles": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "outputFiles": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "metrics": {
+      "type": "object",
+      "properties": {
+        "totalChecks": { "type": "integer", "minimum": 0 },
+        "totalErrors": { "type": "integer", "minimum": 0 },
+        "errorRate": { "type": "number", "minimum": 0 },
+        "boxesWithErrors": { "type": "integer", "minimum": 0 },
+        "boxErrorRate": { "type": "number", "minimum": 0 }
+      },
+      "additionalProperties": true
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "errors": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,33 @@
+{
+  "company": "Factor",
+  "factor_selected_year": 2026,
+  "factor_selected_week": 16,
+  "factor_mode": "Tracking + RESET",
+  "factor_swap_market": "FA-DE",
+  "factor_swap_week": "W16",
+  "factor_swap_meal": "R301 - FE4014B- Cremiges Basilikum-Risotto - CON-00-136675-3",
+  "hf_mode": "Tracking + RESET",
+  "hf_selected_year": 2026,
+  "hf_selected_week": 16,
+  "hf_selected_cutoffs": [
+    "CO_3"
+  ],
+  "hf_use_manual_pdl": false,
+  "hf_selected_dc": [
+    "VE"
+  ],
+  "hf_selected_countries": [
+    "DE"
+  ],
+  "hf_official_bedarf_label": "CO_3 - Berechnung_ErgebnisCO2.xlsx",
+  "hf_official_bedarf_sheet": "CO2.csv",
+  "hf_selected_bedarf_sizes": [
+    2,
+    3,
+    4
+  ],
+  "scale_sync_root": "C:\\Users\\MarcelSpindler\\Meine Ablage\\Notfall\\001_Weigt Calculator",
+  "scale_delete_template_path": "C:\\Users\\MarcelSpindler\\Meine Ablage\\Notfall\\001_Weigt Calculator\\DELETE.DEL",
+  "hf_drive_export_folder_id": "1LtFvWcBvuHzGP7KOVysOVoR1JzA0bv4p",
+  "factor_auto_tracking_mode": false
+}

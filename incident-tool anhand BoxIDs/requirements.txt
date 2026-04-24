@@ -1,0 +1,7 @@
+pandas
+python-dateutil
+ttkbootstrap
+openpyxl
+xlsxwriter
+xlrd
+streamlit
