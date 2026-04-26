@@ -12,6 +12,7 @@ from collections import OrderedDict
 from pathlib import Path
 
 from factor_runtime import append_factor_run_history, build_factor_quality_report, build_factor_run_history_entry, build_factor_run_signature, load_factor_run_history
+from lib import maitre_logic
 
 SHARED_DIR = Path(__file__).resolve().parents[1] / "Unified-Platform-Blueprint" / "shared"
 if str(SHARED_DIR) not in sys.path:
@@ -93,6 +94,40 @@ def read_excel_from_bytes(file_bytes: bytes, sheet_name=0):
 @st.cache_data(show_spinner=False, ttl=CACHE_TTL_SECONDS)
 def read_excel_sheet_names(file_bytes: bytes) -> list[str]:
     return pd.ExcelFile(io.BytesIO(file_bytes)).sheet_names
+
+
+@st.cache_data(show_spinner=False, ttl=CACHE_TTL_SECONDS)
+def load_maitre_forecast_cached(tabs: tuple[str, ...]) -> pd.DataFrame:
+    config = maitre_logic.ForecastConfig(tabs=tabs or (maitre_logic.FORECAST_TABS["DE_NOR"],))
+    return maitre_logic.load_forecast(config)
+
+
+@st.cache_data(show_spinner=False, ttl=CACHE_TTL_SECONDS)
+def load_maitre_inbound_cached() -> pd.DataFrame:
+    return maitre_logic.load_inbound()
+
+
+def build_maitre_admin_snapshot(selected_week: int) -> dict:
+    week_label = f"W{int(selected_week):02d}"
+    forecast_raw_df = load_maitre_forecast_cached((maitre_logic.FORECAST_TABS["DE_NOR"],))
+    inbound_raw_df = load_maitre_inbound_cached()
+    forecast_week_df = maitre_logic.filter_forecast(forecast_raw_df, week=week_label, markets=["DE", "NORDICS"])
+    inbound_week_df = maitre_logic.filter_inbound(inbound_raw_df, week=week_label)
+    inbound_agg_df = maitre_logic.aggregate_inbound(inbound_week_df)
+    comparison_df = maitre_logic.compare_forecast_vs_inbound(forecast_week_df, inbound_agg_df)
+    shortages_df = comparison_df[comparison_df["delta"] < -50].copy() if not comparison_df.empty else pd.DataFrame()
+    overages_df = comparison_df[comparison_df["delta"] > 50].copy() if not comparison_df.empty else pd.DataFrame()
+    return {
+        "week_label": week_label,
+        "forecast_raw_df": forecast_raw_df,
+        "inbound_raw_df": inbound_raw_df,
+        "forecast_week_df": forecast_week_df,
+        "inbound_week_df": inbound_week_df,
+        "inbound_agg_df": inbound_agg_df,
+        "comparison_df": comparison_df,
+        "shortages_df": shortages_df,
+        "overages_df": overages_df,
+    }
 
 # ──────────────────────────────────────────────
 # Helper functions
@@ -2475,6 +2510,7 @@ if company == "Factor":
     if factor_auto_tracking_mode:
         factor_mode = "Nur Tracking"
         st.info("Auto-Modus aktiv: Factor laeuft im schnellen Tracking-only-Betrieb mit reduzierter Datenladung.")
+        st.warning("Neue GSheets, Weekly Fulfillment, Substitutfinder und die neue Admin-Kontrolle werden im Auto-Modus nicht geladen. Für volle Transparenz Auto-Modus ausschalten.")
     else:
         saved_factor_mode = get_app_setting("factor_mode", "Nur Tracking")
         factor_mode = st.radio(
@@ -2523,6 +2559,7 @@ if company == "Factor":
     factor_saved_maitre_weights_df = load_factor_saved_maitre_weights(FACTOR_MAITRE_WEIGHTS_PATH)
     factor_fulfillment_picklist_df = pd.DataFrame()
     factor_meal_code_mapping_df = pd.DataFrame()
+    factor_maitre_admin_snapshot = None
     if not factor_auto_tracking_mode:
         factor_fulfillment_picklist_df = load_factor_fulfillment_picklist_by_week(
             factor_sheets_service,
@@ -2539,6 +2576,7 @@ if company == "Factor":
             factor_fulfillment_picklist_df,
             factor_meal_code_mapping_df,
         )
+        factor_maitre_admin_snapshot = build_maitre_admin_snapshot(factor_selected_week)
     factor_manual_weight_reference_df = build_factor_manual_weight_reference_df(
         factor_fulfillment_picklist_df,
         factor_base_recipe_weight_map,
@@ -2702,6 +2740,97 @@ if company == "Factor":
                     )
                 else:
                     st.info("Für die Auswahl wurden keine Swap-Ergebnisse gefunden.")
+
+        with st.expander("Neue GSheets: Admin-Kontrolle Forecast + Inbound", expanded=False):
+            st.caption("Hier siehst du direkt, ob die neuen Google Sheets geladen wurden und was daraus für die gewählte Produktions-KW erzeugt wurde.")
+            if factor_maitre_admin_snapshot is None:
+                st.info("Die Admin-Kontrolle ist nur verfügbar, wenn Google-Sheets-Zugriff aktiv ist.")
+            else:
+                admin_week_label = factor_maitre_admin_snapshot["week_label"]
+                admin_forecast_raw_df = factor_maitre_admin_snapshot["forecast_raw_df"]
+                admin_inbound_raw_df = factor_maitre_admin_snapshot["inbound_raw_df"]
+                admin_forecast_week_df = factor_maitre_admin_snapshot["forecast_week_df"]
+                admin_inbound_week_df = factor_maitre_admin_snapshot["inbound_week_df"]
+                admin_inbound_agg_df = factor_maitre_admin_snapshot["inbound_agg_df"]
+                admin_comparison_df = factor_maitre_admin_snapshot["comparison_df"]
+                admin_shortages_df = factor_maitre_admin_snapshot["shortages_df"]
+                admin_overages_df = factor_maitre_admin_snapshot["overages_df"]
+
+                maitre_metric_col1, maitre_metric_col2, maitre_metric_col3, maitre_metric_col4, maitre_metric_col5 = st.columns(5)
+                maitre_metric_col1.metric("Produktions-KW", admin_week_label)
+                maitre_metric_col2.metric("Forecast geladen", int(len(admin_forecast_raw_df)))
+                maitre_metric_col3.metric("Inbound geladen", int(len(admin_inbound_raw_df)))
+                maitre_metric_col4.metric("Vergleichszeilen", int(len(admin_comparison_df)))
+                maitre_metric_col5.metric("Matches", int((admin_comparison_df["received"] > 0).sum()) if not admin_comparison_df.empty else 0)
+
+                if admin_inbound_week_df.empty:
+                    available_weeks = sorted(set(admin_inbound_raw_df.get("week", pd.Series(dtype=str)).dropna().unique()))
+                    st.warning(
+                        f"Für {admin_week_label} wurden im neuen Inbound-Sheet keine Produktionsdaten gefunden. Verfügbare Produktions-KWs: {', '.join(available_weeks) if available_weeks else '—'}"
+                    )
+                else:
+                    unload_weeks = sorted(set(admin_inbound_week_df.get("unload_week", pd.Series(dtype=str)).dropna().unique()))
+                    st.caption(
+                        f"Inbound wird für {admin_week_label} aus Entlade-KW {', '.join(unload_weeks) if unload_weeks else '—'} + 1 Woche abgeleitet."
+                    )
+
+                source_col1, source_col2 = st.columns(2)
+                with source_col1:
+                    st.markdown("**Quelle 1: Forecast Bibel**")
+                    st.caption("Tab: 2025 Verden Forecast (DE+NOR) | Header: Zeile 2 | Soll-Spalte: order")
+                    st.write(f"Zeilen gesamt: {int(len(admin_forecast_raw_df))}")
+                    st.write(f"Zeilen in {admin_week_label}: {int(len(admin_forecast_week_df))}")
+                with source_col2:
+                    st.markdown("**Quelle 2: Weekly Fulfillment Inbound**")
+                    st.caption("Tab: Logistik - FCMS Meals | Join: normalisierter Recipe Code | KW: Produktions-KW")
+                    st.write(f"Zeilen gesamt: {int(len(admin_inbound_raw_df))}")
+                    st.write(f"Zeilen in {admin_week_label}: {int(len(admin_inbound_week_df))}")
+
+                if admin_comparison_df.empty:
+                    st.info("Aus den neuen GSheets konnte für die gewählte KW noch kein Soll-Ist-Vergleich aufgebaut werden.")
+                else:
+                    st.markdown("**Ergebnis aus den neuen GSheets**")
+                    admin_show_df = admin_comparison_df[
+                        ["Market", "week", "join_code", "recipe_codes", "sku_name", "forecast_qty", "received", "delta", "fulfillment_pct"]
+                    ].copy()
+                    st.dataframe(
+                        admin_show_df.sort_values(["delta", "Market"], kind="stable"),
+                        use_container_width=True,
+                        hide_index=True,
+                        column_config={
+                            "Market": st.column_config.TextColumn("Markt", width="small"),
+                            "week": st.column_config.TextColumn("KW", width="small"),
+                            "join_code": st.column_config.TextColumn("Join Code", width="small"),
+                            "recipe_codes": st.column_config.TextColumn("Forecast Code", width="medium"),
+                            "sku_name": st.column_config.TextColumn("SKU Name", width="large"),
+                            "forecast_qty": st.column_config.NumberColumn("Soll", format="%d"),
+                            "received": st.column_config.NumberColumn("Ist", format="%d"),
+                            "delta": st.column_config.NumberColumn("Delta", format="%d"),
+                            "fulfillment_pct": st.column_config.NumberColumn("Fulfillment %", format="%.1f"),
+                        },
+                    )
+
+                    admin_summary_col1, admin_summary_col2, admin_summary_col3 = st.columns(3)
+                    admin_summary_col1.metric("Fehlmengen > 50", int(len(admin_shortages_df)))
+                    admin_summary_col2.metric("Überdeckungen > 50", int(len(admin_overages_df)))
+                    admin_summary_col3.metric("Inbound Codes aggregiert", int(len(admin_inbound_agg_df)))
+
+                    st.download_button(
+                        "Neuer GSheet-Vergleich herunterladen",
+                        data=dataframe_to_csv_bytes(admin_comparison_df),
+                        file_name=f"factor_new_gsheets_comparison_{format_week_label(factor_selected_year, factor_selected_week)}.csv",
+                        mime="text/csv",
+                        on_click="ignore",
+                    )
+
+                    with st.expander("Rohdaten aus neuen GSheets", expanded=False):
+                        raw_tab1, raw_tab2, raw_tab3 = st.tabs(["Forecast", "Inbound", "Inbound aggregiert"])
+                        with raw_tab1:
+                            st.dataframe(admin_forecast_week_df, use_container_width=True, hide_index=True)
+                        with raw_tab2:
+                            st.dataframe(admin_inbound_week_df, use_container_width=True, hide_index=True)
+                        with raw_tab3:
+                            st.dataframe(admin_inbound_agg_df, use_container_width=True, hide_index=True)
 
         with st.expander("Factor Weekly Fulfillment Report und Gewichtspflege", expanded=not bool(factor_pdl_files)):
             st.caption("Die sichtbare Factor-Picklist wird direkt aus dem Weekly Fulfillment Report pro KW erzeugt. Die Zuordnung läuft über Woche, Rezeptnummer und SKU, nicht über feste Rezeptnamen, weil sich Rezepte und Namen jede Woche ändern können.")
