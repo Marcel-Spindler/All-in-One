@@ -91,7 +91,7 @@ Initiale Kernendpunkte:
 
 ### PDL fast
 - Nach jeder Tracking/RESET-Generierung Run-Metadaten an Hub melden.
-- Factor und HelloFresh als company im metrics-Block ausweisen.
+- Factor als company im metrics-Block ausweisen.
 - Artefakte mit Typ tracking_csv, reset_csv, run_report registrieren.
 
 ### Waagen Performance

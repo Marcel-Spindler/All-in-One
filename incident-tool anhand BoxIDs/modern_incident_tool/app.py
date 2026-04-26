@@ -268,6 +268,23 @@ def render_sidebar(country_summary: str) -> None:
     st.sidebar.text_input("Imports-Ordner", key="imports_dir", disabled=True)
     st.sidebar.info(country_summary)
     st.sidebar.caption(f"Regeldatei: {CONFIG_PATH.name}")
+    with st.sidebar.expander("Hilfe / Ablauf", expanded=False):
+        st.markdown(
+            """
+            **Kurzablauf**
+
+            1. Im Tab **Admin** Produktions-CSV, Custom-ID-Datei und Picklist laden.
+            2. Im Tab **Vorfalle** die Incidents pflegen.
+            3. Danach **Berechnen** klicken.
+            4. Im Tab **Ergebnisse** Log, Details und Excel pruefen.
+
+            **Was gehoert wohin?**
+
+            - **Produktions-CSV**: Boxen in Produktionsreihenfolge.
+            - **Custom-ID-Datei**: Kundenzuordnung pro Box.
+            - **Picklist**: FE-/Maitre-Mapping fuer Rezepte.
+            """
+        )
 
 
 def select_import_file(label: str, key: str, options: list[str], help_text: str) -> None:
@@ -557,6 +574,10 @@ def main() -> None:
     )
     render_header()
     render_sidebar(country_summary)
+
+    st.info(
+        "Dieser Incident-Neubau ist absichtlich in 3 Bereiche getrennt: **Vorfalle** fuer Eingabe, **Ergebnisse** fuer Kontrolle und Export, **Admin** fuer Datenquellen. Arbeite immer in dieser Reihenfolge."
+    )
 
     if st.session_state.get("week_reset_notice"):
         st.info("Neue Woche erkannt: Entwurf wurde auf Standard gesetzt. Bitte aktuelle Wochen-Dateien laden und speichern.")

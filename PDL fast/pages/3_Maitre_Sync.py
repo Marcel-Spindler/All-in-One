@@ -24,6 +24,35 @@ from lib.storage import LocalParquetStorage
 st.set_page_config(page_title="Maitre Sync", layout="wide")
 st.title("🍱 Maitre Sync — Forecast vs. Inbound")
 
+with st.expander("Hilfe: Was macht Maitre Sync?", expanded=True):
+    st.markdown(
+        """
+        **Zweck**
+
+        Diese Seite vergleicht die neue Forecast-Bibel mit dem Inbound-Sheet und zeigt pro Produktions-KW, ob Soll und Ist zueinander passen.
+
+        **Was passiert hier?**
+
+        1. Forecast wird aus dem Forecast-GSheet gelesen.
+        2. Inbound wird aus dem Weekly-Fulfillment-GSheet gelesen.
+        3. Die Entlade-KW wird auf die Produktions-KW verschoben.
+        4. Rezeptcodes werden normalisiert, damit Forecast und Inbound sauber matchen.
+        5. Danach siehst Du Vergleich, Fehlmengen und moegliche Swap-Ideen.
+
+        **Wie benutzt man die Seite richtig?**
+
+        - Zuerst die richtige **Produktions-KW** einstellen.
+        - Dann Maerkte und Soll-Spalte kontrollieren.
+        - Danach auf **Jetzt aus Sheets ziehen** klicken.
+        - Im Tab **Vergleich** pruefen, ob Fehlmengen oder Luecken sichtbar sind.
+        - Im Tab **Inbound** kontrollieren, ob die Rohdaten fuer die KW wirklich angekommen sind.
+
+        **Wichtig**
+
+        Wenn keine Daten erscheinen, ist meist entweder die falsche KW eingestellt oder im Inbound-Sheet gibt es fuer diese Produktions-KW noch keine Zeilen.
+        """
+    )
+
 CACHE_ROOT = ROOT / "cache" / "maitre"
 storage = LocalParquetStorage(CACHE_ROOT)
 

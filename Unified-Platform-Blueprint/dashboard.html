@@ -317,6 +317,20 @@
       line-height: 1.6;
     }
 
+    .help-box {
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(15, 23, 42, 0.42);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .help-box strong {
+      color: var(--text);
+    }
+
     .detail-grid {
       grid-template-columns: 1fr;
     }
@@ -351,6 +365,13 @@
           <a class="button" href="file:///C:/All%20in%20One/Unified-Platform-Blueprint/results/" target="_blank">Zentrale Ergebnisse</a>
           <button class="button secondary" id="refreshDashboardBtn" type="button">Live aktualisieren</button>
           <span class="label" id="lastRefreshLabel">Noch nicht geladen</span>
+        </div>
+        <div class="help-box">
+          <strong>So benutzt man dieses Dashboard</strong><br>
+          1. Dieses Dashboard ist der zentrale Einstieg fuer das Gesamtprojekt.<br>
+          2. Hier siehst Du Service-Status, letzte Runs, KPIs und zentrale Artefakte.<br>
+          3. Wenn Zahlen fehlen, zuerst den Refresh ausfuehren und danach pruefen, ob die zugrunde liegenden Tools gelaufen sind.<br>
+          4. Dieses Dashboard startet keine Fachlogik selbst, sondern zeigt den Gesamtzustand der Plattform.
         </div>
       </div>
       <div class="panel">
@@ -459,7 +480,7 @@
 
       <article class="panel">
         <h2 class="tool-title">PDL Fast</h2>
-        <p class="tool-copy">Tracking- und RESET-Generator fuer Factor und HelloFresh. Exportspiegelung in die zentrale Struktur ist aktiv.</p>
+        <p class="tool-copy">Tracking- und RESET-Generator fuer Factor. Exportspiegelung in die zentrale Struktur ist aktiv.</p>
         <div class="actions">
           <a class="button" id="pdlOpenLink" href="http://127.0.0.1:8502" target="_blank">Open PDL Fast</a>
           <a class="button secondary" id="pdlResultsLink" href="file:///C:/All%20in%20One/Unified-Platform-Blueprint/results/pdl-fast/" target="_blank">PDL Results</a>
@@ -710,16 +731,6 @@
               `Tracking Rows: ${data.factor.trackingRows}`,
               `RESET Rows: ${data.factor.resetRows}`,
             ] : ["Noch keine Factor-Daten"],
-          },
-          {
-            title: "PDL HelloFresh",
-            lines: data.hellofresh ? [
-              `Status: ${data.hellofresh.status}`,
-              `Week: ${data.hellofresh.week}`,
-              `Tracking Rows: ${data.hellofresh.trackingRows}`,
-              `RESET Rows: ${data.hellofresh.resetRows}`,
-              `Cutoffs: ${data.hellofresh.cutoffCount}`,
-            ] : ["Noch keine HelloFresh-Daten"],
           },
           {
             title: "Waagen Performance",

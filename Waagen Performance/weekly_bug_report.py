@@ -1444,18 +1444,21 @@ st.sidebar.markdown("---")
 st.sidebar.markdown("### Datenquelle")
 DATABRICKS_QUERY_URL = st.sidebar.text_input(
     "Databricks Query URL",
-    value="https://hf-query-engine.cloud.databricks.com/editor/queries/3856581492672358?o=1352089065939666",
-    help="Trage hier deine Databricks SQL Query URL ein",
+    value="",
+    help="Trage hier optional deine Databricks SQL Query URL ein",
 )
-st.sidebar.markdown(
-    f'<a href="{DATABRICKS_QUERY_URL}" target="_blank" style="'
-    f'display:inline-block; width:100%; text-align:center; padding:0.6rem 1rem; '
-    f'background:linear-gradient(135deg,#FF3621,#FF6A33); color:white; '
-    f'border-radius:8px; text-decoration:none; font-weight:600; '
-    f'box-shadow:0 2px 8px rgba(255,54,33,0.3);'
-    f'">🔗 Databricks SQL Query öffnen</a>',
-    unsafe_allow_html=True,
-)
+if DATABRICKS_QUERY_URL.strip():
+    st.sidebar.markdown(
+        f'<a href="{DATABRICKS_QUERY_URL}" target="_blank" style="'
+        f'display:inline-block; width:100%; text-align:center; padding:0.6rem 1rem; '
+        f'background:linear-gradient(135deg,#FF3621,#FF6A33); color:white; '
+        f'border-radius:8px; text-decoration:none; font-weight:600; '
+        f'box-shadow:0 2px 8px rgba(255,54,33,0.3);'
+        f'">🔗 Databricks SQL Query öffnen</a>',
+        unsafe_allow_html=True,
+    )
+else:
+    st.sidebar.caption("Keine Databricks-URL hinterlegt.")
 st.sidebar.markdown("---")
 REPORT_SHARE_TARGET = st.sidebar.text_input(
     "Freigabe-URL für Report",

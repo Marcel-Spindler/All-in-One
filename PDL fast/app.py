@@ -2411,47 +2411,75 @@ def render_company_page_links_in_sidebar(active_company: str | None = None):
     if not hasattr(st, "page_link"):
         return
     st.sidebar.page_link("pages/1_Factor.py", label="Factor")
-    st.sidebar.page_link("pages/2_HelloFresh.py", label="HelloFresh")
     if active_company:
         st.sidebar.caption(f"Aktiv: {active_company}")
 
-company_options = ["Factor", "HelloFresh"]
-saved_company = get_app_setting("company", "Factor")
 forced_company = os.environ.get("PDL_FAST_FORCE_COMPANY", "").strip()
 pages_dir = Path(__file__).resolve().parent / "pages"
-has_dedicated_company_pages = (pages_dir / "1_Factor.py").exists() and (pages_dir / "2_HelloFresh.py").exists()
-if forced_company in company_options:
-    company = forced_company
-    if has_dedicated_company_pages:
+has_dedicated_factor_page = (pages_dir / "1_Factor.py").exists()
+if forced_company == "Factor":
+    company = "Factor"
+    if has_dedicated_factor_page:
         render_company_page_links_in_sidebar(company)
     else:
         st.sidebar.caption(f"Direkte Seite aktiv: {company}")
-elif has_dedicated_company_pages:
-    company = saved_company if saved_company in company_options else company_options[0]
+elif has_dedicated_factor_page:
+    company = "Factor"
     render_company_page_links_in_sidebar()
     st.subheader("Startseite")
-    st.info("Bitte öffne links direkt Factor oder HelloFresh. Der App-Reiter wird nicht mehr als eigene Navigation verwendet.")
+    st.info("Bitte öffne links direkt Factor. Dieses Standort-Setup ist jetzt auf Factor begrenzt.")
     if hasattr(st, "page_link"):
-        nav_col1, nav_col2 = st.columns(2)
-        with nav_col1:
-            st.page_link("pages/1_Factor.py", label="Factor öffnen")
-        with nav_col2:
-            st.page_link("pages/2_HelloFresh.py", label="HelloFresh öffnen")
+        st.page_link("pages/1_Factor.py", label="Factor öffnen")
     st.stop()
 else:
-    company = st.sidebar.selectbox(
-        "Firma auswählen",
-        company_options,
-        index=(company_options.index(saved_company) if saved_company in company_options else 0),
-        key="company_selector",
-    )
+    company = "Factor"
 set_app_settings({"company": company})
+
+with st.sidebar.expander("Hilfe / Was kann dieses Tool?", expanded=False):
+    st.markdown(
+        """
+        **PDL Fast kurz erklaert**
+
+        - **Factor**: fuer Tracking, RESET, Weekly Fulfillment, Gewichte und neue GSheet-Kontrolle.
+        - **Auto-Modus**: schneller, aber mit weniger Zusatzdaten.
+        - **Tracking + RESET**: voller Lauf mit mehr Plausibilitaet und Zusatzdaten.
+
+        **Wenn Du nicht weiter weisst:**
+
+        1. Zuerst die richtige KW waehlen.
+        2. Dann pruefen, ob Datenquellen geladen wurden.
+        3. Erst danach CSVs hochladen oder rechnen.
+        4. Admin- und Statusbereiche fuer Kontrolle nutzen.
+        """
+    )
 
 # ============================================================
 # FACTOR
 # ============================================================
 if company == "Factor":
     st.header("Factor – Import → Export")
+    with st.expander("Hilfe: Factor Schritt fuer Schritt", expanded=False):
+        st.markdown(
+            """
+            **Wofuer ist dieser Bereich da?**
+
+            Hier verarbeitest Du Factor-PDLs, Weekly Fulfillment, Gewichtsdaten, neue GSheet-Daten und erzeugst daraus Tracking- und RESET-Ergebnisse.
+
+            **Empfohlene Reihenfolge:**
+
+            1. Jahr und KW korrekt einstellen.
+            2. Entscheiden, ob **Auto-Modus** reicht oder ob der volle Lauf benoetigt wird.
+            3. Im Adminbereich pruefen, ob Weekly Fulfillment, neue GSheets und Stammdaten geladen wurden.
+            4. PDL-Dateien hochladen.
+            5. Erst nach Plausibilitaetscheck exportieren.
+
+            **Was gehoert wo rein?**
+
+            - **PDL Upload**: die operative CSV aus dem aktuellen Lauf.
+            - **Weekly Fulfillment / neue GSheets**: Soll-/Ist-Pruefung und Transparenz.
+            - **Rezeptgewichte**: nur pflegen, wenn RESET oder Gewichtslogik angepasst werden muss.
+            """
+        )
     FACTOR_DIR = Path(r"Import Factor")
     FACTOR_EXPORT_DIR = Path(r"Export Factor")
     FACTOR_RUN_HISTORY_PATH = Path(".factor_run_history.json")

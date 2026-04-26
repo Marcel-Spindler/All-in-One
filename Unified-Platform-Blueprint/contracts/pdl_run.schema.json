@@ -29,7 +29,7 @@
     "metrics": {
       "type": "object",
       "properties": {
-        "company": { "enum": ["Factor", "HelloFresh"] },
+        "company": { "enum": ["Factor"] },
         "week": { "type": "string" },
         "boxCount": { "type": "integer", "minimum": 0 },
         "trackingRows": { "type": "integer", "minimum": 0 },
