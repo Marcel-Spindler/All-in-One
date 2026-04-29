@@ -1,0 +1,14 @@
+================================================================
+  SCHNELLSTART
+================================================================
+
+  1. ZIP entpacken (z.B. nach C:\Tools\All in One)
+  2. Doppelklick auf:   START-ALLES.bat
+  3. Beim ersten Mal 5-10 Minuten warten
+
+  Voraussetzung: Python 3.10+ und Node.js LTS installiert.
+  -> Falls nicht, siehe ANLEITUNG.txt Schritt 1.
+
+  Volle Anleitung:    ANLEITUNG.txt
+
+================================================================

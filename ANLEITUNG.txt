@@ -1,0 +1,254 @@
+================================================================
+  ALL IN ONE - SCHRITT-FUER-SCHRITT-ANLEITUNG
+  fuer Mitarbeiter ohne IT-Vorkenntnisse
+================================================================
+
+Diese Mappe enthaelt 4 Tools die alle auf deinem Rechner laufen.
+Du brauchst KEIN Internet (ausser fuer die einmalige Installation).
+
+Die Tools sind:
+  1) Incident Tool        - BoxID-Auswertung
+  2) PDL Fast             - Faktor-Berechnung + Maitre-Sync
+  3) Waagen Performance   - Wochenbericht
+  4) PS Copilot           - KI-Assistent
+
+----------------------------------------------------------------
+ SCHRITT 1: Voraussetzungen pruefen (nur EINMAL pro Rechner)
+----------------------------------------------------------------
+
+Du brauchst zwei kostenlose Programme:
+
+  A) Python 3.10 oder neuer
+  B) Node.js 18 LTS oder neuer
+
+Das hat dein Rechner schon? Pruefen geht so:
+  - Druecke gleichzeitig:  Windows-Taste + R
+  - Schreibe:  cmd
+  - Druecke:  Enter
+  - Im schwarzen Fenster eintippen:
+
+      python --version
+
+    -> Wenn da z.B. "Python 3.11.4" steht, hast du Python.
+    -> Wenn da "nicht gefunden" oder gar nichts steht, weiter mit 1A.
+
+      node --version
+
+    -> Wenn da z.B. "v20.10.0" steht, hast du Node.js.
+    -> Wenn nicht, weiter mit 1B.
+
+
+----------------------------------------------------------------
+ SCHRITT 1A: Python installieren (falls noetig)
+----------------------------------------------------------------
+
+  1. Browser oeffnen
+  2. Diese Adresse aufrufen:
+        https://www.python.org/downloads/windows/
+  3. Auf den gelben Button "Download Python 3.x.x" klicken
+  4. Installer herunterladen und doppelklicken
+  5. !!! WICHTIG !!! Im Setup-Fenster ganz UNTEN den Haken setzen bei:
+
+        [x] Add python.exe to PATH
+
+     Ohne diesen Haken funktioniert spaeter nichts!
+  6. Auf "Install Now" klicken
+  7. Warten bis "Setup was successful" erscheint
+  8. "Close" klicken
+
+
+----------------------------------------------------------------
+ SCHRITT 1B: Node.js installieren (falls noetig)
+----------------------------------------------------------------
+
+  1. Browser oeffnen
+  2. Diese Adresse aufrufen:
+        https://nodejs.org/
+  3. Den GROSSEN gruenen Button mit "LTS" klicken
+     (NICHT "Current"!)
+  4. Installer herunterladen und doppelklicken
+  5. Im Setup einfach immer "Next" klicken (alle Standardwerte OK)
+  6. Am Ende "Install" und auf das Admin-Fenster mit "Ja" antworten
+  7. Warten bis fertig, dann "Finish"
+
+
+----------------------------------------------------------------
+ SCHRITT 2: Diese Mappe an einen Ort kopieren
+----------------------------------------------------------------
+
+  1. Die ZIP-Datei "All-in-One_xxxx-xx-xx.zip" doppelklicken
+  2. Oben auf "Alle extrahieren..." klicken
+  3. Als Ziel waehlen (Vorschlag):
+
+        C:\Tools\All in One
+
+  4. "Extrahieren" klicken
+  5. Warten bis fertig
+
+  WICHTIG:
+  - Pfade mit Leerzeichen sind OK
+  - NICHT auf einen Netzwerk-Pfad oder OneDrive legen
+  - NICHT in einen Unterordner mit Umlauten
+
+
+----------------------------------------------------------------
+ SCHRITT 3: Erster Start (dauert einmalig 5-10 Minuten)
+----------------------------------------------------------------
+
+  1. In den entpackten Ordner gehen (z.B. C:\Tools\All in One)
+  2. Doppelklick auf:
+
+        START-ALLES.bat
+
+  3. Es oeffnen sich mehrere schwarze Fenster - das ist normal!
+  4. Beim ersten Mal werden Pakete heruntergeladen.
+     Bitte Geduld - es dauert 5-10 Minuten.
+  5. Wenn fertig, oeffnet sich der Browser automatisch mit
+     dem Dashboard.
+
+  Falls Windows fragt "Soll diese App ausgefuehrt werden?":
+     -> Auf "Weitere Informationen" klicken
+     -> Dann auf "Trotzdem ausfuehren"
+
+  Falls Firewall fragt:
+     -> "Zugriff zulassen" klicken (Privates Netzwerk reicht)
+
+
+----------------------------------------------------------------
+ SCHRITT 4: Tools nutzen
+----------------------------------------------------------------
+
+Nach dem Start sind folgende Adressen erreichbar
+(einfach im Browser oeffnen):
+
+  Incident Tool        http://localhost:8501
+  PDL Fast             http://localhost:8502
+  Waagen Performance   http://localhost:8505
+  PS Copilot           http://localhost:3020
+  Cockpit-Dashboard    Unified-Platform-Blueprint\dashboard.html
+
+Tipp: Lege Lesezeichen im Browser an.
+
+
+----------------------------------------------------------------
+ SCHRITT 5: Tools beenden
+----------------------------------------------------------------
+
+  - Browserfenster schliessen (das stoppt das Tool NICHT!)
+  - Die kleinen schwarzen Fenster (cmd-Fenster) schliessen
+    -> Das beendet das jeweilige Tool wirklich
+  - Oder den Rechner einfach normal herunterfahren
+
+
+----------------------------------------------------------------
+ SCHRITT 6: Naechster Start (taeglich)
+----------------------------------------------------------------
+
+  Nur noch:
+        Doppelklick auf  START-ALLES.bat
+
+  Dauert jetzt nur noch ca. 10 Sekunden, weil die Pakete
+  schon installiert sind.
+
+
+================================================================
+  EINZELNE TOOLS STARTEN (statt alle gleichzeitig)
+================================================================
+
+  Wenn du nur EIN Tool brauchst, gehe in den jeweiligen
+  Unterordner und doppelklicke dort auf  setup_and_start.bat:
+
+    incident-tool anhand BoxIDs\setup_and_start.bat
+    PDL fast\setup_and_start.bat
+    Waagen Performance\setup_and_start.bat
+    PS Copilot\setup_and_start.bat
+
+
+================================================================
+  GEHEIME ZUGANGSDATEN (NUR FUER ADMIN!)
+================================================================
+
+Aus Sicherheitsgruenden sind in dieser ZIP NICHT enthalten:
+
+  PS Copilot\ps-basecamp-backend\.env
+     -> wird gebraucht fuer den KI-Assistent
+     -> Vorlage liegt unter .env.example
+     -> Vom Admin den GEMINI_API_KEY anfragen
+     -> Datei .env.example umbenennen in .env
+        und API-Key eintragen
+
+  PDL fast\secrets\hellofresh-de-problem-solve-...json
+     -> wird gebraucht fuer Maitre-Sync und Drive-Upload
+     -> Vom Admin die Datei anfragen
+     -> In den Ordner "PDL fast\secrets\" legen
+     -> Ohne diese Datei funktioniert PDL Fast trotzdem,
+        nur die Sync-Funktionen sind dann inaktiv.
+
+So legst du die .env an:
+  1. In den Ordner  PS Copilot\ps-basecamp-backend\  gehen
+  2. Datei  .env.example  per Rechtsklick "Kopieren" und "Einfuegen"
+  3. Die Kopie umbenennen zu  .env  (genau so, mit Punkt vorne!)
+  4. Mit Editor (Notepad) oeffnen
+  5. Bei  GEMINI_API_KEY=  den Schluessel hinter das = einfuegen
+  6. Speichern, schliessen
+
+
+================================================================
+  FEHLER UND LOESUNGEN
+================================================================
+
+PROBLEM: "python wurde nicht gefunden" oder "py wurde nicht gefunden"
+LOESUNG: Python neu installieren (Schritt 1A) und dabei UNBEDINGT
+         den Haken "Add python.exe to PATH" setzen.
+
+PROBLEM: "node wurde nicht gefunden"
+LOESUNG: Node.js installieren (Schritt 1B). Danach den Rechner
+         einmal neu starten (wichtig fuer den PATH).
+
+PROBLEM: "Port 8501 is already in use" (oder 8502, 8505, 3020)
+LOESUNG: Es laeuft schon ein Tool auf diesem Port. Im Taskmanager
+         (Strg+Shift+Esc) das alte python.exe oder node.exe
+         beenden und neu starten.
+
+PROBLEM: Setup haengt bei "Installiere Pakete..."
+LOESUNG: 1) Internetverbindung pruefen
+         2) Den .venv-Ordner im jeweiligen Tool loeschen:
+            z.B.  PDL fast\.venv  loeschen
+         3) Tool neu starten
+
+PROBLEM: Browser oeffnet sich, aber "Diese Seite ist nicht erreichbar"
+LOESUNG: Das Tool braucht 5-15 Sekunden zum Starten. Einfach im
+         Browser auf F5 (Aktualisieren) druecken.
+
+PROBLEM: PS Copilot meldet "Keine GEMINI_API_KEY"
+LOESUNG: Siehe oben "GEHEIME ZUGANGSDATEN".
+
+PROBLEM: Windows Defender oder Antivirus blockiert die Bat-Datei
+LOESUNG: "Mehr Informationen" -> "Trotzdem ausfuehren". Die
+         Skripte sind nur Start-Hilfen, sie machen nichts
+         Schaedliches.
+
+PROBLEM: Tool laesst sich nicht beenden
+LOESUNG: Taskmanager (Strg+Shift+Esc) -> Reiter "Details" ->
+         alle  python.exe  und  node.exe  beenden.
+
+PROBLEM: Daten sind weg / will einen frischen Start
+LOESUNG: Die jeweiligen Datenordner enthalten alle Eingaben:
+         - incident-tool anhand BoxIDs\data\
+         - incident-tool anhand BoxIDs\Imports\
+         - PDL fast\Import Factor\
+         - PDL fast\Export Factor\
+         - Waagen Performance\exports\
+         Diese kannst du leeren oder sichern.
+
+
+================================================================
+  FRAGEN?
+================================================================
+
+Bei Problemen oder Fragen wende dich an:
+
+   Marcel Spindler
+   (Hier deine Kontaktdaten eintragen)
+
+================================================================

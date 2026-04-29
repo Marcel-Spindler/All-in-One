@@ -1,0 +1,109 @@
+============================================================
+ All in One - Komplettpaket fuer Mitarbeiter
+============================================================
+
+Diese Mappe enthaelt 4 Tools:
+  1) Incident Tool (Streamlit, Port 8501)
+  2) PDL Fast      (Streamlit, Port 8502)
+  3) Waagen Performance (Streamlit, Port 8505)
+  4) PS Copilot    (Node.js,  Port 3020)
+
+Plus ein gemeinsames Cockpit-Dashboard.
+
+
+============================================================
+ EINMALIGE INSTALLATION AUF DEM RECHNER
+============================================================
+
+Folgendes muss EINMAL pro Rechner vorhanden sein:
+
+  [A] Python 3.10 oder neuer
+      -> https://www.python.org/downloads/windows/
+      WICHTIG: Beim Setup Haken setzen bei
+        [x] Add Python to PATH
+
+  [B] Node.js 18 LTS oder neuer
+      -> https://nodejs.org/  (LTS-Version)
+
+  [C] Diese komplette Mappe ("All in One") an einen Ort
+      auf dem Rechner kopieren - z.B.
+        C:\Tools\All in One
+
+
+============================================================
+ NUTZUNG (TAEGLICH)
+============================================================
+
+   Einfach Doppelklick auf:
+       START-ALLES.bat
+
+   Beim allerersten Start werden automatisch:
+     - lokale Python-Umgebungen (.venv) angelegt
+     - alle Python-Pakete installiert
+     - Node.js Pakete installiert
+   Das dauert einmalig 5-10 Minuten.
+
+   Danach starten alle 4 Tools jedes Mal in wenigen Sekunden.
+
+
+============================================================
+ EINZELNE TOOLS STARTEN
+============================================================
+
+   incident-tool anhand BoxIDs\setup_and_start.bat
+   PDL fast\setup_and_start.bat
+   Waagen Performance\setup_and_start.bat
+   PS Copilot\setup_and_start.bat
+
+
+============================================================
+ VERTRAULICHE DATEN (NUR FUER ADMIN!)
+============================================================
+
+Folgende Dateien sind im Standard-Verteilpaket NICHT enthalten
+und muessen vom Administrator manuell ergaenzt werden:
+
+  PS Copilot\ps-basecamp-backend\.env
+     -> GEMINI_API_KEY eintragen
+     -> Vorlage liegt unter .env.example
+
+  PDL fast\secrets\hellofresh-de-problem-solve-...json
+     -> Google Service Account Key
+     -> Nur fuer Maitre-Sync und Drive-Upload erforderlich
+     -> Ohne Key laufen die anderen PDL-Funktionen weiter
+
+
+============================================================
+ PROBLEME?
+============================================================
+
+- "Python wurde nicht gefunden":
+      Python (siehe [A]) installieren, Haken
+      "Add Python to PATH" beim Setup nicht vergessen.
+
+- "Node.js wurde nicht gefunden":
+      Node.js LTS (siehe [B]) installieren.
+
+- "Port 8501/8502/8505/3020 bereits belegt":
+      Andere App schliessen, die diesen Port nutzt.
+
+- Setup haengt:
+      Den jeweiligen .venv-Ordner loeschen (PDL fast\.venv,
+      Waagen Performance\.venv, etc.) und Tool neu starten.
+
+- PS Copilot meldet "Keine GEMINI_API_KEY":
+      .env-Datei in PS Copilot\ps-basecamp-backend\
+      anlegen (Vorlage: .env.example) und Key eintragen.
+
+
+============================================================
+ NEUES VERTEILPAKET BAUEN (NUR ADMIN)
+============================================================
+
+In PowerShell im Workspace-Root ausfuehren:
+
+   .\BUILD-VERTEILPAKET.ps1
+
+Erzeugt eine ZIP-Datei eine Ebene hoeher, in die KEINE
+.venv, KEINE node_modules, KEINE Geheimnisse und KEINE
+persoenlichen Daten gepackt werden.
