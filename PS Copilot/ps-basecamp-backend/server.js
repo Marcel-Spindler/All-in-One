@@ -30,7 +30,7 @@ if (!GEMINI_API_KEY) {
 if (!fs.existsSync(KNOWLEDGE_DIR)) fs.mkdirSync(KNOWLEDGE_DIR, { recursive: true });
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 
-const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+const genAI = GEMINI_API_KEY ? new GoogleGenerativeAI(GEMINI_API_KEY) : null;
 
 // === Knowledge ===
 function loadKnowledge() {
@@ -542,6 +542,12 @@ app.post("/api/chat", async (req, res) => {
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
+
+  if (!genAI) {
+    res.write(`data: ${JSON.stringify({ error: "GEMINI_API_KEY ist nicht gesetzt. Bitte in der .env nachtragen." })}\n\n`);
+    res.end();
+    return;
+  }
 
   try {
     const model = genAI.getGenerativeModel({
