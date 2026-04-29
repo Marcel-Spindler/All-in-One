@@ -1,0 +1,104 @@
+# ============================================================
+#  All in One - Komplettes Cloud-Setup
+#  Startet alle 4 Tools + Caddy (HTTPS) + oauth2-proxy (Login)
+# ============================================================
+version: "3.9"
+
+services:
+
+  # --- Reverse Proxy mit automatischem HTTPS-Zertifikat ---
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./cockpit:/srv/cockpit:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    environment:
+      - PUBLIC_DOMAIN=${PUBLIC_DOMAIN}
+    depends_on:
+      - oauth2-proxy
+      - incident
+      - pdl
+      - waagen
+      - pscopilot
+
+  # --- Google-Login, nur @hellofresh.de ---
+  oauth2-proxy:
+    image: quay.io/oauth2-proxy/oauth2-proxy:latest
+    restart: unless-stopped
+    command:
+      - --provider=google
+      - --http-address=0.0.0.0:4180
+      - --upstream=static://200
+      - --reverse-proxy=true
+      - --email-domain=hellofresh.de
+      - --cookie-secure=true
+      - --cookie-httponly=true
+      - --cookie-samesite=lax
+      - --skip-provider-button=true
+      - --pass-access-token=true
+      - --set-xauthrequest=true
+      - --whitelist-domain=${PUBLIC_DOMAIN}
+      - --redirect-url=https://${PUBLIC_DOMAIN}/oauth2/callback
+    environment:
+      OAUTH2_PROXY_CLIENT_ID: ${GOOGLE_OAUTH_CLIENT_ID}
+      OAUTH2_PROXY_CLIENT_SECRET: ${GOOGLE_OAUTH_CLIENT_SECRET}
+      OAUTH2_PROXY_COOKIE_SECRET: ${OAUTH2_COOKIE_SECRET}
+
+  # --- Incident Tool ---
+  incident:
+    build:
+      context: ..
+      dockerfile: cloud/Dockerfile.incident
+    restart: unless-stopped
+    volumes:
+      - app_data:/data
+    environment:
+      - HUB_BASE_URL=
+
+  # --- PDL Fast ---
+  pdl:
+    build:
+      context: ..
+      dockerfile: cloud/Dockerfile.pdl
+    restart: unless-stopped
+    volumes:
+      - app_data:/data
+      - ./secrets:/secrets:ro
+    environment:
+      - HUB_BASE_URL=
+      - GOOGLE_APPLICATION_CREDENTIALS=/secrets/google-service-account.json
+
+  # --- Waagen Performance ---
+  waagen:
+    build:
+      context: ..
+      dockerfile: cloud/Dockerfile.waagen
+    restart: unless-stopped
+    volumes:
+      - app_data:/data
+    environment:
+      - HUB_BASE_URL=
+
+  # --- PS Copilot ---
+  pscopilot:
+    build:
+      context: ..
+      dockerfile: cloud/Dockerfile.pscopilot
+    restart: unless-stopped
+    volumes:
+      - app_data:/data
+    environment:
+      - PORT=3020
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - GEMINI_MODEL=gemini-2.5-flash
+
+volumes:
+  caddy_data:
+  caddy_config:
+  app_data:

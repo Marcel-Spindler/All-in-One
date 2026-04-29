@@ -1,0 +1,281 @@
+================================================================
+  ALL IN ONE - CLOUD-DEPLOYMENT (eine URL fuer alle)
+  Klick-fuer-Klick-Anleitung fuer Google Cloud
+================================================================
+
+Was du am Ende hast:
+  - Eine URL (z.B. https://tools.hellofresh-internal.de)
+  - Login per Google-Account, nur @hellofresh.de erlaubt
+  - Cockpit mit 4 Buttons -> jedes Tool oeffnet sich im Browser
+  - Kosten: ca. 12-18 EUR/Monat (e2-small VM)
+
+
+Voraussetzungen erfuellt:
+  - Google-Cloud-Projekt: hellofresh-de-problem-solve
+  - Billing aktiv
+  - Google Workspace mit Domain hellofresh.de
+  - Mailadresse: marcel.spindler@hellofresh.de
+
+
+Wir gehen 6 Phasen durch (Dauer: ca. 60 Min beim ersten Mal):
+
+  1. VM erstellen (Compute Engine)
+  2. OAuth-Client einrichten (fuer Google-Login)
+  3. Code auf VM hochladen
+  4. .env-Datei mit Geheimnissen befuellen
+  5. Container starten
+  6. Domain/IP-Adresse weitergeben
+
+
+================================================================
+  PHASE 1: COMPUTE-ENGINE-VM ERSTELLEN
+================================================================
+
+  1. Browser oeffnen, anmelden mit marcel.spindler@hellofresh.de
+  2. Aufrufen:
+        https://console.cloud.google.com/compute/instances?project=hellofresh-de-problem-solve
+
+  3. Falls die Compute Engine API nicht aktiviert ist, klicken
+     auf "Aktivieren" (kostenlos, dauert ~30 Sek)
+
+  4. Oben auf  [+] INSTANZ ERSTELLEN  klicken
+
+  5. Felder ausfuellen:
+        Name:           all-in-one-tools
+        Region:         europe-west3 (Frankfurt)
+        Zone:           europe-west3-a
+        Maschinentyp:   E2 -> e2-small (2 vCPU, 2 GB RAM)
+        Bootlaufwerk:   Aendern -> Debian GNU/Linux 12 (bookworm)
+                        Groesse: 30 GB (Standard SSD reicht)
+        Firewall:       [x] HTTP-Traffic zulassen
+                        [x] HTTPS-Traffic zulassen
+
+  6. Unten auf  ERSTELLEN  klicken
+  7. Warten bis gruener Haken erscheint (~1 Min)
+
+  8. !!! WICHTIG: Externe IP notieren !!!
+     In der Liste neben "all-in-one-tools" steht z.B.
+        Externe IP:  34.159.123.45
+     Diese IP brauchen wir gleich.
+
+  9. Statische IP zuweisen (damit sie nach Neustart bleibt):
+        Linkes Menue -> VPC Network -> IP-Adressen
+        Bei der gerade vergebenen IP "Reservieren" klicken
+        Name: all-in-one-ip
+        OK
+
+     ===> AKTUELL RESERVIERT: 34.141.12.71  (all-in-one-ip)
+     ===> PUBLIC_DOMAIN = 34.141.12.71.nip.io
+
+
+================================================================
+  PHASE 2: OAUTH-CLIENT FUER GOOGLE-LOGIN
+================================================================
+
+  1. Aufrufen:
+        https://console.cloud.google.com/apis/credentials?project=hellofresh-de-problem-solve
+
+  2. Falls noch kein "OAuth-Zustimmungsbildschirm" konfiguriert ist:
+        Linke Spalte -> "OAuth-Zustimmungsbildschirm"
+        Nutzertyp: "Intern" auswaehlen
+        Weiter
+        App-Name:        All in One Tools
+        Support-E-Mail:  marcel.spindler@hellofresh.de
+        Entwickler-E-Mail: marcel.spindler@hellofresh.de
+        Speichern und fortfahren -> 3x Speichern
+
+  3. Zurueck zu "Anmeldedaten" -> oben auf
+        + ANMELDEDATEN ERSTELLEN -> OAuth-Client-ID
+
+  4. Felder:
+        Anwendungstyp:  Webanwendung
+        Name:           all-in-one-oauth
+        Autorisierte Weiterleitungs-URIs:
+            https://<DEINE-DOMAIN>/oauth2/callback
+
+        Beispiel ohne eigene Domain (ueber nip.io):
+            https://34.159.123.45.nip.io/oauth2/callback
+
+        Beispiel mit eigener Subdomain:
+            https://tools.hellofresh-internal.de/oauth2/callback
+
+  5. Erstellen
+  6. !!! WICHTIG !!! Im Popup:
+        Client-ID                kopieren -> in Notepad speichern
+        Client-Geheimnis         kopieren -> in Notepad speichern
+     (Beides brauchen wir gleich)
+
+
+================================================================
+  PHASE 3: CODE AUF DIE VM HOCHLADEN
+================================================================
+
+  3.1  Per Browser-SSH einloggen:
+        Console -> Compute Engine -> VM-Instanzen
+        Bei "all-in-one-tools" rechts auf "SSH" klicken
+        Es oeffnet sich ein Terminal-Fenster im Browser.
+
+  3.2  Setup ausfuehren (im Browser-Terminal):
+
+        sudo apt-get install -y wget unzip
+        wget -O all-in-one.zip "URL_DEINER_ZIP"
+        unzip all-in-one.zip -d /tmp/aio
+        sudo mv /tmp/aio/* /opt/all-in-one/
+        cd /opt/all-in-one/cloud
+        bash setup-vm.sh
+
+       Dauert ca. 3-5 Min. Wenn fertig: SSH-Fenster schliessen
+       und neu oeffnen (damit Docker ohne sudo geht).
+
+  3.3  Alternative ohne ZIP - direkt von Github:
+
+        cd /opt/all-in-one
+        sudo apt-get install -y git
+        git clone https://github.com/Marcel-Spindler/All-in-One.git .
+        cd cloud
+        bash setup-vm.sh
+
+
+================================================================
+  PHASE 4: GEHEIMNISSE EINTRAGEN
+================================================================
+
+  Im Browser-Terminal auf der VM:
+
+        cd /opt/all-in-one/cloud
+        cp .env.example .env
+        nano .env
+
+  In nano folgende Werte einfuegen:
+
+        PUBLIC_DOMAIN=34.159.123.45.nip.io
+        # ODER falls eigene Domain:
+        # PUBLIC_DOMAIN=tools.hellofresh-internal.de
+
+        GOOGLE_OAUTH_CLIENT_ID=<aus Phase 2>
+        GOOGLE_OAUTH_CLIENT_SECRET=<aus Phase 2>
+
+        # Cookie-Secret generieren (auf VM ausfuehren):
+        #   openssl rand -base64 32
+        # und Ergebnis hier einfuegen:
+        OAUTH2_COOKIE_SECRET=<32-Byte Zufallswert>
+
+        GEMINI_API_KEY=<dein Gemini-API-Key>
+
+  Speichern in nano:  Strg+O, Enter, Strg+X
+
+  Falls PDL Fast den Google-Service-Account-Key braucht:
+
+        mkdir -p secrets
+        nano secrets/google-service-account.json
+        # Inhalt der hellofresh-de-problem-solve-...json einfuegen
+        # Speichern wie oben
+
+
+================================================================
+  PHASE 5: STARTEN
+================================================================
+
+        cd /opt/all-in-one/cloud
+        docker compose up -d --build
+
+  Beim ersten Mal werden alle 4 Container gebaut (5-10 Min).
+  Logs anschauen:
+
+        docker compose logs -f
+
+  Mit Strg+C verlaesst du die Logs (Container laufen weiter).
+
+
+================================================================
+  PHASE 6: TESTEN UND VERTEILEN
+================================================================
+
+  1. Im Browser oeffnen:
+        https://<deine PUBLIC_DOMAIN>
+
+  2. Beim ersten Aufruf zeigt evtl. die Browser-Warnung
+     "Zertifikat wird geholt" - 30-60 Sek warten, F5 druecken.
+
+  3. Google-Login-Seite erscheint -> mit @hellofresh.de
+     anmelden.
+
+  4. Cockpit erscheint mit 4 Tool-Buttons. Fertig!
+
+  5. Mitarbeitern verteilen:
+        "Bitte hier einloggen mit deinem HelloFresh-Account:
+         https://<deine PUBLIC_DOMAIN>"
+
+
+================================================================
+  WARTUNG (so geht Update)
+================================================================
+
+  Code aktualisieren:
+        cd /opt/all-in-one
+        git pull               # falls per git deployt
+        cd cloud
+        docker compose up -d --build
+
+  Logs einsehen:
+        docker compose logs -f               # alle Tools
+        docker compose logs -f incident      # nur eines
+
+  Stoppen:
+        docker compose down
+
+  Neustart:
+        docker compose restart
+
+
+================================================================
+  KOSTENKONTROLLE
+================================================================
+
+  Erwartete monatliche Kosten:
+        e2-small VM        ~12-15 EUR
+        Statische IP       ~1.50 EUR
+        Egress (Traffic)   ~0-3 EUR
+        Gesamt:            ~15-20 EUR/Monat
+
+  Budget-Alarm einrichten (sehr empfohlen):
+        Console -> Billing -> Budgets & Benachrichtigungen
+        Budget: 30 EUR/Monat
+        Alarm bei 50%, 80%, 100%
+
+
+================================================================
+  ABSCHALTEN (wenn nicht mehr noetig)
+================================================================
+
+  Console -> Compute Engine -> VM-Instanzen
+       -> Bei "all-in-one-tools" rechts auf "..." -> Loeschen
+  Console -> VPC Network -> IP-Adressen
+       -> "all-in-one-ip" auswaehlen -> Loeschen
+
+
+================================================================
+  PROBLEME?
+================================================================
+
+PROBLEM: Browser zeigt "Diese Seite ist nicht sicher"
+LOESUNG: 30-60 Sek warten, F5. Caddy holt sich automatisch
+         ein Let's-Encrypt-Zertifikat.
+
+PROBLEM: "redirect_uri_mismatch" beim Google-Login
+LOESUNG: In GCP Credentials die Weiterleitungs-URI pruefen.
+         Muss exakt sein: https://<DOMAIN>/oauth2/callback
+
+PROBLEM: "Access denied" nach Login
+LOESUNG: Du bist nicht mit @hellofresh.de eingeloggt, oder
+         die Domain ist falsch konfiguriert.
+         In docker-compose.yml: --email-domain=hellofresh.de
+
+PROBLEM: Tool laedt nicht / weisse Seite
+LOESUNG: docker compose logs -f <toolname>  schauen.
+         Meist falscher Pfad in Caddyfile oder Container-Crash.
+
+PROBLEM: "Out of memory"
+LOESUNG: VM zu klein. Hochstufen auf e2-medium (4 GB):
+         Console -> VM -> Bearbeiten -> Maschinentyp -> e2-medium
+================================================================

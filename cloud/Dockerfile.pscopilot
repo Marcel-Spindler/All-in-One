@@ -1,0 +1,17 @@
+# PS Copilot - Node.js Express auf Port 3020
+FROM node:20-slim
+
+WORKDIR /app
+
+COPY PS\ Copilot/ps-basecamp-backend/package*.json /app/
+RUN npm install --omit=dev
+
+COPY PS\ Copilot/ps-basecamp-backend/ /app/
+
+# Daten + Knowledge als Volume
+RUN mkdir -p /data/ps-copilot && \
+    ln -sf /data/ps-copilot /app/data
+
+EXPOSE 3020
+
+CMD ["node", "server.js"]

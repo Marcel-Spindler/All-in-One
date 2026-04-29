@@ -1,0 +1,74 @@
+# ============================================================
+#  Caddyfile - automatisches HTTPS + Routing zu allen Tools
+#
+#  PUBLIC_DOMAIN wird per Environment-Variable gesetzt
+#  (z.B. tools.hellofresh-internal.de oder XX.XX.XX.XX.nip.io)
+# ============================================================
+
+{$PUBLIC_DOMAIN} {
+
+    # --- Schritt 1: Auth-Endpunkte (oauth2-proxy) ---
+    handle /oauth2/* {
+        reverse_proxy oauth2-proxy:4180 {
+            header_up X-Real-IP {remote_host}
+            header_up X-Scheme {scheme}
+            header_up X-Auth-Request-Redirect {uri}
+        }
+    }
+
+    # --- Schritt 2: Forward-Auth fuer alle anderen Routen ---
+    forward_auth oauth2-proxy:4180 {
+        uri /oauth2/auth
+        copy_headers X-Auth-Request-Email X-Auth-Request-User
+        @bad status 401
+        handle_response @bad {
+            redir https://{host}/oauth2/sign_in?rd={scheme}://{host}{uri}
+        }
+    }
+
+    # --- Schritt 3: Cockpit-Startseite ---
+    handle / {
+        rewrite * /index.html
+        root * /srv/cockpit
+        file_server
+    }
+
+    # --- Schritt 4: Tools per Pfad ---
+    handle_path /incident/* {
+        reverse_proxy incident:8501 {
+            header_up Host {host}
+            header_up X-Real-IP {remote_host}
+            header_up X-Forwarded-Proto {scheme}
+        }
+    }
+
+    handle_path /pdl/* {
+        reverse_proxy pdl:8502 {
+            header_up Host {host}
+            header_up X-Real-IP {remote_host}
+            header_up X-Forwarded-Proto {scheme}
+        }
+    }
+
+    handle_path /waagen/* {
+        reverse_proxy waagen:8505 {
+            header_up Host {host}
+            header_up X-Real-IP {remote_host}
+            header_up X-Forwarded-Proto {scheme}
+        }
+    }
+
+    handle_path /ps-copilot/* {
+        reverse_proxy pscopilot:3020 {
+            header_up Host {host}
+            header_up X-Real-IP {remote_host}
+            header_up X-Forwarded-Proto {scheme}
+        }
+    }
+
+    encode gzip
+    log {
+        output file /data/access.log
+        format console
+    }
+}

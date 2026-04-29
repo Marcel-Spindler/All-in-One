@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>All in One - Tools</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  body { font-family: -apple-system, Segoe UI, Roboto, sans-serif;
+         background: #0f172a; color: #e2e8f0; margin: 0; padding: 2rem;
+         display: flex; flex-direction: column; align-items: center; }
+  h1 { font-weight: 300; letter-spacing: .5px; }
+  .grid { display: grid; gap: 1.25rem;
+          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+          max-width: 880px; width: 100%; margin-top: 2rem; }
+  a.tile { display: block; padding: 1.5rem; border-radius: 12px;
+           background: #1e293b; color: #e2e8f0; text-decoration: none;
+           transition: transform .15s, background .15s;
+           border: 1px solid #334155; }
+  a.tile:hover { transform: translateY(-3px); background: #334155; }
+  a.tile h2 { margin: 0 0 .35rem 0; font-size: 1.1rem; }
+  a.tile p  { margin: 0; opacity: .7; font-size: .9rem; }
+  footer { margin-top: 3rem; opacity: .5; font-size: .8rem; }
+</style>
+</head>
+<body>
+  <h1>All in One</h1>
+  <p style="opacity:.7">Eingeloggt - waehle ein Tool:</p>
+  <div class="grid">
+    <a class="tile" href="/incident/">
+      <h2>Incident Tool</h2><p>BoxID-Auswertung</p>
+    </a>
+    <a class="tile" href="/pdl/">
+      <h2>PDL Fast</h2><p>Faktor-Berechnung &amp; Maitre-Sync</p>
+    </a>
+    <a class="tile" href="/waagen/">
+      <h2>Waagen Performance</h2><p>Wochenbericht</p>
+    </a>
+    <a class="tile" href="/ps-copilot/">
+      <h2>PS Copilot</h2><p>KI-Assistent</p>
+    </a>
+  </div>
+  <footer>HelloFresh DE - Problem Solve</footer>
+</body>
+</html>

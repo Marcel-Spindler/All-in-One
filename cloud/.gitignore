@@ -1,0 +1,4 @@
+# Cloud-Geheimnisse - NICHT committen, NICHT verteilen
+.env
+secrets/
+*.log
