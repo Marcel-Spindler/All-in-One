@@ -54,5 +54,8 @@ PDL fast/Import HelloFresh/
 Unified-Platform-Blueprint/results/
 Waagen Performance/exports/
 
-# Separate nested repository
-PS Copilot/
+# PS Copilot: nur Code/Config tracken, lokale Daten/Logs ignorieren
+PS Copilot/ps-basecamp-backend/data/
+PS Copilot/ps-basecamp-backend/knowledge/
+PS Copilot/ps-basecamp-backend/*.log
+PS Copilot/ps-basecamp-backend/.git.bak/

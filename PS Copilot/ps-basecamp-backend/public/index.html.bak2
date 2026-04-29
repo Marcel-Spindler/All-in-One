@@ -1,0 +1,1943 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PS Copilot | Command Deck</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap");
+
+    :root {
+      --bg-a: #0a1424;
+      --bg-b: #132744;
+      --bg-c: #243f66;
+      --text: #eef5ff;
+      --muted: #adc0db;
+      --line: rgba(177, 214, 255, 0.22);
+      --glass: rgba(11, 25, 45, 0.66);
+      --card: rgba(6, 18, 34, 0.74);
+      --accent: #6ef2c2;
+      --accent-soft: rgba(110, 242, 194, 0.2);
+      --warm: #ffc16f;
+      --danger: #ff687f;
+      --ok: #57d59d;
+      --shadow: 0 24px 60px rgba(0, 0, 0, 0.46);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: "Manrope", sans-serif;
+      background:
+        radial-gradient(1200px 700px at -2% -8%, rgba(110, 242, 194, 0.24), transparent 43%),
+        radial-gradient(1200px 700px at 110% 4%, rgba(255, 193, 111, 0.17), transparent 46%),
+        radial-gradient(700px 400px at 60% 110%, rgba(133, 184, 255, 0.24), transparent 48%),
+        linear-gradient(140deg, var(--bg-a), var(--bg-b) 44%, var(--bg-c));
+      min-height: 100vh;
+      padding: 16px;
+    }
+
+    .app {
+      max-width: 1550px;
+      margin: 0 auto;
+      display: grid;
+      gap: 14px;
+      animation: fadeIn 420ms ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .top {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: linear-gradient(130deg, rgba(10, 24, 43, 0.9), rgba(20, 39, 69, 0.84));
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow);
+      padding: 14px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: grid;
+      gap: 4px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-family: "Space Grotesk", sans-serif;
+      letter-spacing: 0.3px;
+      font-size: 1.35rem;
+    }
+
+    .brand p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .status {
+      display: inline-flex;
+      gap: 9px;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 12px;
+      background: rgba(255, 255, 255, 0.03);
+      font-size: 0.82rem;
+      color: #d6ebff;
+    }
+
+    .status-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--ok);
+      box-shadow: 0 0 0 7px rgba(87, 213, 157, 0.2);
+    }
+
+    .searchbar {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 8px;
+    }
+
+    input, textarea, button {
+      font-family: "Manrope", sans-serif;
+    }
+
+    input[type="text"], input[type="file"], textarea {
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      color: var(--text);
+      background: rgba(7, 20, 37, 0.64);
+      padding: 10px 12px;
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+      line-height: 1.45;
+    }
+
+    button {
+      border-radius: 11px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      padding: 10px 14px;
+      font-weight: 800;
+      letter-spacing: 0.1px;
+      transition: 140ms ease;
+    }
+
+    .btn-main {
+      background: linear-gradient(135deg, var(--accent), #59ddb0);
+      color: #03271c;
+    }
+
+    .btn-main:hover { transform: translateY(-1px); }
+
+    .btn-soft {
+      color: var(--text);
+      border-color: var(--line);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .btn-warm {
+      color: #332103;
+      background: linear-gradient(135deg, var(--warm), #ffab46);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 14px;
+    }
+
+    .pane {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      overflow: hidden;
+      background: var(--glass);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      min-height: 560px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pane-head {
+      padding: 11px 12px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .chat-tools {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      padding: 8px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(0, 0, 0, 0.16);
+    }
+
+    .pill {
+      border: 1px solid rgba(177, 214, 255, 0.35);
+      background: rgba(177, 214, 255, 0.1);
+      color: #dbecff;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .chat-log {
+      flex: 1;
+      overflow: auto;
+      padding: 12px;
+      display: grid;
+      gap: 10px;
+      align-content: flex-start;
+      background: linear-gradient(180deg, rgba(10, 24, 41, 0.1), rgba(2, 10, 19, 0.24));
+    }
+
+    .msg {
+      max-width: 92%;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      padding: 10px 11px;
+      line-height: 1.45;
+      font-size: 0.91rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .msg.user {
+      margin-left: auto;
+      border-color: rgba(255, 193, 111, 0.45);
+      background: rgba(255, 193, 111, 0.15);
+    }
+
+    .msg.ai {
+      border-color: rgba(110, 242, 194, 0.4);
+      background: rgba(110, 242, 194, 0.13);
+    }
+
+    .msg.system {
+      max-width: 100%;
+      margin: 0 auto;
+      border: none;
+      padding: 2px 4px;
+      color: var(--muted);
+      font-size: 0.79rem;
+      background: transparent;
+    }
+
+    .composer {
+      border-top: 1px solid var(--line);
+      padding: 10px;
+      display: grid;
+      gap: 8px;
+      background: rgba(3, 12, 24, 0.34);
+    }
+
+    .hint { color: var(--muted); font-size: 0.75rem; }
+
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .right-scroll {
+      overflow: auto;
+      max-height: calc(100vh - 205px);
+      padding: 11px;
+      display: grid;
+      gap: 11px;
+      align-content: start;
+    }
+
+    .section-switch {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      padding-bottom: 4px;
+      background: linear-gradient(180deg, rgba(7, 18, 33, 0.96), rgba(7, 18, 33, 0.72), transparent);
+      backdrop-filter: blur(10px);
+    }
+
+    .section-tab {
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--muted);
+      border-radius: 12px;
+      padding: 10px 8px;
+      font-size: 0.76rem;
+      font-weight: 800;
+    }
+
+    .section-tab.active {
+      color: #05241b;
+      border-color: rgba(110, 242, 194, 0.6);
+      background: linear-gradient(135deg, rgba(110, 242, 194, 0.95), rgba(89, 221, 176, 0.92));
+    }
+
+    .section-panel {
+      display: none;
+      gap: 10px;
+      align-content: start;
+    }
+
+    .section-panel.active {
+      display: grid;
+    }
+
+    .card {
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: var(--card);
+      padding: 10px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .card h3 {
+      margin: 0;
+      font-size: 0.95rem;
+      font-family: "Space Grotesk", sans-serif;
+      letter-spacing: 0.2px;
+    }
+
+    .toc-search {
+      display: grid;
+      gap: 8px;
+    }
+
+    .toc-list {
+      display: grid;
+      gap: 6px;
+      max-height: 440px;
+      overflow: auto;
+    }
+
+    .toc-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 6px;
+      align-items: stretch;
+    }
+
+    .toc-item {
+      text-align: left;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      padding: 9px 10px;
+      display: grid;
+      gap: 4px;
+    }
+
+    .toc-item:hover {
+      border-color: rgba(110, 242, 194, 0.48);
+      background: rgba(110, 242, 194, 0.12);
+    }
+
+    .toc-item strong {
+      font-size: 0.82rem;
+    }
+
+    .toc-item small {
+      color: var(--muted);
+      font-size: 0.75rem;
+      line-height: 1.35;
+    }
+
+    .toc-fav-btn {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      min-width: 44px;
+      padding: 0 10px;
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .toc-fav-btn.active {
+      color: #05241b;
+      border-color: rgba(255, 193, 111, 0.72);
+      background: linear-gradient(135deg, rgba(255, 193, 111, 0.95), rgba(255, 171, 70, 0.92));
+    }
+
+    .toc-tag {
+      display: inline-flex;
+      width: fit-content;
+      border: 1px solid rgba(177, 214, 255, 0.24);
+      border-radius: 999px;
+      padding: 2px 7px;
+      font-size: 0.69rem;
+      color: #d7e9ff;
+      background: rgba(177, 214, 255, 0.08);
+    }
+
+    .toc-file-group {
+      display: grid;
+      gap: 4px;
+    }
+
+    .toc-file-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(110, 242, 194, 0.08);
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 0.82rem;
+      color: var(--accent);
+      transition: 140ms ease;
+      width: 100%;
+      text-align: left;
+    }
+
+    .toc-file-header:hover {
+      background: rgba(110, 242, 194, 0.16);
+      border-color: rgba(110, 242, 194, 0.48);
+    }
+
+    .toc-file-header .toc-arrow {
+      transition: transform 200ms ease;
+      font-size: 0.7rem;
+    }
+
+    .toc-file-header.open .toc-arrow {
+      transform: rotate(90deg);
+    }
+
+    .toc-file-header .toc-badge {
+      margin-left: auto;
+      font-size: 0.69rem;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .toc-children {
+      display: none;
+      padding-left: 12px;
+      gap: 3px;
+    }
+
+    .toc-children.open {
+      display: grid;
+    }
+
+    .toc-heading {
+      text-align: left;
+      width: 100%;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--text);
+      padding: 6px 10px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: 120ms ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .toc-heading:hover {
+      background: rgba(255, 193, 111, 0.12);
+      border-color: rgba(255, 193, 111, 0.4);
+    }
+
+    .toc-heading.h2 {
+      font-weight: 700;
+      font-size: 0.82rem;
+    }
+
+    .toc-heading.h3 {
+      font-weight: 500;
+      padding-left: 18px;
+      font-size: 0.76rem;
+      color: var(--muted);
+    }
+
+    .toc-highlight {
+      animation: tocPulse 1.2s ease;
+    }
+
+    @keyframes tocPulse {
+      0% { border-color: rgba(110, 242, 194, 0.18); box-shadow: none; }
+      35% { border-color: rgba(110, 242, 194, 0.78); box-shadow: 0 0 0 6px rgba(110, 242, 194, 0.14); }
+      100% { border-color: rgba(177, 214, 255, 0.22); box-shadow: none; }
+    }
+
+    .legend-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(180px, 1fr));
+      gap: 8px;
+    }
+
+    .legend-item {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 8px;
+      background: rgba(255, 255, 255, 0.02);
+      display: grid;
+      gap: 4px;
+    }
+
+    .badge {
+      font-weight: 800;
+      font-size: 0.74rem;
+      display: inline-flex;
+      width: fit-content;
+      border-radius: 7px;
+      padding: 3px 8px;
+    }
+
+    .b-gray { color: #d9e7ff; background: rgba(180, 196, 219, 0.2); }
+    .b-green { color: #defee8; background: rgba(87, 213, 157, 0.28); }
+    .b-red { color: #ffe4e8; background: rgba(255, 104, 127, 0.29); }
+    .b-orange { color: #fff0dc; background: rgba(255, 193, 111, 0.28); }
+    .b-blue { color: #e2f0ff; background: rgba(133, 184, 255, 0.28); }
+
+    .dropzone {
+      border: 1.6px dashed rgba(177, 214, 255, 0.42);
+      border-radius: 11px;
+      padding: 11px;
+      text-align: center;
+      color: var(--muted);
+      background: rgba(133, 184, 255, 0.1);
+      transition: 140ms ease;
+    }
+
+    .dropzone.dragging {
+      border-color: rgba(110, 242, 194, 0.8);
+      background: rgba(110, 242, 194, 0.2);
+      color: #defff3;
+    }
+
+    .list {
+      display: grid;
+      gap: 7px;
+      max-height: 230px;
+      overflow: auto;
+    }
+
+    .item {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 8px;
+      background: rgba(255, 255, 255, 0.03);
+      display: grid;
+      gap: 5px;
+    }
+
+    .item-title {
+      margin: 0;
+      font-size: 0.86rem;
+      font-weight: 800;
+    }
+
+    .item-actions {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+    .links-list {
+      display: grid;
+      gap: 6px;
+      max-height: 280px;
+      overflow: auto;
+    }
+
+    .link {
+      text-decoration: none;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      color: #d8f6ff;
+      padding: 8px;
+      font-size: 0.82rem;
+      background: rgba(110, 242, 194, 0.1);
+      display: grid;
+      gap: 4px;
+    }
+
+    .link small { color: var(--muted); }
+
+    .sr {
+      display: grid;
+      gap: 6px;
+      max-height: 300px;
+      overflow: auto;
+    }
+
+    .sr-block {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 9px;
+      display: grid;
+      gap: 4px;
+    }
+
+    .sr-block p { margin: 0; color: var(--muted); font-size: 0.8rem; }
+
+    .kpi {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      padding: 7px 10px;
+      font-size: 0.76rem;
+      color: #d9ecff;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .learn-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(120px, 1fr));
+      gap: 6px;
+    }
+
+    .week-btn {
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      padding: 8px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .week-btn.active {
+      border-color: rgba(110, 242, 194, 0.7);
+      background: rgba(110, 242, 194, 0.18);
+    }
+
+    .learn-view {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 9px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .learn-view h4 {
+      margin: 0;
+      font-size: 0.85rem;
+    }
+
+    .learn-view ul {
+      margin: 0;
+      padding-left: 18px;
+      display: grid;
+      gap: 3px;
+      color: #d9ecff;
+      font-size: 0.8rem;
+    }
+
+    .quiz-box {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 9px;
+      background: rgba(255, 255, 255, 0.03);
+      display: grid;
+      gap: 7px;
+    }
+
+    .quiz-actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .planner-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(120px, 1fr));
+      gap: 8px;
+    }
+
+    .planner-grid .full {
+      grid-column: 1 / -1;
+    }
+
+    select {
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      color: var(--text);
+      background: rgba(7, 20, 37, 0.64);
+      padding: 10px 12px;
+      font-family: "Manrope", sans-serif;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(120px, 1fr));
+      gap: 8px;
+    }
+
+    .summary-box {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 8px;
+      display: grid;
+      gap: 4px;
+    }
+
+    .summary-box strong {
+      font-size: 1rem;
+      color: #f4fbff;
+    }
+
+    .planner-results {
+      display: grid;
+      gap: 8px;
+    }
+
+    .cutoff-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .cutoff-pill {
+      border: 1px solid rgba(177, 214, 255, 0.35);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 8px 11px;
+      font-size: 0.77rem;
+      font-weight: 800;
+    }
+
+    .cutoff-pill.active {
+      border-color: rgba(110, 242, 194, 0.72);
+      background: rgba(110, 242, 194, 0.18);
+      color: #e7fff6;
+    }
+
+    .focus-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(120px, 1fr));
+      gap: 8px;
+    }
+
+    .focus-grid .full {
+      grid-column: 1 / -1;
+    }
+
+    .focus-note {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 8px 9px;
+      font-size: 0.79rem;
+      line-height: 1.45;
+      background: rgba(255, 255, 255, 0.03);
+      color: #dcecff;
+    }
+
+    .focus-note.warn {
+      border-color: rgba(255, 193, 111, 0.45);
+      background: rgba(255, 193, 111, 0.12);
+      color: #fff0db;
+    }
+
+    .focus-note.ok {
+      border-color: rgba(110, 242, 194, 0.36);
+      background: rgba(110, 242, 194, 0.1);
+      color: #e0fff2;
+    }
+
+    .focus-meta {
+      display: grid;
+      gap: 7px;
+    }
+
+    .mini-list {
+      display: grid;
+      gap: 5px;
+      max-height: 180px;
+      overflow: auto;
+    }
+
+    .mini-item {
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 7px 8px;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 0.79rem;
+    }
+
+    @media (max-width: 1020px) {
+      .layout { grid-template-columns: 1fr; }
+      .right-scroll { max-height: none; }
+      .searchbar { grid-template-columns: 1fr; }
+      body { padding: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <section class="top">
+      <div class="top-row">
+        <div class="brand">
+          <h1>PS Copilot Command Deck</h1>
+          <p>Neue Oberfläche: Chat, Wissenstraining, Legende, Suche, Factor-Quickstart.</p>
+        </div>
+        <div class="status"><span class="status-dot" id="statusDot"></span><span id="statusText">Backend wird geprüft...</span></div>
+      </div>
+
+      <form id="globalSearchForm" class="searchbar">
+        <input id="globalSearchInput" type="text" placeholder="Globale Suche: z.B. min needs, braiser, shift 1, factor video" />
+        <button class="btn-main" type="submit">Suchen</button>
+        <button class="btn-soft" type="button" id="refreshAllBtn">Aktualisieren</button>
+      </form>
+
+      <div class="row">
+        <div class="kpi" id="kpiKnowledge">Wissen: 0 Dateien</div>
+        <div class="kpi" id="kpiLinks">Links: 0</div>
+        <div class="kpi">Hauptzugang: http://localhost:3020</div>
+      </div>
+    </section>
+
+    <section class="layout">
+      <section class="pane">
+        <div class="pane-head">
+          <span>KI-Assistenz</span>
+          <span>Enter senden | Shift+Enter Zeilenumbruch</span>
+        </div>
+
+        <div class="chat-tools">
+          <button class="pill" data-prompt="Erstelle mir einen perfekten Tagesstart für Problem Solving mit Prioritäten und Reihenfolge.">Tagesstart</button>
+          <button class="pill" data-prompt="Erkläre MPT Min Needs vs Plan in 6 klaren Punkten.">Min Needs</button>
+          <button class="pill" data-prompt="Wie löse ich Equipment Capacity Constraint am schnellsten?">Equipment Fix</button>
+          <button class="pill" data-prompt="Gib mir einen Lernplan für Factor Planning in 7 Tagen auf Deutsch.">7-Tage Lernplan</button>
+        </div>
+
+        <div id="chatLog" class="chat-log">
+          <div class="msg system">Willkommen Marcel. Dein neues Deck ist bereit. Nutze rechts die Legende, Suchfunktion und Wissenstrainer.</div>
+        </div>
+
+        <form id="chatForm" class="composer">
+          <textarea id="questionInput" placeholder="Frage an deine KI... z.B. 'Gib mir einen Ablauf für Constraint-Resolution bei rotem Chip.'" required></textarea>
+          <div class="row">
+            <span class="hint">Tipp: Über die globale Suche kannst du gezielt in Wissen + Links suchen.</span>
+            <button id="sendBtn" class="btn-main" type="submit">Antwort holen</button>
+          </div>
+        </form>
+      </section>
+
+      <aside class="pane">
+        <div class="pane-head">
+          <span>Legende, Suche, Wissen, Links</span>
+          <button id="openAppBtn" class="btn-warm" type="button">PS Copilot öffnen</button>
+        </div>
+
+        <div class="right-scroll">
+          <article class="card" id="tocNavigatorCard">
+            <h3>Inhaltsverzeichnis — PS Bibel & Wissen</h3>
+            <div class="hint">Alle Themen aus deiner Bibel und den Wissensdateien. Klick auf ein Thema, um direkt im Chat danach zu fragen.</div>
+            <div class="toc-search">
+              <input id="tocSearchInput" type="text" placeholder="Thema suchen: z.B. Jupiter, Waage, Factor, Tageswechsel" />
+              <div id="tocResults" class="toc-list"></div>
+            </div>
+          </article>
+
+          <div class="section-switch" id="rightSectionSwitch">
+            <button class="section-tab active" type="button" data-panel="planung">Planung</button>
+            <button class="section-tab" type="button" data-panel="lernen">Lernen</button>
+            <button class="section-tab" type="button" data-panel="wissen">Wissen</button>
+            <button class="section-tab" type="button" data-panel="links">Links</button>
+          </div>
+
+          <div class="section-panel active" data-panel="planung">
+            <article class="card" id="tocDayFocus">
+              <h3>Tagesfokus Cutoff</h3>
+              <div class="hint" id="todayFocusDate">Heute wird geladen...</div>
+              <div class="focus-grid">
+                <select id="dayFocusBrandSelect">
+                  <option value="hf">HelloFresh</option>
+                  <option value="factor">Factor</option>
+                </select>
+                <input id="dayFocusLineSpeedInput" type="text" placeholder="Line Speed pro Stunde, z.B. 420" />
+                <div id="dayFocusCutoffRow" class="cutoff-row full">
+                  <button class="cutoff-pill active" type="button" data-cutoff="CO1">CO1</button>
+                  <button class="cutoff-pill" type="button" data-cutoff="CO2">CO2</button>
+                  <button class="cutoff-pill" type="button" data-cutoff="CO3">CO3</button>
+                  <button class="cutoff-pill" type="button" data-cutoff="CO4">CO4</button>
+                  <button class="cutoff-pill" type="button" data-cutoff="CO5">CO5</button>
+                  <button class="cutoff-pill" type="button" data-cutoff="CO6">CO6</button>
+                </div>
+                <button id="dayFocusAnalyzeBtn" class="btn-main full" type="button">Heute berechnen</button>
+              </div>
+              <div id="dayFocusSummary" class="summary-grid"></div>
+              <div id="dayFocusMeta" class="focus-meta">
+                <div class="hint">Tagesfokus darf auf eine andere KW ausweichen, zeigt das jetzt aber klar an und überschreibt den Planer nicht mehr still.</div>
+              </div>
+            </article>
+
+            <article class="card" id="tocPlanning">
+              <h3>Produktionsplaner</h3>
+              <div class="planner-grid">
+                <select id="planningBrandSelect">
+                  <option value="hf">HelloFresh</option>
+                  <option value="factor">Factor</option>
+                </select>
+                <select id="planningYearSelect"></select>
+                <select id="planningWeekSelect"></select>
+                <select id="planningCutoffSelect"></select>
+                <input id="planningLineSpeedInput" class="full" type="text" placeholder="Durchschnittliche Line Speed in Boxen pro Stunde, z.B. 420" />
+                <button id="planningAnalyzeBtn" class="btn-main full" type="button">KW analysieren</button>
+              </div>
+              <div class="hint">Im Auswahlfeld landen nur noch Wochen mit kompletter Picklist und PDL. Unvollständige KWs bleiben im Katalog, aber nicht mehr in deiner aktiven Auswahl.</div>
+              <div id="planningSummary" class="summary-grid"></div>
+              <div id="planningMetaInfo" class="focus-meta"></div>
+              <div class="planner-results">
+                <div>
+                  <div class="hint">Boxen nach Größe</div>
+                  <div id="planningBoxesList" class="mini-list"></div>
+                </div>
+                <div>
+                  <div class="hint">Top Rezepte</div>
+                  <div id="planningRecipesList" class="mini-list"></div>
+                </div>
+                <div>
+                  <div class="hint">Top Zutaten</div>
+                  <div id="planningIngredientsList" class="mini-list"></div>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <div class="section-panel" data-panel="lernen">
+            <article class="card" id="tocLegend">
+              <h3>Legende (MPT Schnellverständnis)</h3>
+              <div class="legend-grid">
+                <div class="legend-item">
+                  <span class="badge b-gray">Grau</span>
+                  <span class="hint">Geplant / normaler Zustand</span>
+                </div>
+                <div class="legend-item">
+                  <span class="badge b-green">Grün</span>
+                  <span class="hint">In Ausführung / abgeschlossen</span>
+                </div>
+                <div class="legend-item">
+                  <span class="badge b-red">Rot</span>
+                  <span class="hint">Constraint verletzt / Aktion nötig</span>
+                </div>
+                <div class="legend-item">
+                  <span class="badge b-orange">Orange</span>
+                  <span class="hint">Warnung / Engpass naht</span>
+                </div>
+                <div class="legend-item">
+                  <span class="badge b-blue">Blaue Linie</span>
+                  <span class="hint">Frühester Platiertag</span>
+                </div>
+                <div class="legend-item">
+                  <span class="badge b-green">OPEN_LINK</span>
+                  <span class="hint">KI kann passende Links automatisch öffnen</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="card" id="tocQuickstart">
+              <h3>Factor Planning Quickstart (Deutsch)</h3>
+              <div class="hint">Vollständiges Wissen ist als Dateien geladen: <strong>factor-planning-mpt.md</strong> (DE) und <strong>factor-planning-user-guides-en.md</strong> (EN).</div>
+              <a class="link" href="https://operations.hellofresh.com/rte-manufacturing-planning/production-schedule" target="_blank" rel="noopener">MPT öffnen<small>Produktionskalender</small></a>
+              <a class="link" href="https://drive.google.com/file/d/1Cc7cWXckgJbeQ9918GMQRyWzLQjd91Q5/view?usp=drive_link" target="_blank" rel="noopener">MPT Training Video<small>Kalender-Training</small></a>
+            </article>
+
+            <article class="card" id="tocLearning">
+              <h3>Factor Lernansicht</h3>
+              <div class="learn-grid" id="learnWeekButtons"></div>
+              <div id="learnView" class="learn-view"></div>
+              <div class="row">
+                <button id="todayLearnBtn" class="btn-main" type="button">Heute lernen</button>
+                <button id="quizStartBtn" class="btn-soft" type="button">Quiz starten</button>
+              </div>
+              <div id="quizBox" class="quiz-box" hidden>
+                <strong id="quizQuestion">Frage</strong>
+                <div class="quiz-actions" id="quizActions"></div>
+                <div class="hint" id="quizFeedback">Wähle eine Antwort.</div>
+              </div>
+            </article>
+          </div>
+
+          <div class="section-panel" data-panel="wissen">
+            <article class="card" id="tocSearchResults">
+              <h3>Suchergebnisse</h3>
+              <div class="hint">Suche geht über Wissensdateien und PS-Linkregister.</div>
+              <div id="searchResults" class="sr">
+                <div class="hint">Noch keine Suche gestartet.</div>
+              </div>
+            </article>
+
+            <article class="card" id="tocUpload">
+              <h3>Wissen per Datei trainieren</h3>
+              <div id="dropzone" class="dropzone">Datei hier hineinziehen (.md, .txt, .docx)</div>
+              <input id="uploadInput" type="file" accept=".md,.txt,.docx" />
+              <button id="uploadBtn" class="btn-main" type="button">Datei importieren</button>
+            </article>
+
+            <article class="card" id="tocWrite">
+              <h3>Wissen direkt schreiben</h3>
+              <input id="docNameInput" type="text" placeholder="Dateiname, z.B. mein-guide.md" />
+              <textarea id="docContentInput" placeholder="# Titel\n\nInhalt..."></textarea>
+              <div class="row">
+                <button id="saveDocBtn" class="btn-main" type="button">Speichern</button>
+                <button id="clearDocBtn" class="btn-soft" type="button">Leeren</button>
+              </div>
+            </article>
+
+            <article class="card" id="tocKnowledgeFiles">
+              <div class="row">
+                <h3>Wissensdateien</h3>
+                <button id="refreshKnowledgeBtn" class="btn-soft" type="button">Neu laden</button>
+              </div>
+              <div id="knowledgeList" class="list"></div>
+            </article>
+          </div>
+
+          <div class="section-panel" data-panel="links">
+            <article class="card" id="tocLinks">
+              <h3>Tool- und Team-Links</h3>
+              <div id="linksContainer" class="links-list"></div>
+            </article>
+          </div>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <script>
+    const API_BASE = window.location.origin || "http://localhost:3020";
+
+    const statusText = document.getElementById("statusText");
+    const statusDot = document.getElementById("statusDot");
+
+    const chatLog = document.getElementById("chatLog");
+    const chatForm = document.getElementById("chatForm");
+    const sendBtn = document.getElementById("sendBtn");
+    const questionInput = document.getElementById("questionInput");
+
+    const globalSearchForm = document.getElementById("globalSearchForm");
+    const globalSearchInput = document.getElementById("globalSearchInput");
+    const searchResults = document.getElementById("searchResults");
+    const learnWeekButtons = document.getElementById("learnWeekButtons");
+    const learnView = document.getElementById("learnView");
+    const todayLearnBtn = document.getElementById("todayLearnBtn");
+    const quizStartBtn = document.getElementById("quizStartBtn");
+    const quizBox = document.getElementById("quizBox");
+    const quizQuestion = document.getElementById("quizQuestion");
+    const quizActions = document.getElementById("quizActions");
+    const quizFeedback = document.getElementById("quizFeedback");
+
+    const uploadInput = document.getElementById("uploadInput");
+    const uploadBtn = document.getElementById("uploadBtn");
+    const dropzone = document.getElementById("dropzone");
+
+    const docNameInput = document.getElementById("docNameInput");
+    const docContentInput = document.getElementById("docContentInput");
+    const saveDocBtn = document.getElementById("saveDocBtn");
+    const clearDocBtn = document.getElementById("clearDocBtn");
+
+    const knowledgeList = document.getElementById("knowledgeList");
+    const linksContainer = document.getElementById("linksContainer");
+    const planningBrandSelect = document.getElementById("planningBrandSelect");
+    const planningYearSelect = document.getElementById("planningYearSelect");
+    const planningWeekSelect = document.getElementById("planningWeekSelect");
+    const planningCutoffSelect = document.getElementById("planningCutoffSelect");
+    const planningLineSpeedInput = document.getElementById("planningLineSpeedInput");
+    const planningAnalyzeBtn = document.getElementById("planningAnalyzeBtn");
+    const planningSummary = document.getElementById("planningSummary");
+    const planningMetaInfo = document.getElementById("planningMetaInfo");
+    const planningBoxesList = document.getElementById("planningBoxesList");
+    const planningRecipesList = document.getElementById("planningRecipesList");
+    const planningIngredientsList = document.getElementById("planningIngredientsList");
+    const todayFocusDate = document.getElementById("todayFocusDate");
+    const dayFocusBrandSelect = document.getElementById("dayFocusBrandSelect");
+    const dayFocusLineSpeedInput = document.getElementById("dayFocusLineSpeedInput");
+    const dayFocusCutoffRow = document.getElementById("dayFocusCutoffRow");
+    const dayFocusAnalyzeBtn = document.getElementById("dayFocusAnalyzeBtn");
+    const dayFocusSummary = document.getElementById("dayFocusSummary");
+    const dayFocusMeta = document.getElementById("dayFocusMeta");
+    const tocSearchInput = document.getElementById("tocSearchInput");
+    const tocResults = document.getElementById("tocResults");
+    const rightSectionSwitch = document.getElementById("rightSectionSwitch");
+    const rightSectionTabs = Array.from(document.querySelectorAll(".section-tab"));
+    const rightSectionPanels = Array.from(document.querySelectorAll(".section-panel"));
+    const rightScroll = document.querySelector(".right-scroll");
+    const TOC_FAVORITES_KEY = "ps-copilot-toc-favorites-v1";
+
+    const kpiKnowledge = document.getElementById("kpiKnowledge");
+    const kpiLinks = document.getElementById("kpiLinks");
+
+    let droppedFile = null;
+    let lastLinkCount = 0;
+    let activeWeek = 1;
+    let currentQuiz = null;
+    let planningCatalog = null;
+    let activeDayCutoff = "CO2";
+    let activeRightPanel = "planung";
+    let tocData = []; // loaded from API
+
+    // --- TOC: Knowledge Headings ---
+    async function loadTocHeadings() {
+      try {
+        const res = await fetch(`${API_BASE}/api/knowledge/headings`);
+        tocData = await res.json();
+        renderToc(tocSearchInput.value);
+      } catch {
+        tocResults.innerHTML = '<div class="hint">Inhaltsverzeichnis konnte nicht geladen werden.</div>';
+      }
+    }
+
+    function renderToc(query = "") {
+      const normalized = String(query || "").trim().toLowerCase();
+
+      // Filter files and headings
+      const filtered = tocData
+        .map((doc) => {
+          const headings = doc.headings.filter((h) => h.level >= 2);
+          if (!normalized) return { ...doc, headings };
+
+          const matchingHeadings = headings.filter((h) =>
+            h.text.toLowerCase().includes(normalized)
+          );
+          const titleMatch = doc.title.toLowerCase().includes(normalized) ||
+            doc.file.toLowerCase().includes(normalized);
+
+          if (titleMatch) return { ...doc, headings };
+          if (matchingHeadings.length) return { ...doc, headings: matchingHeadings };
+          return null;
+        })
+        .filter(Boolean);
+
+      if (!filtered.length) {
+        tocResults.innerHTML = '<div class="hint">Keine Themen gefunden.</div>';
+        return;
+      }
+
+      // Sort: ps-bibel first, then alphabetically
+      filtered.sort((a, b) => {
+        if (a.file === "ps-bibel.md") return -1;
+        if (b.file === "ps-bibel.md") return 1;
+        return a.title.localeCompare(b.title, "de-DE");
+      });
+
+      let html = "";
+      for (const doc of filtered) {
+        const isOpen = !!normalized || doc.file === "ps-bibel.md";
+        html += `<div class="toc-file-group">`;
+        html += `<button class="toc-file-header ${isOpen ? "open" : ""}" type="button" data-toc-file="${escapeHtml(doc.file)}">`;
+        html += `<span class="toc-arrow">▶</span>`;
+        html += `${escapeHtml(doc.title)}`;
+        html += `<span class="toc-badge">${doc.headings.length} Themen</span>`;
+        html += `</button>`;
+        html += `<div class="toc-children ${isOpen ? "open" : ""}">`;
+        for (const h of doc.headings) {
+          const cls = h.level === 2 ? "h2" : "h3";
+          html += `<button class="toc-heading ${cls}" type="button" data-toc-ask="${escapeHtml(h.text)}" data-toc-file="${escapeHtml(doc.file)}">`;
+          html += `${h.level === 3 ? "└ " : ""}${escapeHtml(h.text)}`;
+          html += `</button>`;
+        }
+        html += `</div></div>`;
+      }
+
+      tocResults.innerHTML = html;
+
+      // Expand/collapse handlers
+      tocResults.querySelectorAll(".toc-file-header").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          btn.classList.toggle("open");
+          const children = btn.nextElementSibling;
+          if (children) children.classList.toggle("open");
+        });
+      });
+
+      // Click heading -> ask in chat
+      tocResults.querySelectorAll(".toc-heading").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const topic = btn.getAttribute("data-toc-ask") || "";
+          const file = btn.getAttribute("data-toc-file") || "";
+          questionInput.value = `Erkläre mir alles zum Thema "${topic}" aus ${file}. Gib mir eine klare Zusammenfassung mit Schritten und Allen Links.`;
+          questionInput.focus();
+          btn.style.background = "rgba(110, 242, 194, 0.18)";
+          setTimeout(() => { btn.style.background = ""; }, 800);
+        });
+      });
+    }
+
+    const learningPlan = {
+      1: {
+        title: "Woche 1 - Fundament",
+        focus: ["Kalenderstruktur", "Chip-Farben", "Min Needs vs Plan", "MPT-Navigation"],
+      },
+      2: {
+        title: "Woche 2 - Planung",
+        focus: ["Recipe Work Orders", "Sub-Recipe Erstellung", "Auto-Generation", "Save vs Save&Lock"],
+      },
+      3: {
+        title: "Woche 3 - Constraints",
+        focus: ["Constraint-Arten", "Equipment Drawer", "Fix-Strategien", "Timing/Shelf-Life"],
+      },
+      4: {
+        title: "Woche 4 - Execution",
+        focus: ["WMS Status", "Monitoring", "Bulk-Operationen", "Interventionsszenarien"],
+      },
+    };
+
+    const quizPool = [
+      {
+        q: "Was bedeutet ein roter Min-Needs-Chip am ehesten?",
+        a: ["Planung ist ausreichend", "Mindestbedarf ist aktuell nicht erfüllt", "Alles ist gesperrt"],
+        c: 1,
+      },
+      {
+        q: "Wann ist Save as Unlocked meistens sinnvoll?",
+        a: ["Wenn Ziele flexibel auf Forecast-Änderung reagieren sollen", "Nur nach Produktionsstart", "Nie"],
+        c: 0,
+      },
+      {
+        q: "Welche Constraint-Art betrifft überlastete Küchengeräte?",
+        a: ["Earliest Plating", "Recipe Demand", "Equipment Capacity"],
+        c: 2,
+      },
+      {
+        q: "Was ist ein schneller Fix bei Equipment > 100%?",
+        a: ["Auf andere Schicht verteilen", "Nichts ändern", "Alle WOs löschen"],
+        c: 0,
+      },
+    ];
+
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+    }
+
+    function linkify(raw) {
+      const text = escapeHtml(raw);
+      return text.replace(/(https?:\/\/[^\s<]+)/g, (url) => {
+        const clean = url.replace(/&amp;/g, "&");
+        return `<a href="${escapeHtml(clean)}" target="_blank" rel="noopener noreferrer">${escapeHtml(clean)}</a>`;
+      });
+    }
+
+    function addMessage(text, type = "ai") {
+      const node = document.createElement("div");
+      node.className = `msg ${type}`;
+      if (type === "ai") node.innerHTML = linkify(text);
+      else node.textContent = text;
+      chatLog.appendChild(node);
+      chatLog.scrollTop = chatLog.scrollHeight;
+    }
+
+    function formatHoursAndMinutes(estimate) {
+      if (!estimate || estimate.estimatedMinutes === null || estimate.estimatedMinutes === undefined) {
+        return "-";
+      }
+
+      const totalMinutes = Number(estimate.estimatedMinutes) || 0;
+      const hours = Math.floor(totalMinutes / 60);
+      const minutes = totalMinutes % 60;
+      return `${hours}h ${String(minutes).padStart(2, "0")}m`;
+    }
+
+    function formatShortFileName(filePath) {
+      const text = String(filePath || "");
+      const parts = text.split(/[/\\]/).filter(Boolean);
+      return parts[parts.length - 1] || text || "-";
+    }
+
+    function getBrandLabel(brand) {
+      return String(brand || "hf").toLowerCase() === "factor" ? "Factor" : "HelloFresh";
+    }
+
+    function setActiveRightPanel(panelName) {
+      activeRightPanel = panelName;
+      rightSectionTabs.forEach((tab) => {
+        tab.classList.toggle("active", tab.getAttribute("data-panel") === panelName);
+      });
+      rightSectionPanels.forEach((panel) => {
+        panel.classList.toggle("active", panel.getAttribute("data-panel") === panelName);
+      });
+    }
+
+    function getSelectablePlanningWeeks() {
+      if (!planningCatalog) return [];
+      if (Array.isArray(planningCatalog.availableWeeks) && planningCatalog.availableWeeks.length > 0) {
+        return planningCatalog.availableWeeks;
+      }
+      return Array.isArray(planningCatalog.weeks) ? planningCatalog.weeks : [];
+    }
+
+    function updateTodayFocusDate() {
+      const now = new Date();
+      const label = now.toLocaleDateString("de-DE", {
+        weekday: "long",
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      });
+      todayFocusDate.textContent = `Heute: ${label}`;
+    }
+
+    function setActiveDayCutoff(cutoff) {
+      activeDayCutoff = cutoff;
+      dayFocusCutoffRow.querySelectorAll(".cutoff-pill").forEach((btn) => {
+        btn.classList.toggle("active", btn.getAttribute("data-cutoff") === cutoff);
+      });
+    }
+
+    function syncPlannerFromDayFocusInputs() {
+      planningBrandSelect.value = dayFocusBrandSelect.value;
+      planningLineSpeedInput.value = dayFocusLineSpeedInput.value;
+    }
+
+    async function syncPlannerSelectorsToAnalysis(analysis) {
+      planningBrandSelect.value = analysis.brand;
+      if (!planningCatalog || planningBrandSelect.value !== dayFocusBrandSelect.value) {
+        await refreshPlanningCatalog();
+      }
+
+      planningYearSelect.value = String(analysis.year);
+      fillPlanningSelectors();
+      planningWeekSelect.value = String(analysis.week);
+      fillPlanningSelectors();
+
+      const firstCutoff = (analysis.selectedCutoffs || [])[0] || "";
+      if (firstCutoff) planningCutoffSelect.value = firstCutoff;
+    }
+
+    function renderDayFocusSummary(data) {
+      const totals = data.totals || {};
+      const estimate = data.productionEstimate || {};
+      const resolution = data.resolution || {};
+
+      dayFocusSummary.innerHTML = `
+        <div class="summary-box"><span class="hint">Brand</span><strong>${escapeHtml(getBrandLabel(data.brand))}</strong></div>
+        <div class="summary-box"><span class="hint">KW</span><strong>${escapeHtml(String(resolution.selectedYear || data.year || "-"))} / ${escapeHtml(`KW ${String(resolution.selectedWeek || data.week || "-").padStart(2, "0")}`)}</strong></div>
+        <div class="summary-box"><span class="hint">Boxen</span><strong>${escapeHtml(String(totals.boxes || 0))}</strong></div>
+        <div class="summary-box"><span class="hint">Dauer</span><strong>${escapeHtml(formatHoursAndMinutes(estimate))}</strong></div>
+      `;
+
+      const statusClass = resolution.exactMatch ? "ok" : "warn";
+      const statusLabel = resolution.exactMatch ? "Exakte Tageswoche genutzt." : "Fallback auf naechste passende Datenwoche.";
+      dayFocusMeta.innerHTML = `
+        <div class="focus-note ${statusClass}">
+          <strong>${escapeHtml(statusLabel)}</strong><br />
+          ${escapeHtml(resolution.reason || "")}
+        </div>
+        <div class="focus-note">
+          Datenbasis: ${escapeHtml(String((data.sourceStats && data.sourceStats.pdlFileCount) || 0))} PDL-Datei(en), Picklist ${escapeHtml(formatShortFileName(data.sourceFiles && data.sourceFiles.picklist))}.<br />
+          Cutoff: ${escapeHtml((data.selectedCutoffs || []).join(", ") || (resolution.requestedCutoffs || []).join(", ") || activeDayCutoff)}
+        </div>
+      `;
+    }
+
+    function renderMiniList(element, items, valueLabel) {
+      if (!items.length) {
+        element.innerHTML = '<div class="hint">Keine Daten.</div>';
+        return;
+      }
+
+      element.innerHTML = items.map((item) => `
+        <div class="mini-item">
+          <span>${escapeHtml(item.label)}</span>
+          <strong>${escapeHtml(String(item.value))}${valueLabel ? ` ${escapeHtml(valueLabel)}` : ""}</strong>
+        </div>
+      `).join("");
+    }
+
+    function renderPlanningSummary(analysis) {
+      const totals = analysis.totals || {};
+      const estimate = analysis.productionEstimate || {};
+      planningSummary.innerHTML = `
+        <div class="summary-box"><span class="hint">Boxen</span><strong>${escapeHtml(String(totals.boxes || 0))}</strong></div>
+        <div class="summary-box"><span class="hint">Meals</span><strong>${escapeHtml(String(totals.meals || 0))}</strong></div>
+        <div class="summary-box"><span class="hint">Rezepte</span><strong>${escapeHtml(String(totals.uniqueRecipes || 0))}</strong></div>
+        <div class="summary-box"><span class="hint">Dauer</span><strong>${escapeHtml(formatHoursAndMinutes(estimate))}</strong></div>
+      `;
+
+      planningMetaInfo.innerHTML = `
+        <div class="focus-note ok">
+          ${escapeHtml(getBrandLabel(analysis.brand))} | ${escapeHtml(`KW ${String(analysis.week || "-").padStart(2, "0")}`)} | ${escapeHtml((analysis.selectedCutoffs || []).join(", ") || "Alle Cutoffs")}
+        </div>
+        <div class="focus-note">
+          Datenbasis: ${escapeHtml(String((analysis.sourceStats && analysis.sourceStats.pdlFileCount) || 0))} PDL-Datei(en), Picklist ${escapeHtml(formatShortFileName(analysis.sourceFiles && analysis.sourceFiles.picklist))}.
+        </div>
+      `;
+
+      renderMiniList(
+        planningBoxesList,
+        Object.entries(analysis.boxesBySize || {}).map(([label, value]) => ({ label, value })),
+        ""
+      );
+      renderMiniList(
+        planningRecipesList,
+        (analysis.topRecipes || []).slice(0, 12).map((item) => ({ label: item.recipe, value: item.count })),
+        ""
+      );
+      renderMiniList(
+        planningIngredientsList,
+        (analysis.topIngredients || []).slice(0, 12).map((item) => ({ label: item.ingredient, value: Math.round(item.amount) })),
+        ""
+      );
+    }
+
+    function fillPlanningSelectors() {
+      const selectableWeeks = getSelectablePlanningWeeks();
+      if (!selectableWeeks.length) {
+        planningYearSelect.innerHTML = '<option value="">Kein Jahr</option>';
+        planningWeekSelect.innerHTML = '<option value="">Keine KW</option>';
+        planningCutoffSelect.innerHTML = '<option value="">Alle Cutoffs</option>';
+        return;
+      }
+
+      const previousYear = Number(planningYearSelect.value);
+      const previousWeek = Number(planningWeekSelect.value);
+      const previousCutoff = planningCutoffSelect.value;
+
+      const years = [...new Set(selectableWeeks.map((item) => item.year))].sort((a, b) => b - a);
+      planningYearSelect.innerHTML = years.map((year) => `<option value="${year}">${year}</option>`).join("");
+
+      const selectedYear = years.includes(previousYear) ? previousYear : years[0];
+      planningYearSelect.value = String(selectedYear);
+
+      const weeks = selectableWeeks.filter((item) => item.year === selectedYear);
+      planningWeekSelect.innerHTML = weeks.map((item) => `<option value="${item.week}">KW ${String(item.week).padStart(2, "0")}</option>`).join("");
+
+      const selectedWeek = weeks.some((item) => item.week === previousWeek) ? previousWeek : (weeks[0] && weeks[0].week);
+      if (selectedWeek) planningWeekSelect.value = String(selectedWeek);
+
+      const chosen = weeks.find((item) => item.week === selectedWeek) || weeks[0];
+      const cutoffs = chosen?.cutoffs || [];
+      planningCutoffSelect.innerHTML = '<option value="">Alle Cutoffs</option>' + cutoffs.map((item) => `<option value="${item}">${item}</option>`).join("");
+      planningCutoffSelect.value = cutoffs.includes(previousCutoff) ? previousCutoff : "";
+    }
+
+    async function refreshPlanningCatalog() {
+      planningSummary.innerHTML = '<div class="hint">Planungsfunktion ist in dieser Version nicht verfügbar. Nutze den Chat, um Planungsfragen zu stellen.</div>';
+      planningMetaInfo.innerHTML = "";
+    }
+
+    async function analyzePlanning() {
+      addMessage("Planungsanalyse ist in dieser Version nicht als eigene Funktion verfügbar. Stelle deine Frage im Chat – die PS Bibel enthält alle relevanten Infos.", "system");
+    }
+
+    async function runDayFocusAnalysis() {
+      addMessage("Tagesfokus ist in dieser Version nicht als eigene Funktion verfügbar. Frag im Chat z.B. 'Was muss ich heute beachten?'", "system");
+    }
+
+    function renderLearningWeek() {
+      const info = learningPlan[activeWeek];
+      if (!info) return;
+      learnView.innerHTML = `
+        <h4>${escapeHtml(info.title)}</h4>
+        <ul>${info.focus.map((point) => `<li>${escapeHtml(point)}</li>`).join("")}</ul>
+      `;
+
+      learnWeekButtons.querySelectorAll(".week-btn").forEach((btn) => {
+        const week = Number(btn.getAttribute("data-week"));
+        btn.classList.toggle("active", week === activeWeek);
+      });
+    }
+
+    function initLearningWeeks() {
+      learnWeekButtons.innerHTML = "";
+      for (const week of Object.keys(learningPlan)) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "week-btn";
+        btn.setAttribute("data-week", week);
+        btn.textContent = `Woche ${week}`;
+        btn.addEventListener("click", () => {
+          activeWeek = Number(week);
+          renderLearningWeek();
+        });
+        learnWeekButtons.appendChild(btn);
+      }
+      renderLearningWeek();
+    }
+
+    function startQuiz() {
+      currentQuiz = quizPool[Math.floor(Math.random() * quizPool.length)];
+      quizQuestion.textContent = currentQuiz.q;
+      quizActions.innerHTML = "";
+      quizFeedback.textContent = "Wähle eine Antwort.";
+      quizBox.hidden = false;
+
+      currentQuiz.a.forEach((answer, index) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "btn-soft";
+        btn.textContent = answer;
+        btn.addEventListener("click", () => {
+          if (!currentQuiz) return;
+          if (index === currentQuiz.c) {
+            quizFeedback.textContent = "Richtig. Sehr stark.";
+            quizFeedback.style.color = "#9ef1ca";
+          } else {
+            quizFeedback.textContent = `Nicht ganz. Richtig ist: ${currentQuiz.a[currentQuiz.c]}`;
+            quizFeedback.style.color = "#ffb7c0";
+          }
+        });
+        quizActions.appendChild(btn);
+      });
+    }
+
+    async function checkHealth() {
+      try {
+        const res = await fetch(`${API_BASE}/api/health`);
+        if (!res.ok) throw new Error("offline");
+        const data = await res.json();
+        statusText.textContent = `Online | ${data.model} | ${data.knowledgeFiles} Dateien`;
+        statusDot.style.background = "#57d59d";
+      } catch {
+        statusText.textContent = "Offline";
+        statusDot.style.background = "#ff687f";
+      }
+    }
+
+    let chatSessionId = crypto.randomUUID();
+
+    async function askAssistant(message) {
+      const res = await fetch(`${API_BASE}/api/chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message, sessionId: chatSessionId }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || "Anfrage fehlgeschlagen");
+      }
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let fullText = "";
+      let msgNode = null;
+      let buffer = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop(); // keep incomplete last line in buffer
+        for (const line of lines) {
+          if (!line.startsWith("data: ")) continue;
+          try {
+            const payload = JSON.parse(line.slice(6));
+            if (payload.done) break;
+            if (payload.error) throw new Error(payload.error);
+            if (payload.text) {
+              fullText += payload.text;
+              if (!msgNode) {
+                msgNode = document.createElement("div");
+                msgNode.className = "msg ai";
+                chatLog.appendChild(msgNode);
+              }
+              msgNode.innerHTML = linkify(fullText);
+              chatLog.scrollTop = chatLog.scrollHeight;
+            }
+          } catch { /* incomplete JSON line, will be completed in next chunk */ }
+        }
+      }
+
+      return fullText.trim() || null;
+    }
+
+    async function refreshKnowledge() {
+      knowledgeList.innerHTML = "";
+      try {
+        const res = await fetch(`${API_BASE}/api/knowledge`);
+        const files = await res.json();
+        kpiKnowledge.textContent = `Wissen: ${files.length} Dateien`;
+
+        if (!files.length) {
+          knowledgeList.innerHTML = '<div class="hint">Noch keine Datei vorhanden.</div>';
+          return;
+        }
+
+        for (const file of files) {
+          const item = document.createElement("div");
+          item.className = "item";
+          item.innerHTML = `
+            <p class="item-title">${escapeHtml(file.title || file.file)}</p>
+            <span class="hint">${escapeHtml(file.file)} — ${Math.round((file.size / 1024) * 10) / 10} KB</span>
+            <div class="item-actions">
+              <button class="btn-soft" type="button" data-load="${escapeHtml(file.file)}">Laden</button>
+              <button class="btn-soft" type="button" data-ask="${escapeHtml(file.file)}">Fragen</button>
+              <button class="btn-warm" type="button" data-delete="${escapeHtml(file.file)}">Löschen</button>
+            </div>
+          `;
+          knowledgeList.appendChild(item);
+        }
+      } catch {
+        knowledgeList.innerHTML = '<div class="hint">Wissensliste konnte nicht geladen werden.</div>';
+      }
+    }
+
+    async function refreshLinks() {
+      // Links werden aus den Knowledge-Dateien extrahiert
+      linksContainer.innerHTML = "";
+      try {
+        const res = await fetch(`${API_BASE}/api/knowledge`);
+        const files = await res.json();
+        let count = 0;
+
+        // Extrahiere Links aus Bibel-Datei
+        for (const f of files) {
+          const detail = await fetch(`${API_BASE}/api/knowledge/${encodeURIComponent(f.file)}`);
+          const data = await detail.json();
+          const linkRegex = /\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g;
+          let m;
+          while ((m = linkRegex.exec(data.content)) !== null) {
+            count++;
+            const a = document.createElement("a");
+            a.className = "link";
+            a.href = m[2];
+            a.target = "_blank";
+            a.rel = "noopener";
+            a.innerHTML = `${escapeHtml(m[1])}<small>${escapeHtml(f.title || f.file)}</small>`;
+            linksContainer.appendChild(a);
+          }
+        }
+
+        lastLinkCount = count;
+        kpiLinks.textContent = `Links: ${count}`;
+        if (!count) linksContainer.innerHTML = '<div class="hint">Keine Links in Wissensdateien gefunden.</div>';
+      } catch {
+        linksContainer.innerHTML = '<div class="hint">Links konnten nicht geladen werden.</div>';
+      }
+    }
+
+    async function runGlobalSearch(query) {
+      const q = query.trim();
+      if (!q) {
+        searchResults.innerHTML = '<div class="hint">Bitte Suchbegriff eingeben.</div>';
+        return;
+      }
+
+      setActiveRightPanel("wissen");
+      searchResults.innerHTML = '<div class="hint">Suche läuft...</div>';
+
+      try {
+        const res = await fetch(`${API_BASE}/api/knowledge`);
+        const files = await res.json();
+        const blocks = [];
+        const qLower = q.toLowerCase();
+
+        for (const f of files) {
+          const detail = await fetch(`${API_BASE}/api/knowledge/${encodeURIComponent(f.file)}`);
+          const data = await detail.json();
+          const content = data.content || "";
+          const idx = content.toLowerCase().indexOf(qLower);
+          if (idx !== -1) {
+            const start = Math.max(0, idx - 80);
+            const end = Math.min(content.length, idx + q.length + 80);
+            const snippet = (start > 0 ? "..." : "") + content.slice(start, end) + (end < content.length ? "..." : "");
+            blocks.push(`
+              <div class="sr-block">
+                <strong>Wissen: ${escapeHtml(f.title || f.file)}</strong>
+                <p>${escapeHtml(snippet)}</p>
+              </div>
+            `);
+          }
+        }
+
+        if (!blocks.length) {
+          searchResults.innerHTML = '<div class="hint">Keine Treffer gefunden.</div>';
+          return;
+        }
+
+        searchResults.innerHTML = blocks.join("");
+      } catch {
+        searchResults.innerHTML = '<div class="hint">Suche fehlgeschlagen.</div>';
+      }
+    }
+
+    async function saveKnowledgeDocument() {
+      const filename = docNameInput.value.trim();
+      const content = docContentInput.value.trim();
+      if (!filename || !content) {
+        addMessage("Bitte Dateiname und Inhalt eintragen.", "system");
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/api/knowledge`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ filename, content }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Speichern fehlgeschlagen");
+        addMessage(`Wissen gespeichert: ${data.file || filename}`, "system");
+        await refreshKnowledge();
+      } catch (err) {
+        addMessage(`Fehler beim Speichern: ${err.message}`, "system");
+      }
+    }
+
+    async function uploadKnowledge(file) {
+      if (!file) {
+        addMessage("Keine Datei ausgewählt.", "system");
+        return;
+      }
+
+      try {
+        uploadBtn.disabled = true;
+        uploadBtn.textContent = "Import läuft...";
+
+        const text = await file.text();
+        const filename = file.name.replace(/\.[^.]+$/, ".md");
+
+        const res = await fetch(`${API_BASE}/api/knowledge`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ filename, content: text }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Upload fehlgeschlagen");
+
+        addMessage(`Wissen importiert: ${data.file || filename}`, "system");
+        await refreshKnowledge();
+      } catch (err) {
+        addMessage(`Upload-Fehler: ${err.message}`, "system");
+      } finally {
+        uploadBtn.disabled = false;
+        uploadBtn.textContent = "Datei importieren";
+      }
+    }
+
+    chatForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const message = questionInput.value.trim();
+      if (!message) return;
+
+      addMessage(message, "user");
+      questionInput.value = "";
+      sendBtn.disabled = true;
+
+      try {
+        await askAssistant(message);
+      } catch (err) {
+        addMessage(`Fehler: ${err.message}`, "system");
+      } finally {
+        sendBtn.disabled = false;
+        questionInput.focus();
+      }
+    });
+
+    questionInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        chatForm.dispatchEvent(new Event("submit"));
+      }
+    });
+
+    document.querySelectorAll(".pill[data-prompt]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        questionInput.value = btn.getAttribute("data-prompt") || "";
+        questionInput.focus();
+      });
+    });
+
+    todayLearnBtn.addEventListener("click", () => {
+      const day = new Date().getDay();
+      const mapped = ((day + 6) % 4) + 1;
+      activeWeek = mapped;
+      renderLearningWeek();
+      questionInput.value = `Erstelle mir für ${learningPlan[mapped].title} einen 20-Minuten-Lernslot mit 3 Übungen und passenden Links.`;
+      questionInput.focus();
+      addMessage(`Heute-Lernen aktiviert: ${learningPlan[mapped].title}`, "system");
+    });
+
+    quizStartBtn.addEventListener("click", startQuiz);
+    planningBrandSelect.addEventListener("change", () => {
+      dayFocusBrandSelect.value = planningBrandSelect.value;
+      refreshPlanningCatalog();
+    });
+    planningYearSelect.addEventListener("change", fillPlanningSelectors);
+    planningWeekSelect.addEventListener("change", fillPlanningSelectors);
+    planningAnalyzeBtn.addEventListener("click", analyzePlanning);
+    dayFocusBrandSelect.addEventListener("change", async () => {
+      planningBrandSelect.value = dayFocusBrandSelect.value;
+      await refreshPlanningCatalog();
+    });
+    dayFocusLineSpeedInput.addEventListener("input", () => {
+      planningLineSpeedInput.value = dayFocusLineSpeedInput.value;
+    });
+    planningLineSpeedInput.addEventListener("input", () => {
+      dayFocusLineSpeedInput.value = planningLineSpeedInput.value;
+    });
+    dayFocusAnalyzeBtn.addEventListener("click", runDayFocusAnalysis);
+    dayFocusCutoffRow.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+      const cutoff = target.getAttribute("data-cutoff");
+      if (!cutoff) return;
+      setActiveDayCutoff(cutoff);
+    });
+    rightSectionSwitch.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+      const panel = target.getAttribute("data-panel");
+      if (!panel) return;
+      setActiveRightPanel(panel);
+    });
+
+    tocSearchInput.addEventListener("input", () => {
+      renderToc(tocSearchInput.value);
+    });
+
+    globalSearchForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      await runGlobalSearch(globalSearchInput.value);
+    });
+
+    uploadBtn.addEventListener("click", async () => {
+      const file = uploadInput.files?.[0] || droppedFile;
+      await uploadKnowledge(file);
+      uploadInput.value = "";
+      droppedFile = null;
+      dropzone.classList.remove("dragging");
+      dropzone.textContent = "Datei hier hineinziehen (.md, .txt, .docx)";
+    });
+
+    ["dragenter", "dragover"].forEach((evt) => {
+      dropzone.addEventListener(evt, (event) => {
+        event.preventDefault();
+        dropzone.classList.add("dragging");
+      });
+    });
+
+    ["dragleave", "drop"].forEach((evt) => {
+      dropzone.addEventListener(evt, (event) => {
+        event.preventDefault();
+        if (evt === "drop") {
+          const file = event.dataTransfer?.files?.[0];
+          if (file) {
+            droppedFile = file;
+            dropzone.textContent = `Ausgewählt: ${file.name}`;
+          }
+        }
+        dropzone.classList.remove("dragging");
+      });
+    });
+
+    saveDocBtn.addEventListener("click", saveKnowledgeDocument);
+
+    clearDocBtn.addEventListener("click", () => {
+      docNameInput.value = "";
+      docContentInput.value = "";
+    });
+
+    knowledgeList.addEventListener("click", async (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+
+      const loadName = target.getAttribute("data-load");
+      const askName = target.getAttribute("data-ask");
+      const deleteName = target.getAttribute("data-delete");
+
+      if (loadName) {
+        const res = await fetch(`${API_BASE}/api/knowledge/${encodeURIComponent(loadName)}`);
+        const data = await res.json();
+        if (res.ok) {
+          docNameInput.value = data.file;
+          docContentInput.value = data.content;
+          addMessage(`Datei geladen: ${data.file}`, "system");
+        }
+      }
+
+      if (askName) {
+        questionInput.value = `Nutze ${askName} und gib mir eine klare deutsche Schritt-für-Schritt-Anleitung mit den wichtigsten Links.`;
+        questionInput.focus();
+      }
+
+      if (deleteName) {
+        const ok = window.confirm(`Datei wirklich löschen: ${deleteName}?`);
+        if (!ok) return;
+
+        const res = await fetch(`${API_BASE}/api/knowledge/${encodeURIComponent(deleteName)}`, {
+          method: "DELETE",
+        });
+
+        if (res.ok) {
+          addMessage(`Datei gelöscht: ${deleteName}`, "system");
+          await refreshKnowledge();
+        }
+      }
+    });
+
+    document.getElementById("refreshKnowledgeBtn").addEventListener("click", refreshKnowledge);
+
+    document.getElementById("refreshAllBtn").addEventListener("click", async () => {
+      await Promise.all([checkHealth(), refreshKnowledge(), refreshLinks(), refreshPlanningCatalog(), loadTocHeadings()]);
+      if (globalSearchInput.value.trim()) await runGlobalSearch(globalSearchInput.value);
+      addMessage(`Ansicht aktualisiert. ${lastLinkCount} Links verfügbar.`, "system");
+    });
+
+    document.getElementById("openAppBtn").addEventListener("click", () => {
+      window.open(`${API_BASE}/`, "_blank", "noopener");
+    });
+
+    updateTodayFocusDate();
+    setActiveDayCutoff(activeDayCutoff);
+    setActiveRightPanel(activeRightPanel);
+    loadTocHeadings();
+    dayFocusBrandSelect.value = planningBrandSelect.value;
+    dayFocusLineSpeedInput.value = planningLineSpeedInput.value;
+    initLearningWeeks();
+    Promise.all([checkHealth(), refreshKnowledge(), refreshLinks(), refreshPlanningCatalog()]);
+  </script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+# Dependencies
+node_modules/
+
+# Python
+.venv/
+__pycache__/
+
+# Environment
+.env
+
+# OS
+Thumbs.db
+Desktop.ini
+
+# IDE
+.idea/

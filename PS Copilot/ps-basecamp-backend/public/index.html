@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PS Copilot</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap");
+
+    :root {
+      --bg-a: #0a1424;
+      --bg-b: #132744;
+      --bg-c: #243f66;
+      --text: #eef5ff;
+      --muted: #adc0db;
+      --line: rgba(177, 214, 255, 0.22);
+      --glass: rgba(11, 25, 45, 0.66);
+      --card: rgba(6, 18, 34, 0.74);
+      --accent: #6ef2c2;
+      --accent-soft: rgba(110, 242, 194, 0.2);
+      --warm: #ffc16f;
+      --danger: #ff687f;
+      --ok: #57d59d;
+      --shadow: 0 24px 60px rgba(0, 0, 0, 0.46);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: "Manrope", sans-serif;
+      background:
+        radial-gradient(1200px 700px at -2% -8%, rgba(110, 242, 194, 0.24), transparent 43%),
+        radial-gradient(1200px 700px at 110% 4%, rgba(255, 193, 111, 0.17), transparent 46%),
+        radial-gradient(700px 400px at 60% 110%, rgba(133, 184, 255, 0.24), transparent 48%),
+        linear-gradient(140deg, var(--bg-a), var(--bg-b) 44%, var(--bg-c));
+      min-height: 100vh;
+      padding: 16px;
+    }
+
+    .app {
+      max-width: 1550px;
+      margin: 0 auto;
+      display: grid;
+      gap: 14px;
+      animation: fadeIn 420ms ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* === Kopfbereich (Header) === */
+    .top {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: linear-gradient(130deg, rgba(10, 24, 43, 0.9), rgba(20, 39, 69, 0.84));
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow);
+      padding: 14px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .brand { display: grid; gap: 4px; }
+    .brand h1 { margin: 0; font-family: "Space Grotesk", sans-serif; letter-spacing: 0.3px; font-size: 1.35rem; }
+    .brand p { margin: 0; color: var(--muted); font-size: 0.85rem; }
+
+    .status {
+      display: inline-flex; gap: 9px; align-items: center;
+      border: 1px solid var(--line); border-radius: 999px; padding: 8px 12px;
+      background: rgba(255, 255, 255, 0.03); font-size: 0.82rem; color: #d6ebff;
+    }
+
+    .status-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 7px rgba(87, 213, 157, 0.2); }
+
+    .quick-help {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 12px 14px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .quick-help strong {
+      font-family: "Space Grotesk", sans-serif;
+      color: var(--accent);
+    }
+
+    .row { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+    .kpi { display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--line); border-radius: 9px; padding: 7px 10px; font-size: 0.76rem; color: #d9ecff; background: rgba(255, 255, 255, 0.03); }
+
+    /* === Eingabefelder (Input Fields) === */
+    input, textarea, button { font-family: "Manrope", sans-serif; }
+    input[type="text"], input[type="file"], textarea {
+      border: 1px solid var(--line); border-radius: 11px; color: var(--text);
+      background: rgba(7, 20, 37, 0.64); padding: 10px 12px;
+    }
+    textarea { min-height: 110px; resize: vertical; line-height: 1.45; }
+
+    button {
+      border-radius: 11px; border: 1px solid transparent; cursor: pointer;
+      padding: 10px 14px; font-weight: 800; letter-spacing: 0.1px; transition: 140ms ease;
+    }
+    .btn-main { background: linear-gradient(135deg, var(--accent), #59ddb0); color: #03271c; }
+    .btn-main:hover { transform: translateY(-1px); }
+    .btn-soft { color: var(--text); border-color: var(--line); background: rgba(255, 255, 255, 0.05); }
+    .btn-warm { color: #332103; background: linear-gradient(135deg, var(--warm), #ffab46); }
+
+    /* === Hauptlayout (Main Layout) === */
+    .layout { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 14px; }
+
+    .pane {
+      border: 1px solid var(--line); border-radius: 16px; overflow: hidden;
+      background: var(--glass); box-shadow: var(--shadow); backdrop-filter: blur(14px);
+      min-height: 560px; display: flex; flex-direction: column;
+    }
+
+    .pane-head {
+      padding: 11px 12px; border-bottom: 1px solid var(--line);
+      display: flex; justify-content: space-between; align-items: center; gap: 10px;
+      color: var(--muted); font-size: 0.82rem; background: rgba(255, 255, 255, 0.02);
+    }
+
+    /* === Chat-Bereich (Chat Area) === */
+    .chat-tools {
+      display: flex; gap: 7px; flex-wrap: wrap; padding: 8px;
+      border-bottom: 1px solid var(--line); background: rgba(0, 0, 0, 0.16);
+    }
+
+    .pill {
+      border: 1px solid rgba(177, 214, 255, 0.35); background: rgba(177, 214, 255, 0.1);
+      color: #dbecff; border-radius: 999px; padding: 6px 10px; font-size: 0.75rem;
+      cursor: pointer; font-weight: 700; white-space: nowrap;
+    }
+
+    .chat-log {
+      flex: 1; overflow: auto; padding: 12px; display: grid; gap: 10px;
+      align-content: flex-start;
+      background: linear-gradient(180deg, rgba(10, 24, 41, 0.1), rgba(2, 10, 19, 0.24));
+    }
+
+    .msg {
+      max-width: 92%; border-radius: 12px; border: 1px solid var(--line);
+      padding: 10px 11px; line-height: 1.55; font-size: 0.91rem;
+      word-break: break-word;
+    }
+
+    .msg.user { margin-left: auto; border-color: rgba(255, 193, 111, 0.45); background: rgba(255, 193, 111, 0.15); }
+    .msg.ai { border-color: rgba(110, 242, 194, 0.4); background: rgba(110, 242, 194, 0.13); }
+    .msg.ai h1, .msg.ai h2, .msg.ai h3, .msg.ai h4 { margin: 10px 0 4px; font-family: "Space Grotesk", sans-serif; color: var(--accent); }
+    .msg.ai h2 { font-size: 1.05rem; border-bottom: 1px solid var(--line); padding-bottom: 4px; }
+    .msg.ai h3 { font-size: 0.95rem; }
+    .msg.ai h4 { font-size: 0.88rem; color: var(--warm); }
+    .msg.ai ul, .msg.ai ol { margin: 4px 0; padding-left: 20px; }
+    .msg.ai li { margin-bottom: 3px; }
+    .msg.ai p { margin: 6px 0; }
+    .msg.ai table { border-collapse: collapse; width: 100%; margin: 8px 0; font-size: 0.84rem; }
+    .msg.ai th, .msg.ai td { border: 1px solid var(--line); padding: 5px 8px; text-align: left; }
+    .msg.ai th { background: rgba(110, 242, 194, 0.1); font-weight: 700; }
+    .msg.ai code { background: rgba(255,255,255,0.08); padding: 1px 5px; border-radius: 4px; font-size: 0.84rem; }
+    .msg.ai pre { background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; overflow-x: auto; }
+    .msg.ai pre code { background: none; padding: 0; }
+    .msg.ai a { color: var(--warm); text-decoration: underline; }
+    .msg.ai strong { color: #fff; }
+
+    .msg.system {
+      max-width: 100%; margin: 0 auto; border: none; padding: 2px 4px;
+      color: var(--muted); font-size: 0.79rem; background: transparent;
+    }
+
+    .composer {
+      border-top: 1px solid var(--line); padding: 10px;
+      display: grid; gap: 8px; background: rgba(3, 12, 24, 0.34);
+    }
+
+    .hint { color: var(--muted); font-size: 0.75rem; }
+
+    /* === Rechte Seite (Sidebar) === */
+    .right-scroll {
+      overflow: auto; max-height: calc(100vh - 205px); padding: 11px;
+      display: grid; gap: 11px; align-content: start;
+    }
+
+
+
+    .card { border-radius: 12px; border: 1px solid var(--line); background: var(--card); padding: 10px; display: grid; gap: 8px; }
+    .card h3 { margin: 0; font-size: 0.95rem; font-family: "Space Grotesk", sans-serif; letter-spacing: 0.2px; }
+
+    /* === Wissensbaum (Knowledge Tree) === */
+    .tree { display: grid; gap: 2px; }
+
+    .tree-node { display: grid; gap: 0; }
+
+    .tree-branch {
+      text-align: left; width: 100%; border: 1px solid transparent; border-radius: 8px;
+      background: transparent; color: var(--text); padding: 7px 10px; font-size: 0.82rem;
+      cursor: pointer; transition: 120ms ease; display: flex; align-items: center; gap: 6px;
+    }
+    .tree-branch:hover { background: rgba(110, 242, 194, 0.1); border-color: rgba(110, 242, 194, 0.3); }
+
+    .tree-branch.root {
+      font-weight: 800; font-size: 0.86rem; color: var(--accent);
+      border: 1px solid var(--line); background: rgba(110, 242, 194, 0.06);
+      border-radius: 10px; padding: 9px 10px; margin-bottom: 2px;
+    }
+    .tree-branch.root:hover { background: rgba(110, 242, 194, 0.14); border-color: rgba(110, 242, 194, 0.5); }
+
+    .tree-branch .arrow { transition: transform 200ms ease; font-size: 0.65rem; flex-shrink: 0; }
+    .tree-branch.open .arrow { transform: rotate(90deg); }
+
+    .tree-branch .badge { margin-left: auto; font-size: 0.69rem; font-weight: 500; color: var(--muted); }
+
+    .tree-children { display: none; padding-left: 14px; }
+    .tree-children.open { display: grid; gap: 1px; }
+
+    .tree-leaf {
+      text-align: left; width: 100%; border: 1px solid transparent; border-radius: 7px;
+      background: transparent; color: var(--text); padding: 5px 10px; font-size: 0.8rem;
+      cursor: pointer; transition: 120ms ease; display: flex; align-items: center; gap: 5px;
+    }
+    .tree-leaf:hover { background: rgba(255, 193, 111, 0.12); border-color: rgba(255, 193, 111, 0.35); }
+    .tree-leaf .leaf-read {
+      margin-left: auto; flex-shrink: 0; font-size: 0.68rem; color: var(--accent); opacity: 0.5;
+      cursor: pointer; padding: 2px 5px; border-radius: 5px; transition: 120ms ease;
+    }
+    .tree-leaf:hover .leaf-read { opacity: 1; }
+    .tree-leaf .leaf-read:hover { background: rgba(110, 242, 194, 0.2); opacity: 1; }
+    .tree-leaf.h3 { padding-left: 22px; font-size: 0.76rem; color: var(--muted); font-weight: 500; }
+    .tree-leaf.h2 { font-weight: 700; }
+
+    .tree-search { display: grid; gap: 8px; }
+    .tree-scroll { max-height: 500px; overflow: auto; }
+
+
+
+    /* === Wissensverwaltung (Knowledge Management) === */
+    .dropzone {
+      border: 1.6px dashed rgba(177, 214, 255, 0.42); border-radius: 11px; padding: 11px;
+      text-align: center; color: var(--muted); background: rgba(133, 184, 255, 0.1); transition: 140ms ease;
+    }
+    .dropzone.dragging { border-color: rgba(110, 242, 194, 0.8); background: rgba(110, 242, 194, 0.2); color: #defff3; }
+
+    .list { display: grid; gap: 7px; max-height: 230px; overflow: auto; }
+    .item { border: 1px solid var(--line); border-radius: 10px; padding: 8px; background: rgba(255, 255, 255, 0.03); display: grid; gap: 5px; }
+    .item-title { margin: 0; font-size: 0.86rem; font-weight: 800; }
+    .item-actions { display: flex; gap: 5px; flex-wrap: wrap; }
+
+
+
+    /* === Leseansicht (Reader View) === */
+    .reader-pane { display: none; }
+    .reader-pane.active { display: flex; flex-direction: column; }
+    .reader-pane.active + .chat-pane { display: none; }
+
+    .reader-head {
+      padding: 11px 12px; border-bottom: 1px solid var(--line);
+      display: flex; justify-content: space-between; align-items: center; gap: 10px;
+      color: var(--muted); font-size: 0.82rem; background: rgba(255, 255, 255, 0.02);
+    }
+    .reader-head .reader-title { color: var(--accent); font-weight: 800; font-family: "Space Grotesk", sans-serif; font-size: 0.95rem; }
+
+    .reader-body {
+      flex: 1; overflow: auto; padding: 16px 18px;
+      background: linear-gradient(180deg, rgba(10, 24, 41, 0.1), rgba(2, 10, 19, 0.24));
+      line-height: 1.65; font-size: 0.91rem;
+    }
+    .reader-body h1, .reader-body h2, .reader-body h3, .reader-body h4 { margin: 16px 0 6px; font-family: "Space Grotesk", sans-serif; color: var(--accent); }
+    .reader-body h1 { font-size: 1.2rem; border-bottom: 2px solid var(--line); padding-bottom: 6px; }
+    .reader-body h2 { font-size: 1.05rem; border-bottom: 1px solid var(--line); padding-bottom: 4px; }
+    .reader-body h3 { font-size: 0.95rem; }
+    .reader-body h4 { font-size: 0.88rem; color: var(--warm); }
+    .reader-body ul, .reader-body ol { margin: 4px 0; padding-left: 22px; }
+    .reader-body li { margin-bottom: 4px; }
+    .reader-body p { margin: 8px 0; }
+    .reader-body table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 0.84rem; }
+    .reader-body th, .reader-body td { border: 1px solid var(--line); padding: 6px 9px; text-align: left; }
+    .reader-body th { background: rgba(110, 242, 194, 0.1); font-weight: 700; }
+    .reader-body code { background: rgba(255,255,255,0.08); padding: 1px 5px; border-radius: 4px; font-size: 0.84rem; }
+    .reader-body pre { background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; overflow-x: auto; }
+    .reader-body pre code { background: none; padding: 0; }
+    .reader-body a { color: var(--warm); text-decoration: underline; }
+    .reader-body strong { color: #fff; }
+    .reader-body hr { border: none; border-top: 1px solid var(--line); margin: 14px 0; }
+
+    .btn-read {
+      color: var(--text); border: 1px solid rgba(110, 242, 194, 0.4); background: rgba(110, 242, 194, 0.1);
+      border-radius: 11px; padding: 5px 10px; font-size: 0.72rem; font-weight: 800; cursor: pointer; transition: 140ms ease;
+    }
+    .btn-read:hover { background: rgba(110, 242, 194, 0.22); }
+
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <!-- Kopfbereich (Header) -->
+    <section class="top">
+      <div class="top-row">
+        <div class="brand">
+          <h1>PS Copilot</h1>
+          <p>Dein KI-Assistent (AI Assistant) für Problem Solve — HelloFresh &amp; Factor</p>
+        </div>
+        <div class="status">
+          <span class="status-dot" id="statusDot"></span>
+          <span id="statusText">Verbindung wird geprüft (Checking)...</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="kpi" id="kpiKnowledge">Wissensdateien (Knowledge Files): 0</div>
+        <div class="kpi" id="kpiRuns">Platform Runs: 0</div>
+        <div class="kpi">Zugang (Access): http://localhost:3020</div>
+        <button class="btn-soft" type="button" id="refreshAllBtn" style="margin-left:auto;">Aktualisieren (Refresh)</button>
+      </div>
+
+      <div class="quick-help">
+        <strong>Schnellhilfe</strong>
+        <div><strong>1. Start:</strong> Nutze zuerst einen Schnellbutton wie Tagesstart oder So funktioniert's, wenn Du noch keinen klaren Einstieg hast.</div>
+        <div><strong>2. Chat oder Lesen:</strong> Links kannst Du frei fragen, rechts im Wissensbaum ein Thema an die KI schicken oder mit dem Lesesymbol direkt öffnen.</div>
+        <div><strong>3. Wissen pflegen:</strong> Neue Markdown- oder Textdateien rechts importieren oder direkt im Bereich Wissen schreiben anlegen.</div>
+        <div><strong>4. Wenn etwas fehlt:</strong> Erst auf Aktualisieren klicken und dann prüfen, ob der lokale Server unter http://localhost:3020 läuft.</div>
+      </div>
+    </section>
+
+    <!-- Hauptlayout (Main Layout) -->
+    <section class="layout">
+
+      <!-- Linke Seite: Leseansicht + Chat -->
+      <section class="pane">
+
+        <!-- Leseansicht (Reader View) -->
+        <div id="readerPane" class="reader-pane">
+          <div class="reader-head">
+            <span><span class="reader-title" id="readerTitle">Dokument</span></span>
+            <button id="readerCloseBtn" class="btn-soft" type="button" style="padding:5px 12px;font-size:0.76rem;">&#10005; Schließen — zurück zum Chat</button>
+          </div>
+          <div id="readerBody" class="reader-body"></div>
+        </div>
+
+        <!-- Chat -->
+        <div id="chatPane" class="chat-pane">
+        <div class="pane-head">
+          <span>KI-Chat (AI Chat)</span>
+          <span style="display:flex;gap:8px;align-items:center;">
+            <button id="newChatBtn" class="btn-soft" type="button" style="padding:5px 10px;font-size:0.74rem;">Neuer Chat (New Chat)</button>
+            <span>Enter = Senden | Shift+Enter = Neue Zeile</span>
+          </span>
+        </div>
+
+        <div class="chat-tools">
+          <button class="pill" data-prompt="Erstelle mir einen perfekten Tagesstart für Problem Solve mit Prioritäten und Reihenfolge.">Tagesstart</button>
+          <button class="pill" data-prompt="Was sind die wichtigsten Schritte beim Tageswechsel (Day Change)?">Tageswechsel</button>
+          <button class="pill" data-prompt="Erkläre mir den SKU-Call Ablauf Schritt für Schritt.">SKU-Call</button>
+          <button class="pill" data-prompt="Was muss ich beim Wochenwechsel (Week Change) beachten?">Wochenwechsel</button>
+          <button class="pill" data-prompt="So funktioniert's (How it works): Gib mir eine Übersicht über alle Hauptfunktionen.">So funktioniert's</button>
+        </div>
+
+        <div id="chatLog" class="chat-log">
+          <div class="msg system">Willkommen bei PS Copilot. Stelle eine Frage oder wähle rechts ein Thema aus dem Wissensbaum (Knowledge Tree).</div>
+        </div>
+
+        <form id="chatForm" class="composer">
+          <textarea id="questionInput" placeholder="Deine Frage an die KI (AI)... z.B. 'Wie läuft der 100% Check ab?'" required></textarea>
+          <div class="row">
+            <span class="hint">Tipp: Klicke im Wissensbaum auf ein Thema = KI fragen | 📖 Icon = direkt lesen.</span>
+            <button id="sendBtn" class="btn-main" type="submit">Absenden (Send)</button>
+          </div>
+        </form>
+        </div><!-- /chatPane -->
+      </section>
+
+      <!-- Rechte Seite: Wissensbaum & Verwaltung (Sidebar) -->
+      <aside class="pane">
+        <div class="pane-head">
+          <span>Wissensbaum &amp; Verwaltung</span>
+        </div>
+
+        <div class="right-scroll">
+          <!-- Wissensbaum (Knowledge Tree) -->
+          <article class="card" id="treeCard">
+            <h3>Wissensbaum (Knowledge Tree)</h3>
+            <div class="hint">Alle Themen aus deinen Wissensdateien. Klick = KI fragen | 📖 = Direkt lesen.</div>
+            <div class="tree-search">
+              <input id="treeSearchInput" type="text" placeholder="Thema suchen (Search Topic): z.B. Jupiter, Waage, FCMS..." />
+              <div id="treeContainer" class="tree-scroll"></div>
+            </div>
+          </article>
+
+          <article class="card" id="opsBoard">
+            <div class="row">
+              <h3>Unified Ops Board</h3>
+              <button id="refreshOpsBtn" class="btn-soft" type="button">Runs laden</button>
+            </div>
+            <div class="hint">Zentrale Sicht auf Incident, PDL, Waagen und Hub-Läufe.</div>
+            <div id="opsSummary" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;"></div>
+            <div id="opsRecentRuns" class="list"></div>
+          </article>
+
+          <!-- Wissensverwaltung (Knowledge Management) -->
+          <div style="display:grid;gap:10px;align-content:start;">
+            <article class="card" id="tocUpload">
+              <h3>Datei importieren (Import File)</h3>
+              <div id="dropzone" class="dropzone">Datei hierher ziehen (Drag &amp; Drop) — .md, .txt</div>
+              <input id="uploadInput" type="file" accept=".md,.txt" />
+              <button id="uploadBtn" class="btn-main" type="button">Importieren (Import)</button>
+            </article>
+
+            <article class="card" id="tocWrite">
+              <h3>Wissen direkt schreiben (Write Knowledge)</h3>
+              <input id="docNameInput" type="text" placeholder="Dateiname (Filename), z.B. mein-guide.md" />
+              <textarea id="docContentInput" placeholder="# Titel&#10;&#10;Inhalt hier eingeben..."></textarea>
+              <div class="row">
+                <button id="saveDocBtn" class="btn-main" type="button">Speichern (Save)</button>
+                <button id="clearDocBtn" class="btn-soft" type="button">Leeren (Clear)</button>
+              </div>
+            </article>
+
+            <article class="card" id="tocKnowledgeFiles">
+              <div class="row">
+                <h3>Wissensdateien (Knowledge Files)</h3>
+                <button id="refreshKnowledgeBtn" class="btn-soft" type="button">Neu laden (Reload)</button>
+              </div>
+              <div id="knowledgeList" class="list"></div>
+            </article>
+          </div>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <script>
+    const API_BASE = window.location.origin || "http://localhost:3020";
+
+    // === DOM-Elemente (Elements) ===
+    const statusText = document.getElementById("statusText");
+    const statusDot = document.getElementById("statusDot");
+    const chatLog = document.getElementById("chatLog");
+    const chatForm = document.getElementById("chatForm");
+    const sendBtn = document.getElementById("sendBtn");
+    const questionInput = document.getElementById("questionInput");
+    const uploadInput = document.getElementById("uploadInput");
+    const uploadBtn = document.getElementById("uploadBtn");
+    const dropzone = document.getElementById("dropzone");
+    const docNameInput = document.getElementById("docNameInput");
+    const docContentInput = document.getElementById("docContentInput");
+    const saveDocBtn = document.getElementById("saveDocBtn");
+    const clearDocBtn = document.getElementById("clearDocBtn");
+    const knowledgeList = document.getElementById("knowledgeList");
+    const treeSearchInput = document.getElementById("treeSearchInput");
+    const treeContainer = document.getElementById("treeContainer");
+    const kpiKnowledge = document.getElementById("kpiKnowledge");
+    const kpiRuns = document.getElementById("kpiRuns");
+    const readerPane = document.getElementById("readerPane");
+    const readerTitle = document.getElementById("readerTitle");
+    const readerBody = document.getElementById("readerBody");
+    const chatPane = document.getElementById("chatPane");
+    const opsSummary = document.getElementById("opsSummary");
+    const opsRecentRuns = document.getElementById("opsRecentRuns");
+
+    let droppedFile = null;
+    let tocData = [];
+
+    // === Hilfsfunktionen (Helpers) ===
+    function escapeHtml(str) {
+      return String(str).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#39;");
+    }
+
+    // Einfacher Markdown-zu-HTML Renderer (Simple Markdown Renderer)
+    function renderMarkdown(raw) {
+      let html = escapeHtml(raw);
+
+      // Code-Blöcke zuerst extrahieren (Extract code blocks first)
+      const codeBlocks = [];
+      html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) => {
+        codeBlocks.push(`<pre><code>${code}</code></pre>`);
+        return `%%CODEBLOCK_${codeBlocks.length - 1}%%`;
+      });
+      html = html.replace(/`([^`]+)`/g, (_, code) => {
+        codeBlocks.push(`<code>${code}</code>`);
+        return `%%CODEBLOCK_${codeBlocks.length - 1}%%`;
+      });
+
+      // Überschriften (Headings)
+      html = html.replace(/^#### (.+)$/gm, "<h4>$1</h4>");
+      html = html.replace(/^### (.+)$/gm, "<h3>$1</h3>");
+      html = html.replace(/^## (.+)$/gm, "<h2>$1</h2>");
+      html = html.replace(/^# (.+)$/gm, "<h1>$1</h1>");
+
+      // Fett & Kursiv (Bold & Italic)
+      html = html.replace(/\*\*\*(.+?)\*\*\*/g, "<strong><em>$1</em></strong>");
+      html = html.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+      html = html.replace(/\*(.+?)\*/g, "<em>$1</em>");
+
+      // Links
+      html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+
+      // Einfache URLs (Plain URLs)
+      html = html.replace(/(?<!="|href=")(https?:\/\/[^\s<"]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+
+      // Listen (Lists)
+      html = html.replace(/^[\-\*] (.+)$/gm, "<li>$1</li>");
+      html = html.replace(/(<li>.*<\/li>\n?)+/g, (m) => "<ul>" + m + "</ul>");
+      html = html.replace(/^\d+\. (.+)$/gm, "<li>$1</li>");
+
+      // Tabellen (Tables)
+      const lines = html.split("\n");
+      let inTable = false;
+      let isHeader = true;
+      const out = [];
+      for (const line of lines) {
+        if (line.match(/^\|.+\|$/)) {
+          if (line.match(/^\|[\s\-:|]+\|$/)) continue;
+          if (!inTable) { out.push("<table>"); inTable = true; isHeader = true; }
+          const cells = line.split("|").filter(c => c.trim() !== "").map(c => c.trim());
+          const tag = isHeader ? "th" : "td";
+          out.push("<tr>" + cells.map(c => `<${tag}>${c}</${tag}>`).join("") + "</tr>");
+          isHeader = false;
+        } else {
+          if (inTable) { out.push("</table>"); inTable = false; }
+          out.push(line);
+        }
+      }
+      if (inTable) out.push("</table>");
+      html = out.join("\n");
+
+      // Absätze (Paragraphs)
+      html = html.replace(/\n{2,}/g, "</p><p>");
+      html = html.replace(/\n/g, "<br>");
+      html = "<p>" + html + "</p>";
+
+      // Leere Absätze entfernen (Clean empty paragraphs)
+      html = html.replace(/<p>\s*<\/p>/g, "");
+      html = html.replace(/<p>(<h[1-4]>)/g, "$1");
+      html = html.replace(/(<\/h[1-4]>)<\/p>/g, "$1");
+      html = html.replace(/<p>(<ul>)/g, "$1");
+      html = html.replace(/(<\/ul>)<\/p>/g, "$1");
+      html = html.replace(/<p>(<table>)/g, "$1");
+      html = html.replace(/(<\/table>)<\/p>/g, "$1");
+      html = html.replace(/<p>(<pre>)/g, "$1");
+      html = html.replace(/(<\/pre>)<\/p>/g, "$1");
+
+      // Code-Blöcke wiederherstellen (Restore code blocks)
+      html = html.replace(/%%CODEBLOCK_(\d+)%%/g, (_, i) => codeBlocks[parseInt(i)]);
+
+      return html;
+    }
+
+    function addMessage(text, type = "ai") {
+      const node = document.createElement("div");
+      node.className = `msg ${type}`;
+      if (type === "ai") node.innerHTML = renderMarkdown(text);
+      else node.textContent = text;
+      chatLog.appendChild(node);
+      chatLog.scrollTop = chatLog.scrollHeight;
+    }
+
+    // === Leseansicht (Reader View) ===
+    async function openReader(filename, scrollToHeading) {
+      readerBody.innerHTML = '<div class="hint">Lade Dokument (Loading)...</div>';
+      readerTitle.textContent = filename;
+      readerPane.classList.add("active");
+
+      try {
+        const res = await fetch(`${API_BASE}/api/knowledge/${encodeURIComponent(filename)}`);
+        if (!res.ok) throw new Error("Datei nicht gefunden");
+        const data = await res.json();
+        readerTitle.textContent = data.title || data.file || filename;
+        readerBody.innerHTML = renderMarkdown(data.content || "");
+
+        if (scrollToHeading) {
+          const target = scrollToHeading.trim().toLowerCase();
+          const headings = readerBody.querySelectorAll("h1, h2, h3, h4");
+          for (const h of headings) {
+            if (h.textContent.trim().toLowerCase() === target) {
+              setTimeout(() => h.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
+              h.style.background = "rgba(110, 242, 194, 0.2)";
+              h.style.borderRadius = "6px";
+              h.style.padding = "2px 6px";
+              setTimeout(() => { h.style.background = ""; h.style.padding = ""; }, 3000);
+              break;
+            }
+          }
+        }
+      } catch (err) {
+        readerBody.innerHTML = `<div class="hint">Fehler: ${escapeHtml(err.message)}</div>`;
+      }
+    }
+
+    function closeReader() {
+      readerPane.classList.remove("active");
+    }
+
+    // === Wissensbaum (Knowledge Tree) ===
+    async function loadTree() {
+      try {
+        const res = await fetch(`${API_BASE}/api/knowledge/headings`);
+        tocData = await res.json();
+        renderTree(treeSearchInput.value);
+      } catch {
+        treeContainer.innerHTML = '<div class="hint">Wissensbaum konnte nicht geladen werden (Loading failed).</div>';
+      }
+    }
+
+    function renderTree(query) {
+      const q = String(query || "").trim().toLowerCase();
+
+      const filtered = tocData
+        .map((doc) => {
+          const headings = doc.headings.filter((h) => h.level >= 2);
+          if (!q) return { ...doc, headings };
+          const matchH = headings.filter((h) => h.text.toLowerCase().includes(q));
+          const matchDoc = doc.title.toLowerCase().includes(q) || doc.file.toLowerCase().includes(q);
+          if (matchDoc) return { ...doc, headings };
+          if (matchH.length) return { ...doc, headings: matchH };
+          return null;
+        })
+        .filter(Boolean);
+
+      if (!filtered.length) {
+        treeContainer.innerHTML = '<div class="hint">Keine Themen gefunden (No topics found).</div>';
+        return;
+      }
+
+      // Sortierung: PS Bibel zuerst
+      filtered.sort((a, b) => {
+        if (a.file === "ps-bibel.md") return -1;
+        if (b.file === "ps-bibel.md") return 1;
+        return a.title.localeCompare(b.title, "de-DE");
+      });
+
+      let html = '<div class="tree">';
+      for (const doc of filtered) {
+        const isOpen = !!q || doc.file === "ps-bibel.md";
+        html += '<div class="tree-node">';
+        html += `<button class="tree-branch root ${isOpen ? "open" : ""}" type="button" data-tree-file="${escapeHtml(doc.file)}">`;
+        html += '<span class="arrow">&#9654;</span>';
+        html += `${escapeHtml(doc.title)}`;
+        html += `<span class="badge">${doc.headings.length} Themen</span>`;
+        html += '</button>';
+        html += `<button class="btn-read" type="button" data-read-file="${escapeHtml(doc.file)}" style="margin:2px 0 4px 28px;">&#128214; Ganzes Dokument lesen</button>`;
+        html += `<div class="tree-children ${isOpen ? "open" : ""}">`;
+        for (const h of doc.headings) {
+          const cls = h.level === 3 ? "h3" : "h2";
+          const prefix = h.level === 3 ? "&#9492; " : "&#9656; ";
+          html += `<button class="tree-leaf ${cls}" type="button" data-ask="${escapeHtml(h.text)}" data-file="${escapeHtml(doc.file)}">`;
+          html += `${prefix}${escapeHtml(h.text)}`;
+          html += `<span class="leaf-read" data-leaf-read="${escapeHtml(doc.file)}" data-leaf-heading="${escapeHtml(h.text)}" title="Direkt lesen">&#128214;</span>`;
+          html += '</button>';
+        }
+        html += '</div></div>';
+      }
+      html += '</div>';
+      treeContainer.innerHTML = html;
+
+      // Aufklapp-Logik (Expand/Collapse)
+      treeContainer.querySelectorAll(".tree-branch").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          btn.classList.toggle("open");
+          const sib = btn.nextElementSibling;
+          // Skip the "Lesen" button to find tree-children
+          let children = sib;
+          while (children && !children.classList.contains("tree-children")) children = children.nextElementSibling;
+          if (children) children.classList.toggle("open");
+        });
+      });
+
+      // Ganzes Dokument lesen
+      treeContainer.querySelectorAll("[data-read-file]").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          openReader(btn.getAttribute("data-read-file"));
+        });
+      });
+
+      // Thema anklicken = KI fragen / Buch-Icon = Lesen
+      treeContainer.querySelectorAll(".tree-leaf").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          // Wenn auf das Lesen-Icon geklickt wurde, Reader öffnen
+          if (e.target.closest(".leaf-read")) return;
+          const topic = btn.getAttribute("data-ask") || "";
+          const file = btn.getAttribute("data-file") || "";
+          questionInput.value = `Erkläre mir das Thema "${topic}" aus ${file}. Gliedere die Antwort mit Überschriften (Headings) und gib mir alle wichtigen Schritte und Details.`;
+          questionInput.focus();
+          closeReader();
+          btn.style.background = "rgba(110, 242, 194, 0.18)";
+          setTimeout(() => { btn.style.background = ""; }, 600);
+        });
+      });
+
+      // Lesen-Icon im Leaf
+      treeContainer.querySelectorAll(".leaf-read").forEach((icon) => {
+        icon.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const file = icon.getAttribute("data-leaf-read") || "";
+          const heading = icon.getAttribute("data-leaf-heading") || "";
+          openReader(file, heading);
+        });
+      });
+    }
+
+    // === Neuer Chat (New Chat) ===
+    function startNewChat() {
+      chatSessionId = crypto.randomUUID();
+      chatLog.innerHTML = '<div class="msg system">Neuer Chat gestartet. Stelle eine Frage oder wähle ein Thema aus dem Wissensbaum.</div>';
+      // Serverseitige Session löschen
+      fetch(`${API_BASE}/api/session/${chatSessionId}`, { method: "DELETE" }).catch(() => {});
+    }
+
+    // === Serverprüfung (Health Check) ===
+    async function checkHealth() {
+      try {
+        const res = await fetch(`${API_BASE}/api/health`);
+        if (!res.ok) throw new Error("offline");
+        const data = await res.json();
+        statusText.textContent = `Verbunden (Online) | ${data.model} | ${data.knowledgeFiles} Dateien`;
+        statusDot.style.background = "#57d59d";
+      } catch {
+        statusText.textContent = "Nicht erreichbar (Offline)";
+        statusDot.style.background = "#ff687f";
+      }
+    }
+
+    async function loadOpsSummary() {
+      try {
+        const res = await fetch(`${API_BASE}/api/v1/ops/summary`);
+        if (!res.ok) throw new Error("Ops Summary nicht erreichbar");
+        const data = await res.json();
+        kpiRuns.textContent = `Platform Runs: ${data.totalRuns || 0}`;
+        opsSummary.innerHTML = `
+          <div class="item"><p class="item-title">Erfolgreich</p><span>${data.successRuns || 0}</span></div>
+          <div class="item"><p class="item-title">Warnungen</p><span>${data.warningRuns || 0}</span></div>
+          <div class="item"><p class="item-title">Fehlgeschlagen</p><span>${data.failedRuns || 0}</span></div>
+          <div class="item"><p class="item-title">Gesamt</p><span>${data.totalRuns || 0}</span></div>
+        `;
+
+        const runs = Array.isArray(data.recentRuns) ? data.recentRuns : [];
+        if (!runs.length) {
+          opsRecentRuns.innerHTML = '<div class="hint">Noch keine zentralen Runs vorhanden.</div>';
+          return;
+        }
+
+        opsRecentRuns.innerHTML = runs.map((run) => {
+          const metrics = run.metrics || {};
+          const metricText = Object.entries(metrics).slice(0, 3).map(([key, value]) => `${key}: ${value}`).join(" | ");
+          return `
+            <div class="item">
+              <p class="item-title">${escapeHtml(run.tool)} · ${escapeHtml(run.status)}</p>
+              <span class="hint">${escapeHtml(run.startedAt || "")}</span>
+              <span class="hint">${escapeHtml(metricText || "keine Metriken")}</span>
+              <span class="hint">Artefakte: ${(run.artifacts || []).length}</span>
+            </div>
+          `;
+        }).join("");
+      } catch (err) {
+        opsRecentRuns.innerHTML = `<div class="hint">Ops Board Fehler: ${escapeHtml(err.message)}</div>`;
+      }
+    }
+
+    // === KI-Chat mit Streaming (AI Chat with Streaming) ===
+    let chatSessionId = crypto.randomUUID();
+
+    async function askAssistant(message) {
+      const res = await fetch(`${API_BASE}/api/chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message, sessionId: chatSessionId }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || "Anfrage fehlgeschlagen (Request failed)");
+      }
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let fullText = "";
+      let msgNode = null;
+      let buffer = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop();
+        for (const line of lines) {
+          if (!line.startsWith("data: ")) continue;
+          try {
+            const payload = JSON.parse(line.slice(6));
+            if (payload.done) break;
+            if (payload.error) throw new Error(payload.error);
+            if (payload.text) {
+              fullText += payload.text;
+              if (!msgNode) {
+                msgNode = document.createElement("div");
+                msgNode.className = "msg ai";
+                chatLog.appendChild(msgNode);
+              }
+              msgNode.innerHTML = renderMarkdown(fullText);
+              chatLog.scrollTop = chatLog.scrollHeight;
+            }
+          } catch { /* Unvollständige Zeile */ }
+        }
+      }
+
+      return fullText.trim() || null;
+    }
+
+    // === Wissensverwaltung (Knowledge Management) ===
+    async function refreshKnowledge() {
+      knowledgeList.innerHTML = "";
+      try {
+        const res = await fetch(`${API_BASE}/api/knowledge`);
+        const files = await res.json();
+        kpiKnowledge.textContent = `Wissensdateien (Knowledge Files): ${files.length}`;
+
+        if (!files.length) {
+          knowledgeList.innerHTML = '<div class="hint">Noch keine Dateien vorhanden (No files yet).</div>';
+          return;
+        }
+
+        for (const file of files) {
+          const item = document.createElement("div");
+          item.className = "item";
+          item.innerHTML = `
+            <p class="item-title">${escapeHtml(file.title || file.file)}</p>
+            <span class="hint">${escapeHtml(file.file)} — ${Math.round((file.size / 1024) * 10) / 10} KB</span>
+            <div class="item-actions">
+              <button class="btn-read" type="button" data-read="${escapeHtml(file.file)}">&#128214; Lesen</button>
+              <button class="btn-soft" type="button" data-load="${escapeHtml(file.file)}">Laden (Load)</button>
+              <button class="btn-soft" type="button" data-ask="${escapeHtml(file.file)}">Im Chat fragen</button>
+              <button class="btn-warm" type="button" data-delete="${escapeHtml(file.file)}">Löschen (Delete)</button>
+            </div>
+          `;
+          knowledgeList.appendChild(item);
+        }
+      } catch {
+        knowledgeList.innerHTML = '<div class="hint">Fehler beim Laden (Loading error).</div>';
+      }
+    }
+
+    async function saveKnowledgeDocument() {
+      const filename = docNameInput.value.trim();
+      const content = docContentInput.value.trim();
+      if (!filename || !content) {
+        addMessage("Bitte Dateiname und Inhalt eingeben.", "system");
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/api/knowledge`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ filename, content }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Speichern fehlgeschlagen");
+        addMessage(`Wissen gespeichert: ${data.file || filename}`, "system");
+        docNameInput.value = "";
+        docContentInput.value = "";
+        await refreshKnowledge();
+        await loadTree();
+      } catch (err) {
+        addMessage(`Fehler: ${err.message}`, "system");
+      }
+    }
+
+    async function uploadKnowledge(file) {
+      if (!file) {
+        addMessage("Keine Datei ausgewählt (No file selected).", "system");
+        return;
+      }
+
+      try {
+        uploadBtn.disabled = true;
+        uploadBtn.textContent = "Import läuft (Importing)...";
+        const text = await file.text();
+        const filename = file.name.replace(/\.[^.]+$/, ".md");
+
+        const res = await fetch(`${API_BASE}/api/knowledge`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ filename, content: text }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Import fehlgeschlagen");
+        addMessage(`Wissen importiert: ${data.file || filename}`, "system");
+        await refreshKnowledge();
+        await loadTree();
+      } catch (err) {
+        addMessage(`Import-Fehler: ${err.message}`, "system");
+      } finally {
+        uploadBtn.disabled = false;
+        uploadBtn.textContent = "Importieren (Import)";
+      }
+    }
+
+    // === Ereignisse (Event Listeners) ===
+    chatForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const message = questionInput.value.trim();
+      if (!message) return;
+      addMessage(message, "user");
+      questionInput.value = "";
+      sendBtn.disabled = true;
+      try {
+        await askAssistant(message);
+      } catch (err) {
+        addMessage(`Fehler: ${err.message}`, "system");
+      } finally {
+        sendBtn.disabled = false;
+        questionInput.focus();
+      }
+    });
+
+    questionInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        chatForm.dispatchEvent(new Event("submit"));
+      }
+    });
+
+    document.querySelectorAll(".pill[data-prompt]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        questionInput.value = btn.getAttribute("data-prompt") || "";
+        questionInput.focus();
+      });
+    });
+
+    document.getElementById("newChatBtn").addEventListener("click", startNewChat);
+    document.getElementById("readerCloseBtn").addEventListener("click", closeReader);
+
+    treeSearchInput.addEventListener("input", () => renderTree(treeSearchInput.value));
+
+    uploadBtn.addEventListener("click", async () => {
+      const file = uploadInput.files?.[0] || droppedFile;
+      await uploadKnowledge(file);
+      uploadInput.value = "";
+      droppedFile = null;
+      dropzone.classList.remove("dragging");
+      dropzone.textContent = "Datei hierher ziehen (Drag & Drop) — .md, .txt";
+    });
+
+    ["dragenter", "dragover"].forEach((evt) => {
+      dropzone.addEventListener(evt, (event) => { event.preventDefault(); dropzone.classList.add("dragging"); });
+    });
+
+    ["dragleave", "drop"].forEach((evt) => {
+      dropzone.addEventListener(evt, (event) => {
+        event.preventDefault();
+        if (evt === "drop") {
+          const file = event.dataTransfer?.files?.[0];
+          if (file) { droppedFile = file; dropzone.textContent = `Ausgewählt: ${file.name}`; }
+        }
+        dropzone.classList.remove("dragging");
+      });
+    });
+
+    saveDocBtn.addEventListener("click", saveKnowledgeDocument);
+    clearDocBtn.addEventListener("click", () => { docNameInput.value = ""; docContentInput.value = ""; });
+
+    knowledgeList.addEventListener("click", async (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+
+      const loadName = target.getAttribute("data-load");
+      const askName = target.getAttribute("data-ask");
+      const deleteName = target.getAttribute("data-delete");
+      const readName = target.getAttribute("data-read");
+
+      if (readName) {
+        openReader(readName);
+        return;
+      }
+
+      if (loadName) {
+        const res = await fetch(`${API_BASE}/api/knowledge/${encodeURIComponent(loadName)}`);
+        const data = await res.json();
+        if (res.ok) {
+          docNameInput.value = data.file;
+          docContentInput.value = data.content;
+          addMessage(`Datei geladen: ${data.file}`, "system");
+        }
+      }
+
+      if (askName) {
+        questionInput.value = `Gib mir eine vollständige Zusammenfassung der Datei ${askName} mit Überschriften und allen wichtigen Punkten.`;
+        questionInput.focus();
+      }
+
+      if (deleteName) {
+        if (!window.confirm(`Datei wirklich löschen (Delete)? ${deleteName}`)) return;
+        const res = await fetch(`${API_BASE}/api/knowledge/${encodeURIComponent(deleteName)}`, { method: "DELETE" });
+        if (res.ok) {
+          addMessage(`Datei gelöscht: ${deleteName}`, "system");
+          await refreshKnowledge();
+          await loadTree();
+        }
+      }
+    });
+
+    document.getElementById("refreshKnowledgeBtn").addEventListener("click", async () => {
+      await refreshKnowledge();
+      await loadTree();
+    });
+
+    document.getElementById("refreshAllBtn").addEventListener("click", async () => {
+      await Promise.all([checkHealth(), refreshKnowledge(), loadTree(), loadOpsSummary()]);
+      addMessage("Ansicht aktualisiert (View refreshed).", "system");
+    });
+
+    document.getElementById("refreshOpsBtn").addEventListener("click", loadOpsSummary);
+
+    // === Start ===
+    loadTree();
+    Promise.all([checkHealth(), refreshKnowledge(), loadOpsSummary()]);
+  </script>
+</body>
+</html>
