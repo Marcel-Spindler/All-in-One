@@ -3,10 +3,11 @@ FROM node:20-slim
 
 WORKDIR /app
 
-COPY PS\ Copilot/ps-basecamp-backend/package*.json /app/
+COPY ["PS Copilot/ps-basecamp-backend/package.json", "/app/"]
+COPY ["PS Copilot/ps-basecamp-backend/package-lock.json", "/app/"]
 RUN npm install --omit=dev
 
-COPY PS\ Copilot/ps-basecamp-backend/ /app/
+COPY ["PS Copilot/ps-basecamp-backend/", "/app/"]
 
 # Daten + Knowledge als Volume
 RUN mkdir -p /data/ps-copilot && \

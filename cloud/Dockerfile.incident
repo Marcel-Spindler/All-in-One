@@ -9,11 +9,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Requirements zuerst (Layer-Caching)
-COPY incident-tool\ anhand\ BoxIDs/requirements.txt /app/requirements.txt
+COPY ["incident-tool anhand BoxIDs/requirements.txt", "/app/requirements.txt"]
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
 # Code
-COPY incident-tool\ anhand\ BoxIDs/ /app/
+COPY ["incident-tool anhand BoxIDs/", "/app/"]
 
 # Persistente Daten landen in /data (gemounted via Volume)
 RUN mkdir -p /data/incident && \
