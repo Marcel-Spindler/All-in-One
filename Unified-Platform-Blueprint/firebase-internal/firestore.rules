@@ -1,0 +1,40 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isInternalUser() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    function isAdmin() {
+      return isInternalUser() && request.auth.token.admin == true;
+    }
+
+    match /users/{userId} {
+      allow read: if isInternalUser() && request.auth.uid == userId;
+      allow write: if isAdmin();
+    }
+
+    match /runs/{runId} {
+      allow read: if isInternalUser();
+      allow create, update: if isAdmin();
+    }
+
+    match /jobs/{jobId} {
+      allow read: if isInternalUser();
+      allow create, update: if isAdmin();
+    }
+
+    match /toolConfigs/{configId} {
+      allow read: if isInternalUser();
+      allow write: if isAdmin();
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -1,0 +1,6 @@
+.venv/
+__pycache__/
+*.pyc
+.streamlit/secrets.toml
+data/incident_draft_v2.json
+Exports/*.xlsx

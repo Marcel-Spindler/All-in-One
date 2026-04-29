@@ -10,11 +10,24 @@ from urllib import request
 import pandas as pd
 import streamlit as st
 
+# Optionale Anbindung an die Unified-Platform (Hub).
+# Beim eigenstaendigen Verteilen des Tools an Mitarbeiter ist der Hub nicht
+# vorhanden -> Import wird abgesichert und auf No-Op-Stubs zurueckgefallen.
 SHARED_DIR = Path(__file__).resolve().parents[2] / "Unified-Platform-Blueprint" / "shared"
-if str(SHARED_DIR) not in sys.path:
+if SHARED_DIR.exists() and str(SHARED_DIR) not in sys.path:
     sys.path.append(str(SHARED_DIR))
 
-from hub_client import add_artifact, finish_run, start_run
+try:
+    from hub_client import add_artifact, finish_run, start_run  # type: ignore
+except Exception:  # ImportError oder fehlender Pfad bei Standalone-Verteilung
+    def start_run(*_args, **_kwargs):  # type: ignore
+        return None
+
+    def add_artifact(*_args, **_kwargs):  # type: ignore
+        return False
+
+    def finish_run(*_args, **_kwargs):  # type: ignore
+        return False
 
 from modern_incident_tool.core import (
     BASE_DIR,

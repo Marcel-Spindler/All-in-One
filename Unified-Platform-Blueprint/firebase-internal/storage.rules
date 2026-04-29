@@ -1,0 +1,35 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isInternalUser() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    function isAdmin() {
+      return isInternalUser() && request.auth.token.admin == true;
+    }
+
+    match /uploads/{allPaths=**} {
+      allow read: if isInternalUser();
+      allow write: if isAdmin();
+    }
+
+    match /exports/{allPaths=**} {
+      allow read: if isInternalUser();
+      allow write: if isAdmin();
+    }
+
+    match /reports/{allPaths=**} {
+      allow read: if isInternalUser();
+      allow write: if isAdmin();
+    }
+
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

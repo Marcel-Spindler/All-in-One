@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>All in One Internal Portal</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Internal Ops Portal</p>
+        <h1>All in One Online-Basis</h1>
+        <p class="lead">
+          Dieses Portal ist die sichere Online-Erweiterung fuer euer bestehendes All-in-One-System.
+          Die lokalen Tools bleiben weiter aktiv. Hier entstehen Login, Status, Runs und spaeter die Cloud-Anbindung.
+        </p>
+      </div>
+      <div class="hero-panel">
+        <div class="status-row">
+          <span class="status-dot" id="authDot"></span>
+          <span id="authStatus">Firebase-Konfiguration fehlt noch</span>
+        </div>
+        <div class="button-row">
+          <button id="signInBtn" class="primary" type="button">Mit Google anmelden</button>
+          <button id="signOutBtn" class="secondary" type="button" disabled>Abmelden</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="help-box">
+      <h2>Was dieses Portal jetzt schon leisten soll</h2>
+      <ol>
+        <li>Interne Anmeldung ueber Firebase Auth.</li>
+        <li>Zentrale Sicht auf Runs, Status und Tools.</li>
+        <li>Saubere Basis fuer spaetere Cloud-Run-Anbindung.</li>
+        <li>Kein Eingriff in laufende lokale Produktionsablaeufe.</li>
+      </ol>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <h3>PS Copilot</h3>
+        <p>Erster Kandidat fuer die Online-Anbindung. Bestehendes Node-Backend kann spaeter an Cloud Run gehen.</p>
+        <div class="card-actions">
+          <a class="tool-link" href="http://127.0.0.1:3020" target="_blank" rel="noopener">Tool öffnen</a>
+          <span class="tool-note">Aktuell lokaler Dienst auf diesem Rechner</span>
+        </div>
+        <span class="badge">Phase 1 Kandidat</span>
+      </article>
+      <article class="card">
+        <h3>Incident Tool</h3>
+        <p>Upload- und Job-Workflow fuer spaetere serverseitige Verarbeitung mit Storage und Firestore-Status.</p>
+        <div class="card-actions">
+          <a class="tool-link" href="http://127.0.0.1:8501/" target="_blank" rel="noopener">Tool öffnen</a>
+          <span class="tool-note">Aktuell lokaler Dienst auf diesem Rechner</span>
+        </div>
+        <span class="badge">Phase 2</span>
+      </article>
+      <article class="card">
+        <h3>Waagen Performance</h3>
+        <p>CSV-basierte Auswertung und HTML-Report koennen als zweiter Python-Worker folgen.</p>
+        <div class="card-actions">
+          <a class="tool-link" href="http://127.0.0.1:8505/" target="_blank" rel="noopener">Tool öffnen</a>
+          <span class="tool-note">Aktuell lokaler Dienst auf diesem Rechner</span>
+        </div>
+        <span class="badge">Phase 2</span>
+      </article>
+      <article class="card">
+        <h3>PDL Fast</h3>
+        <p>Kommt zuletzt, damit die produktive Fachlogik stabil bleibt und ohne Hektik migriert werden kann.</p>
+        <div class="card-actions">
+          <a class="tool-link" href="http://127.0.0.1:8502/" target="_blank" rel="noopener">Tool öffnen</a>
+          <span class="tool-note">Aktuell lokaler Dienst auf diesem Rechner</span>
+        </div>
+        <span class="badge">Phase 3</span>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Portal-Status</h2>
+        <span id="userLabel">Nicht angemeldet</span>
+      </div>
+      <p id="portalMessage" class="muted">
+        Hinterlege zuerst die Firebase-Projektkonfiguration in hosting/firebase-config.js. Danach kannst Du Login und Regeln intern testen.
+      </p>
+      <ul id="nextSteps" class="steps">
+        <li>firebase use &lt;project-id&gt;</li>
+        <li>firebase deploy --only hosting</li>
+        <li>Google Sign-In und interne Berechtigungen pruefen</li>
+      </ul>
+    </section>
+  </main>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

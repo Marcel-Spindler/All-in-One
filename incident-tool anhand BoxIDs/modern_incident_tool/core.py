@@ -644,7 +644,19 @@ def save_export_file(artifacts: ComputationArtifacts, exports_dir: Path = EXPORT
     filename = f"Factor_Incident_Result_{artifacts.production_date.strftime('%Y-%m-%d')}.xlsx"
     target_path = ensure_export_path(filename, exports_dir)
     target_path.write_bytes(export_excel_bytes(artifacts))
-    mirror_dir = CENTRAL_RESULTS_DIR / artifacts.production_date.strftime("%Y") / artifacts.production_date.strftime("%m") / artifacts.production_date.strftime("%d")
-    mirror_dir.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(target_path, mirror_dir / target_path.name)
+    # Optional: zusaetzliche Spiegelung in das Unified-Platform Results-Verzeichnis.
+    # Beim eigenstaendigen Einsatz auf fremden Rechnern existiert dieser Pfad nicht
+    # -> Spiegelung wird in dem Fall stillschweigend uebersprungen.
+    try:
+        if CENTRAL_RESULTS_DIR.parent.parent.exists():
+            mirror_dir = (
+                CENTRAL_RESULTS_DIR
+                / artifacts.production_date.strftime("%Y")
+                / artifacts.production_date.strftime("%m")
+                / artifacts.production_date.strftime("%d")
+            )
+            mirror_dir.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(target_path, mirror_dir / target_path.name)
+    except OSError:
+        pass
     return target_path

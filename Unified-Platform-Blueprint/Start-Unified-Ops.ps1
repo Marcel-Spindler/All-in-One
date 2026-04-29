@@ -5,7 +5,10 @@ $workspaceRoot = Split-Path -Parent $launcherRoot
 $dashboardPath = Join-Path $launcherRoot "dashboard.html"
 $resultsPath = Join-Path $launcherRoot "results"
 $configPath = Join-Path $launcherRoot "platform.config.json"
+$logsPath = Join-Path $launcherRoot "logs"
 $launcherHadFailures = $false
+
+New-Item -ItemType Directory -Path $logsPath -Force | Out-Null
 
 $config = $null
 if (Test-Path $configPath) {
@@ -115,14 +118,18 @@ function Get-StreamlitPythonCommand {
 function Start-BackgroundPowerShell {
     param(
         [string]$WorkingDirectory,
-        [string]$Command
+        [string]$Command,
+        [string]$LogName
     )
 
+    $stdoutPath = Join-Path $logsPath ("{0}.out.log" -f $LogName)
+    $stderrPath = Join-Path $logsPath ("{0}.err.log" -f $LogName)
+
     Start-Process -FilePath "powershell.exe" -ArgumentList @(
-        "-NoExit",
+        "-NoProfile",
         "-ExecutionPolicy", "Bypass",
         "-Command", $Command
-    ) -WorkingDirectory $WorkingDirectory -WindowStyle Minimized | Out-Null
+    ) -WorkingDirectory $WorkingDirectory -WindowStyle Hidden -RedirectStandardOutput $stdoutPath -RedirectStandardError $stderrPath | Out-Null
 }
 
 $services = @(
@@ -132,7 +139,7 @@ $services = @(
         Launch = {
             $workingDirectory = Join-Path $workspaceRoot "PS Copilot\ps-basecamp-backend"
             $command = "Set-Location '$workingDirectory'; node server.js"
-            Start-BackgroundPowerShell -WorkingDirectory $workingDirectory -Command $command
+            Start-BackgroundPowerShell -WorkingDirectory $workingDirectory -Command $command -LogName "ps-copilot-hub"
         }
     },
     @{
@@ -146,7 +153,7 @@ $services = @(
             }
             $pythonPrefix = @($pythonSpec.Command) + $pythonSpec.Arguments | ForEach-Object { "'$_'" }
             $command = "Set-Location '$workingDirectory'; & " + ($pythonPrefix -join " ") + " -m streamlit run 'modern_incident_tool\app.py' --server.port 8501 --server.headless true --browser.gatherUsageStats false"
-            Start-BackgroundPowerShell -WorkingDirectory $workingDirectory -Command $command
+            Start-BackgroundPowerShell -WorkingDirectory $workingDirectory -Command $command -LogName "incident-tool"
         }
     },
     @{
@@ -160,7 +167,7 @@ $services = @(
             }
             $pythonPrefix = @($pythonSpec.Command) + $pythonSpec.Arguments | ForEach-Object { "'$_'" }
             $command = "Set-Location '$workingDirectory'; & " + ($pythonPrefix -join " ") + " -m streamlit run 'app.py' --server.port 8502 --server.headless true --browser.gatherUsageStats false"
-            Start-BackgroundPowerShell -WorkingDirectory $workingDirectory -Command $command
+            Start-BackgroundPowerShell -WorkingDirectory $workingDirectory -Command $command -LogName "pdl-fast"
         }
     },
     @{
@@ -174,7 +181,7 @@ $services = @(
             }
             $pythonPrefix = @($pythonSpec.Command) + $pythonSpec.Arguments | ForEach-Object { "'$_'" }
             $command = "Set-Location '$workingDirectory'; & " + ($pythonPrefix -join " ") + " -m streamlit run 'weekly_bug_report.py' --server.port 8505 --server.headless true --browser.gatherUsageStats false"
-            Start-BackgroundPowerShell -WorkingDirectory $workingDirectory -Command $command
+            Start-BackgroundPowerShell -WorkingDirectory $workingDirectory -Command $command -LogName "waagen-performance"
         }
     }
 )
@@ -212,6 +219,7 @@ if ((-not $config) -or $config.launcher.autoOpenDashboard) {
 if ($failedServices.Count -gt 0) {
     $launcherHadFailures = $true
     Write-Warning ("Diese Services konnten nicht bestaetigt gestartet werden: " + ($failedServices -join ", "))
+    Write-Warning ("Details stehen unter: " + $logsPath)
 }
 
 if ($launcherHadFailures) {

@@ -14,11 +14,23 @@ from pathlib import Path
 from factor_runtime import append_factor_run_history, build_factor_quality_report, build_factor_run_history_entry, build_factor_run_signature, load_factor_run_history
 from lib import maitre_logic
 
+# Optionaler Hub fuer den Unified-Platform-Blueprint.
+# Beim eigenstaendigen Verteilen kann der Pfad fehlen -> No-Op-Stubs.
 SHARED_DIR = Path(__file__).resolve().parents[1] / "Unified-Platform-Blueprint" / "shared"
-if str(SHARED_DIR) not in sys.path:
+if SHARED_DIR.exists() and str(SHARED_DIR) not in sys.path:
     sys.path.append(str(SHARED_DIR))
 
-from hub_client import add_artifact, finish_run, start_run
+try:
+    from hub_client import add_artifact, finish_run, start_run  # type: ignore
+except Exception:
+    def start_run(*_a, **_kw):  # type: ignore
+        return None
+
+    def add_artifact(*_a, **_kw):  # type: ignore
+        return False
+
+    def finish_run(*_a, **_kw):  # type: ignore
+        return False
 
 try:
     from google.oauth2 import service_account
@@ -36,7 +48,12 @@ st.title("PDL Fast – Tracking & RESET Generator")
 
 SETTINGS_PATH = Path(".pdl_fast_settings.json")
 DEFAULT_SCALE_DRIVE_FOLDER_ID = "1LtFvWcBvuHzGP7KOVysOVoR1JzA0bv4p"
-DEFAULT_SCALE_SYNC_ROOT = Path(r"C:\Users\MarcelSpindler\Meine Ablage\Notfall\001_Weigt Calculator")
+# Standardpfad fuer den Waagen-Sync. Auf fremden Rechnern wird er ueber
+# die Settings-UI ueberschrieben; zur Vermeidung harter Personenpfade
+# faellt der Default auf einen lokalen Unterordner zurueck, wenn der
+# urspruengliche Pfad nicht existiert.
+_LEGACY_SCALE_ROOT = Path(r"C:\Users\MarcelSpindler\Meine Ablage\Notfall\001_Weigt Calculator")
+DEFAULT_SCALE_SYNC_ROOT = _LEGACY_SCALE_ROOT if _LEGACY_SCALE_ROOT.exists() else Path(__file__).resolve().parent / "Scale Sync"
 DEFAULT_SCALE_RESET_TEMPLATE = DEFAULT_SCALE_SYNC_ROOT / "DELETE.DEL"
 CACHE_TTL_SECONDS = 300
 CENTRAL_RESULTS_DIR = Path(__file__).resolve().parents[1] / "Unified-Platform-Blueprint" / "results" / "pdl-fast"

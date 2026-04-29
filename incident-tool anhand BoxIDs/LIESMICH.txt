@@ -1,0 +1,59 @@
+============================================================
+ Factor Incident Tool v2 - Installation & Start (Windows)
+============================================================
+
+VORAUSSETZUNG (einmalig pro Rechner):
+-------------------------------------
+1) Python 3.10 oder neuer installieren:
+      https://www.python.org/downloads/windows/
+   WICHTIG beim Setup: Haken setzen bei
+      [x] Add Python to PATH
+
+   Pruefen: in Eingabeaufforderung "py --version" eintippen.
+
+
+ERSTER START:
+-------------
+1) Diesen Ordner komplett auf den Rechner kopieren
+   (z.B. nach C:\Tools\incident-tool).
+2) Doppelklick auf:
+      setup_and_start.bat
+3) Beim allerersten Start wird automatisch eine lokale
+   Python-Umgebung (.venv) angelegt und alle Pakete
+   installiert. Das dauert einmalig 1-2 Minuten.
+4) Danach oeffnet sich automatisch der Browser mit
+   http://localhost:8501/ und das Tool ist einsatzbereit.
+
+
+ALLE WEITEREN STARTS:
+---------------------
+   Doppelklick auf  setup_and_start.bat
+   (Setup wird uebersprungen, App startet sofort.)
+
+
+DATEN ABLEGEN:
+--------------
+   Imports/   -> Eingabedateien hier reinlegen
+                 (Boxes-CSV, Custom_ID-CSV, Picklist-XLSX)
+   Exports/   -> Ergebnis-Excel-Dateien werden hier erzeugt
+   data/      -> Konfiguration und Zwischenstaende
+   config/    -> Laenderregeln (country_rules.json)
+
+
+PROBLEME?
+---------
+- "Python wurde nicht gefunden": Python neu installieren,
+  Haken "Add Python to PATH" nicht vergessen.
+- "Port 8501 bereits belegt": andere App schliessen, die
+  diesen Port nutzt (z.B. zweite Streamlit-App).
+- Setup haengt: einmal die .venv loeschen und neu starten.
+
+
+WEITERGABE AN KOLLEGEN:
+-----------------------
+Diesen Ordner ZIPpen, dabei NICHT mitnehmen:
+   .venv\          (wird auf Zielrechner neu gebaut)
+   __pycache__\
+   data\incident_draft_v2.json   (persoenlicher Entwurf)
+   Imports\*       (optional - personenbezogene Daten)
+   Exports\*       (optional - alte Ergebnisse)

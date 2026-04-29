@@ -27,10 +27,20 @@ EXPORT_DIR = Path("exports")
 EXPORT_DIR.mkdir(exist_ok=True)
 CENTRAL_RESULTS_DIR = Path(__file__).resolve().parents[1] / "Unified-Platform-Blueprint" / "results" / "waagen-performance"
 SHARED_DIR = Path(__file__).resolve().parents[1] / "Unified-Platform-Blueprint" / "shared"
-if str(SHARED_DIR) not in sys.path:
+if SHARED_DIR.exists() and str(SHARED_DIR) not in sys.path:
     sys.path.append(str(SHARED_DIR))
 
-from hub_client import add_artifact, finish_run, start_run
+try:
+    from hub_client import add_artifact, finish_run, start_run  # type: ignore
+except Exception:
+    def start_run(*_a, **_kw):  # type: ignore
+        return None
+
+    def add_artifact(*_a, **_kw):  # type: ignore
+        return False
+
+    def finish_run(*_a, **_kw):  # type: ignore
+        return False
 
 
 def fmt_int(value) -> str:
@@ -1439,6 +1449,27 @@ st.sidebar.markdown(
     """,
     unsafe_allow_html=True,
 )
+with st.sidebar.expander("Hilfe / Ablauf", expanded=False):
+    st.markdown(
+        """
+        **Kurz erklärt**
+
+        Dieses Tool baut aus einer QC-CSV einen Weekly Bug Report mit KPI-Ansicht, Hotspots, Mailtext und HTML-Export.
+
+        **So gehst Du vor:**
+
+        1. Links zuerst die aktuelle CSV-Datei hochladen.
+        2. Danach prüfen, ob KW, Fehlerquote und Hotspots plausibel aussehen.
+        3. Wenn nötig die Databricks-URL oder Freigabe-URL ergänzen.
+        4. Zum Schluss Report, Mailtext und Downloads aus dem erzeugten Stand verwenden.
+
+        **Wichtig:**
+
+        - Ohne CSV bleibt die Seite absichtlich leer.
+        - Der HTML-Report wird immer aus genau der hochgeladenen Datei erzeugt.
+        - Freigabe-URL ist optional und nur für das Teilen des Reports gedacht.
+        """
+    )
 st.sidebar.markdown("---")
 # ─── Databricks Query Link ─────────────────────────────────────────────────
 st.sidebar.markdown("### Datenquelle")
@@ -1493,6 +1524,23 @@ else:
     data_source_label = uploaded_file.name
     data_source_signature = hashlib.md5(uploaded_bytes).hexdigest()
     df = load_data(uploaded_file.name, uploaded_bytes)
+
+with st.expander("Hilfe: Was bedeuten die Auswertungen?", expanded=False):
+    st.markdown(
+        """
+        **Was Du hier siehst**
+
+        - **KPI-Karten** zeigen das aktuelle Qualitätsbild der geladenen CSV.
+        - **Hotspots** zeigen, wo sich Fehler gerade am stärksten sammeln.
+        - **Mailtext und HTML-Report** sind die fertigen Ausgaben für Review und Weitergabe.
+
+        **Wie Du die Seite sinnvoll benutzt**
+
+        1. Erst Gesamtbild prüfen.
+        2. Danach auf Linie, Fehlerart und SKU herunterbrechen.
+        3. Zum Schluss Export und Mailtext übernehmen.
+        """
+    )
     st.sidebar.success("Datei erfolgreich hochgeladen")
 
 if df is None:
