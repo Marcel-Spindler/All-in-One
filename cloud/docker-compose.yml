@@ -92,7 +92,7 @@ services:
       dockerfile: cloud/Dockerfile.pscopilot
     restart: unless-stopped
     volumes:
-      - app_data:/data
+      - pscopilot_data:/app/data
     environment:
       - PORT=3020
       - GEMINI_API_KEY=${GEMINI_API_KEY}
@@ -102,3 +102,4 @@ volumes:
   caddy_data:
   caddy_config:
   app_data:
+  pscopilot_data:

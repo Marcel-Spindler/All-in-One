@@ -9,9 +9,8 @@ RUN npm install --omit=dev
 
 COPY ["PS Copilot/ps-basecamp-backend/", "/app/"]
 
-# Daten + Knowledge als Volume
-RUN mkdir -p /data/ps-copilot && \
-    ln -sf /data/ps-copilot /app/data
+# /app/data wird per Volume gemountet (siehe docker-compose.yml)
+RUN mkdir -p /app/data /app/knowledge
 
 EXPOSE 3020
 
